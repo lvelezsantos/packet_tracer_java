@@ -32,9 +32,18 @@ public class Packet_tracert_java {
         Router router2 = creador_router.router_1("Router2");
         Router router3 = creador_router.router_1("Router3");
                 
-        router3.mostrarPuertos();
         router1.mostrarPuertos();
-        router2.mostrarPuertos();
+        router3.mostrarPuertos();
+        
+        router1.agregar_conexion(router3, "0", "0");
+        router3.agregar_conexion(router1, "0", "1");
+        
+        router1.mostrarPuertos();
+        router3.mostrarPuertos();
+        
+        router3.eliminar_conexion(router1, "0", "1");
+        router1.mostrarPuertos();
+        
     }
     
     
