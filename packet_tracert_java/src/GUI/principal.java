@@ -4,18 +4,26 @@
  */
 package GUI;
 
+import java.awt.Point;
+import java.util.ArrayList;
+
 /**
  *
  * @author minrock
  */
 public class principal extends javax.swing.JFrame {
 
+    private String selected = "";
+    
     /**
      * Creates new form principal
      */
     public principal() {
         initComponents();
     }
+    
+    ArrayList<Point> routers = new ArrayList<>();
+    ArrayList<Point> pcs = new ArrayList<>();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,10 +50,20 @@ public class principal extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router.jpg"))); // NOI18N
         jLabel2.setText("Router");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc.jpg"))); // NOI18N
         jLabel1.setText("PC");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -79,6 +97,11 @@ public class principal extends javax.swing.JFrame {
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel4MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -125,6 +148,23 @@ public class principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+        if(selected.equalsIgnoreCase("router")){
+        routers.add(new Point(evt.getX(),evt.getY()));
+        }else if(selected.equalsIgnoreCase("pc")){
+        pcs.add(new Point(evt.getX(),evt.getY()));
+        }
+        imprimir();
+    }//GEN-LAST:event_jPanel4MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        selected = "router";
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        selected = "pc";
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -167,4 +207,13 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
+
+    private void imprimir() {
+        for(int i=0; i<routers.size();i++){
+        System.out.println("PC -> "+routers.get(i).toString());
+        }
+        for(int i=0; i<pcs.size();i++){
+        System.out.println("PC -> "+pcs.get(i).toString());
+        }        
+    }
 }
