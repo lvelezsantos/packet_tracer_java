@@ -41,6 +41,7 @@ public class Dispositivo {
     }
     
     public String mostrarPuertos(){
+        System.out.println(this.nombre);
         String lista_puertos= "";
         for(int i=0;i<this.modulos.size();i++){
             Modulo modulo = this.modulos.get(i);

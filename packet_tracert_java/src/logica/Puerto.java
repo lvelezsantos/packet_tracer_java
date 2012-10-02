@@ -10,6 +10,7 @@ package logica;
  */
 public class Puerto {
     private boolean activado;
+    private boolean usado;
     private String ip;
     private String nombre;
     private int velocidad;
@@ -21,12 +22,13 @@ public class Puerto {
 
     
     
-    public Puerto(boolean activado, String ip, String nombre, int velocidad, String nombre_velocidad,String tipo_puerto) {
+    public Puerto(boolean activado, String ip, String nombre, int velocidad, String nombre_velocidad,String tipo_puerto, boolean usado) {
         this.activado = activado;
         this.ip = ip;
         this.nombre = nombre;
         this.velocidad = velocidad;
         this.nombre_velocidad = nombre_velocidad;
+        this.usado = usado;
     }
 
     public boolean isActivado() {
@@ -76,6 +78,15 @@ public class Puerto {
     public void setTipo_puerto(String tipo_puerto) {
         this.tipo_puerto = tipo_puerto;
     }
+
+    public boolean isUsado() {
+        return usado;
+    }
+
+    public void setUsado(boolean usado) {
+        this.usado = usado;
+    }
+    
     
     
 }
