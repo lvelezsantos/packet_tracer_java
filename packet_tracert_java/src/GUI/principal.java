@@ -4,8 +4,10 @@
  */
 package GUI;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -39,7 +41,12 @@ public class principal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel(){
+            public void paint(Graphics g){
+                ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc.jpg"));
+                ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc.jpg"));
+            }
+        };
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
