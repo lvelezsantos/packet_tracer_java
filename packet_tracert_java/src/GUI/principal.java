@@ -210,7 +210,7 @@ public class principal extends javax.swing.JFrame {
 
     private void imprimir() {
         for(int i=0; i<routers.size();i++){
-        System.out.println("PC -> "+routers.get(i).toString());
+        System.out.println("Router -> "+routers.get(i).toString());
         }
         for(int i=0; i<pcs.size();i++){
         System.out.println("PC -> "+pcs.get(i).toString());
