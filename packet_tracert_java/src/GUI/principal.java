@@ -21,6 +21,7 @@ public class principal extends javax.swing.JFrame {
     private int selectedp = -1;
     private int sel = 0;
     private boolean panel = false;
+    private Controlador con = new Controlador();
     /**
      * Creates new form principal
      */
@@ -28,8 +29,7 @@ public class principal extends javax.swing.JFrame {
         initComponents();
     }
     
-    ArrayList<Point> routers = new ArrayList<Point>();
-    ArrayList<Point> pcs = new ArrayList<Point>();
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,23 +57,8 @@ public class principal extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel(){
             public void paint(Graphics g){
-                g.setColor(Color.white);
-                g.fillRect(0,0,jPanel4.getWidth(), jPanel4.getHeight());
-                ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router2.png"));
-                ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc.png"));
-                for(int i=0;i<pcs.size();i++){
-                    //33,30
-                    g.drawImage(ii2.getImage(),pcs.get(i).x - 33 , pcs.get(i).y - 30,this);
-                    //g.drawRect(pcs.get(i).x-40,pcs.get(i).y-40,80, 80);
-                }
+                paintElements(g);
 
-                for(int i=0;i<routers.size();i++){
-                    //33,30
-                    g.drawImage(ii.getImage(),routers.get(i).x - 34 , routers.get(i).y - 27,this);
-                    //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);
-                }
-                System.out.println(routers.size());
-                System.out.println(pcs.size());
             }
         };
 
@@ -233,6 +218,9 @@ public class principal extends javax.swing.JFrame {
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setMaximumSize(new java.awt.Dimension(800, 600));
+        jPanel4.setMinimumSize(new java.awt.Dimension(800, 600));
+        jPanel4.setPreferredSize(new java.awt.Dimension(800, 600));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel4MouseClicked(evt);
@@ -254,11 +242,11 @@ public class principal extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 757, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -298,9 +286,9 @@ public class principal extends javax.swing.JFrame {
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
         if(choque(new Point(evt.getX(),evt.getY())).equalsIgnoreCase("false")){
         if(selected.equalsIgnoreCase("router")){
-        routers.add(new Point(evt.getX(),evt.getY()));
+        con.add_router(evt.getPoint());
         }else if(selected.equalsIgnoreCase("pc")){
-        pcs.add(new Point(evt.getX(),evt.getY()));
+        con.add_pc(new Point(evt.getX(),evt.getY()));
         }
         imprimir();
         jPanel4.repaint();
@@ -322,17 +310,17 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jPanel4MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseDragged
-        if(choque(evt.getPoint()).contains("false")){
-        if(sel == 1){
-            if(selectedr != -1){
-                this.routers.set(selectedr, evt.getPoint());
-            }else if(selectedp != -1){
-                this.pcs.set(selectedp, evt.getPoint());
-            }
-        }
-        this.jPanel4.repaint();
-        }
-        
+//        if(choque(evt.getPoint()).contains("false")){
+//        if(sel == 1){
+//            if(selectedr != -1){
+//                this.routers.set(selectedr, evt.getPoint());
+//            }else if(selectedp != -1){
+//                this.pcs.set(selectedp, evt.getPoint());
+//            }
+//        }
+//        this.jPanel4.repaint();
+//        }
+//        
     }//GEN-LAST:event_jPanel4MouseDragged
 
     private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
@@ -404,35 +392,29 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     // End of variables declaration//GEN-END:variables
 
     private void imprimir() {
-        for(int i=0; i<routers.size();i++){
-        System.out.println("Router -> "+routers.get(i).toString());
+        for(int i=0; i<con.routers.size();i++){
+        System.out.println("Router -> "+con.routers.get(i).toString());
         }
-        for(int i=0; i<pcs.size();i++){
-        System.out.println("PC -> "+pcs.get(i).toString());
+        for(int i=0; i<con.pcs.size();i++){
+        System.out.println("PC -> "+con.pcs.get(i).toString());
         }        
     }
     
     private String choque(Point p){
         
-        for(int i=0;i<routers.size();i++){
-            if(p.y>=routers.get(i).y-40 && p.y <= routers.get(i).y + 40){
-                if(p.x>=routers.get(i).x-40 && p.x <= routers.get(i).x + 40){
+        for(int i=0;i<con.routers.size();i++){
+            if(p.y>=con.routers.get(i).getPoint().y-40 && p.y <= con.routers.get(i).getPoint().y + 40){
+                if(p.x>=con.routers.get(i).getPoint().x-40 && p.x <= con.routers.get(i).getPoint().x + 40){
                     
                     return "router"+i;
                     
@@ -440,9 +422,9 @@ public class principal extends javax.swing.JFrame {
             }
         }
         
-        for(int i=0;i<pcs.size();i++){
-            if(p.y>=pcs.get(i).y-40 && p.y <= pcs.get(i).y + 40){
-                if(p.x>=pcs.get(i).x-40 && p.x <= pcs.get(i).x + 40){
+        for(int i=0;i<con.pcs.size();i++){
+            if(p.y>=con.pcs.get(i).getPoint().y-40 && p.y <= con.pcs.get(i).getPoint().y + 40){
+                if(p.x>=con.pcs.get(i).getPoint().x-40 && p.x <= con.pcs.get(i).getPoint().x + 40){
                     
                     return "pc"+i;
                     
@@ -459,5 +441,23 @@ public class principal extends javax.swing.JFrame {
         return "false";
     }
     
+    
+    private void paintElements(Graphics g){
+    g.setColor(Color.white);
+        g.fillRect(0,0,jPanel4.getWidth(), jPanel4.getHeight());
+        ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router2.png"));
+        ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc.png"));
+        for(int i=0;i<con.pcs.size();i++){
+            //33,30
+            g.drawImage(ii2.getImage(),con.pcs.get(i).getPoint().x - 33 , con.pcs.get(i).getPoint().y - 30,this);
+            //g.drawRect(pcs.get(i).x-40,pcs.get(i).y-40,80, 80);
+        }
+
+        for(int i=0;i<con.routers.size();i++){
+            //33,30
+            g.drawImage(ii.getImage(),con.routers.get(i).getPoint().x - 34 , con.routers.get(i).getPoint().y - 27,this);
+            //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);
+        }
+    }
     
 }

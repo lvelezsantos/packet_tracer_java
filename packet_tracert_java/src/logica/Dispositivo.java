@@ -85,5 +85,19 @@ public class Dispositivo {
         System.out.println(lista_puertos);
         return lista_puertos;
     }    
+
+    /**
+     * @return the point
+     */
+    public Point getPoint() {
+        return point;
+    }
+
+    /**
+     * @param point the point to set
+     */
+    public void setPoint(Point point) {
+        this.point = point;
+    }
     
 }

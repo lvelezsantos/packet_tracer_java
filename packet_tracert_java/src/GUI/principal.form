@@ -319,6 +319,15 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[800, 600]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[800, 600]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[800, 600]"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel4MouseClicked"/>
@@ -327,18 +336,18 @@
             <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="jPanel4MouseDragged"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;    public void paint(Graphics g){&#xa;        g.setColor(Color.white);&#xa;        g.fillRect(0,0,jPanel4.getWidth(), jPanel4.getHeight());&#xa;        ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource(&quot;/GUI/Image/router2.png&quot;));&#xa;        ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource(&quot;/GUI/Image/pc.png&quot;));&#xa;        for(int i=0;i&lt;pcs.size();i++){&#xa;            //33,30&#xa;            g.drawImage(ii2.getImage(),pcs.get(i).x - 33 , pcs.get(i).y - 30,this);&#xa;            //g.drawRect(pcs.get(i).x-40,pcs.get(i).y-40,80, 80);&#xa;        }&#xa;&#xa;        for(int i=0;i&lt;routers.size();i++){&#xa;            //33,30&#xa;            g.drawImage(ii.getImage(),routers.get(i).x - 34 , routers.get(i).y - 27,this);&#xa;            //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);&#xa;        }&#xa;        System.out.println(routers.size());&#xa;        System.out.println(pcs.size());&#xa;    }&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;    public void paint(Graphics g){&#xa;        paintElements(g);&#xa;&#xa;    }&#xa;}"/>
           </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="757" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="800" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="600" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
