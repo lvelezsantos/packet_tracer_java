@@ -103,13 +103,59 @@ public class Controlador {
         return this.pcs;
     }
     
-    public void connect(Dispositivo dispositivo_1, Dispositivo dispositivo_2, String puerto_dis_1,String puerto_dis_2,
-            String modulo_dis_1,String modulo_dis_2){
-        int dis_1 = search_pos_pc(dispositivo_1.getId());
-        if(dis_1 == -1){
-            
+    private String tipo_dispositivo(int id){
+        String tipo = "pc";
+        int dispositivo = search_pos_pc(id);
+        if(dispositivo == -1){
+            dispositivo = search_pos_router(id);
+            if(dispositivo != -1){
+                tipo = "router";
+            }
         }
         
+        return tipo;
+    }
+    
+    public void connect(Dispositivo dispositivo_1, Dispositivo dispositivo_2, String puerto_dis_1,String puerto_dis_2,
+            String modulo_dis_1,String modulo_dis_2){
+        
+        //Agrega la conexion en el dispositivo 1 y pone los puertos del dispositivo 2 como ocupado
+        if(tipo_dispositivo(dispositivo_1.getId()).equals("pc")){
+           if(tipo_dispositivo(dispositivo_2.getId()).equals("pc")){
+               this.pcs.get(dispositivo_1.getId()).agregar_conexion(this.pcs.get(dispositivo_2.getId()), modulo_dis_2, puerto_dis_2);  
+           }else if(tipo_dispositivo(dispositivo_1.getId()).equals("router")){
+               this.pcs.get(dispositivo_1.getId()).agregar_conexion(this.routers.get(dispositivo_2.getId()), modulo_dis_2, puerto_dis_2);  
+           }
+        }else if(tipo_dispositivo(dispositivo_1.getId()).equals("router")){
+           if(tipo_dispositivo(dispositivo_1.getId()).equals("pc")){
+               this.routers.get(dispositivo_1.getId()).agregar_conexion(this.pcs.get(dispositivo_2.getId()), modulo_dis_2, puerto_dis_2);  
+           }else if(tipo_dispositivo(dispositivo_1.getId()).equals("router")){
+               this.routers.get(dispositivo_1.getId()).agregar_conexion(this.routers.get(dispositivo_2.getId()), modulo_dis_2, puerto_dis_2);  
+           }
+        }
+        //Agrega las conexiones en el dispositivo 2 y pone los puertos del dispositivo 1 como ocupado
+        if(tipo_dispositivo(dispositivo_2.getId()).equals("pc")){
+           if(tipo_dispositivo(dispositivo_1.getId()).equals("pc")){
+               this.pcs.get(dispositivo_2.getId()).agregar_conexion(this.pcs.get(dispositivo_1.getId()), modulo_dis_1, puerto_dis_1);  
+           }else if(tipo_dispositivo(dispositivo_2.getId()).equals("router")){
+               this.pcs.get(dispositivo_2.getId()).agregar_conexion(this.routers.get(dispositivo_1.getId()), modulo_dis_1, puerto_dis_1);  
+           }
+        }else if(tipo_dispositivo(dispositivo_2.getId()).equals("router")){
+           if(tipo_dispositivo(dispositivo_1.getId()).equals("pc")){
+               this.routers.get(dispositivo_2.getId()).agregar_conexion(this.pcs.get(dispositivo_1.getId()), modulo_dis_1, puerto_dis_1);  
+           }else if(tipo_dispositivo(dispositivo_1.getId()).equals("router")){
+               this.routers.get(dispositivo_2.getId()).agregar_conexion(this.routers.get(dispositivo_1.getId()), modulo_dis_1, puerto_dis_1);  
+           }
+        }
+        
+    }
+    
+    public ArrayList<Conexion> conexiones_router(int id){
+        return this.routers.get(search_pos_router(id)).getConexiones();
+    }
+    
+    public ArrayList<Conexion> conexiones_pc(int id){
+        return this.pcs.get(search_pos_pc(id)).getConexiones();
     }
     
 }

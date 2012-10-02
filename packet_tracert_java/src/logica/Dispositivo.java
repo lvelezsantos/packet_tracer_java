@@ -99,5 +99,15 @@ public class Dispositivo {
     public void setPoint(Point point) {
         this.point = point;
     }
+
+    public ArrayList<Conexion> getConexiones() {
+        return conexiones;
+    }
+
+    public void setConexiones(ArrayList<Conexion> conexiones) {
+        this.conexiones = conexiones;
+    }
+    
+    
     
 }
