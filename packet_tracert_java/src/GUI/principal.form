@@ -159,7 +159,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel4MouseClicked"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;    public void paint(Graphics g){&#xa;        ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource(&quot;/GUI/Image/pc.jpg&quot;));&#xa;        ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource(&quot;/GUI/Image/pc.jpg&quot;));&#xa;    }&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;    public void paint(Graphics g){&#xa;        ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource(&quot;/GUI/Image/router2.png&quot;));&#xa;        ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource(&quot;/GUI/Image/pc.png&quot;));&#xa;        for(int i=0;i&lt;pcs.size();i++){&#xa;            //33,30&#xa;            g.drawImage(ii2.getImage(),pcs.get(i).x - 33 , pcs.get(i).y - 30,this);&#xa;        }&#xa;&#xa;        for(int i=0;i&lt;routers.size();i++){&#xa;            //33,30&#xa;            g.drawImage(ii.getImage(),routers.get(i).x - 34 , routers.get(i).y - 27,this);&#xa;        }&#xa;    }&#xa;}"/>
           </AuxValues>
 
           <Layout>

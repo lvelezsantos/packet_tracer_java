@@ -43,8 +43,17 @@ public class principal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel(){
             public void paint(Graphics g){
-                ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc.jpg"));
-                ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc.jpg"));
+                ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router2.png"));
+                ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc.png"));
+                for(int i=0;i<pcs.size();i++){
+                    //33,30
+                    g.drawImage(ii2.getImage(),pcs.get(i).x - 33 , pcs.get(i).y - 30,this);
+                }
+
+                for(int i=0;i<routers.size();i++){
+                    //33,30
+                    g.drawImage(ii.getImage(),routers.get(i).x - 34 , routers.get(i).y - 27,this);
+                }
             }
         };
 
@@ -162,6 +171,7 @@ public class principal extends javax.swing.JFrame {
         pcs.add(new Point(evt.getX(),evt.getY()));
         }
         imprimir();
+        jPanel4.repaint();
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
