@@ -24,8 +24,8 @@ public class principal extends javax.swing.JFrame {
         initComponents();
     }
     
-    ArrayList<Point> routers = new ArrayList<>();
-    ArrayList<Point> pcs = new ArrayList<>();
+    ArrayList<Point> routers = new ArrayList<Point>();
+    ArrayList<Point> pcs = new ArrayList<Point>();
 
     /**
      * This method is called from within the constructor to initialize the form.
