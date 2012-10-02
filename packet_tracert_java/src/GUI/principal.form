@@ -83,6 +83,8 @@
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="134" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -92,6 +94,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -100,7 +103,7 @@
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/GUI/Image/router.jpg"/>
+                  <Image iconType="3" name="/GUI/Image/router2.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Router"/>
               </Properties>
@@ -114,13 +117,21 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/GUI/Image/pc.jpg"/>
+                  <Image iconType="3" name="/GUI/Image/pc.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="PC"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel1MouseClicked"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel3">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/GUI/Image/eth.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Conexiones"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -144,7 +155,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="389" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="395" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -157,9 +168,11 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel4MouseClicked"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel4MousePressed"/>
+            <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="jPanel4MouseDragged"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;    public void paint(Graphics g){&#xa;        ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource(&quot;/GUI/Image/router2.png&quot;));&#xa;        ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource(&quot;/GUI/Image/pc.png&quot;));&#xa;        for(int i=0;i&lt;pcs.size();i++){&#xa;            //33,30&#xa;            g.drawImage(ii2.getImage(),pcs.get(i).x - 33 , pcs.get(i).y - 30,this);&#xa;            //g.drawRect(pcs.get(i).x-40,pcs.get(i).y-40,80, 80);&#xa;        }&#xa;&#xa;        for(int i=0;i&lt;routers.size();i++){&#xa;            //33,30&#xa;            g.drawImage(ii.getImage(),routers.get(i).x - 34 , routers.get(i).y - 27,this);&#xa;            //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);&#xa;        }&#xa;    }&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;    public void paint(Graphics g){&#xa;        g.setColor(Color.white);&#xa;        g.fillRect(0,0,jPanel4.getWidth(), jPanel4.getHeight());&#xa;        ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource(&quot;/GUI/Image/router2.png&quot;));&#xa;        ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource(&quot;/GUI/Image/pc.png&quot;));&#xa;        for(int i=0;i&lt;pcs.size();i++){&#xa;            //33,30&#xa;            g.drawImage(ii2.getImage(),pcs.get(i).x - 33 , pcs.get(i).y - 30,this);&#xa;            //g.drawRect(pcs.get(i).x-40,pcs.get(i).y-40,80, 80);&#xa;        }&#xa;&#xa;        for(int i=0;i&lt;routers.size();i++){&#xa;            //33,30&#xa;            g.drawImage(ii.getImage(),routers.get(i).x - 34 , routers.get(i).y - 27,this);&#xa;            //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);&#xa;        }&#xa;        System.out.println(routers.size());&#xa;        System.out.println(pcs.size());&#xa;    }&#xa;}"/>
           </AuxValues>
 
           <Layout>
