@@ -4,8 +4,10 @@
  */
 package packet_tracert_java;
 
+import GUI.Controlador;
 import java.security.Principal;
 import GUI.principal;
+import java.awt.Point;
 import java.util.ArrayList;
 import logica.*;
 /**
@@ -24,8 +26,17 @@ public class Packet_tracert_java {
         p.show();
         
         //puertos del pc
+        Controlador controlador = new Controlador();
+        Point point = new Point(2, 4);
+        controlador.add_router(point);
+        controlador.add_router(point);
+        controlador.add_router(point);
+        controlador.add_pc(point);
+        controlador.add_pc(point);
+        controlador.add_pc(point);
         
-        PC pc1 = creador_pc.pc_1("pc1",0);
+        System.out.println(controlador.search_pc(4));
+        /*PC pc1 = creador_pc.pc_1("pc1",0);
         pc1.mostrarPuertos();
         
         Router router1 = creador_router.router_1("Router1",1);
@@ -33,17 +44,17 @@ public class Packet_tracert_java {
         Router router3 = creador_router.router_1("Router3",3);
                 
         router1.mostrarPuertos();
-        router3.mostrarPuertos();
+        pc1.mostrarPuertos();
         
-        router1.agregar_conexion(router3, "0", "0");
-        router3.agregar_conexion(router1, "0", "1");
+        router1.agregar_conexion(pc1, "0", "eth0");
+        pc1.agregar_conexion(router1, "0", "1");
         
         router1.mostrarPuertos();
-        router3.mostrarPuertos();
+        pc1.mostrarPuertos();
         
-        router3.eliminar_conexion(router1, "0", "1");
+        //router3.eliminar_conexion(router1, "0", "1");
         router1.mostrarPuertos();
-        
+        */
     }
     
     

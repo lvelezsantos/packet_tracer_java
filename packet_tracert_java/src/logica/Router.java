@@ -4,6 +4,7 @@
  */
 package logica;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -15,11 +16,11 @@ public class Router extends Dispositivo{
     public Router() {
     }
 
-    public Router(String nombre, ArrayList<Modulo> modulos, int id) {
-        super(nombre, modulos, id);
+    public Router(String nombre, ArrayList<Modulo> modulos, int id, Point point) {
+        super(nombre, modulos, id, point);
     }
     
-    public Router router_1(String nombre, int id){
+    public Router router_1(String nombre, int id, Point point){
         Puerto puerto1 = new Puerto(false, "", "0", 100, "MB/s", "fastEthernet", false);
         Puerto puerto2 = new Puerto(false, "", "1", 100, "MB/s", "fastEthernet", false);
         
@@ -44,7 +45,7 @@ public class Router extends Dispositivo{
         modulos.add(modulos2);
         
         
-        Router router = new Router(nombre, modulos, id);
+        Router router = new Router(nombre, modulos, id, point);
         
         return router;
         

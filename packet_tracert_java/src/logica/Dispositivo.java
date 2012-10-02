@@ -4,6 +4,7 @@
  */
 package logica;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -15,16 +16,18 @@ public class Dispositivo {
     private int id;
     private ArrayList<Modulo>  modulos;
     private ArrayList<Conexion> conexiones;
+    private Point point;
     
     public Dispositivo() {
         this.conexiones = new  ArrayList<Conexion>();
     }
     
-    public Dispositivo(String nombre, ArrayList<Modulo> modulos,int id) {
+    public Dispositivo(String nombre, ArrayList<Modulo> modulos,int id, Point point) {
         this.nombre = nombre;
         this.modulos = modulos;
         this.conexiones = new  ArrayList<Conexion>();
         this.id = id;
+        this.point = point;
     }
 
     public String getNombre() {
