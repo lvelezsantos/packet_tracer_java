@@ -137,6 +137,9 @@ public class principal extends javax.swing.JFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jPanel4MousePressed(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel4MouseReleased(evt);
+            }
         });
         jPanel4.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -240,6 +243,11 @@ public class principal extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_jPanel4MousePressed
 
+    private void jPanel4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseReleased
+        sel =0;
+        selectedr = selectedp = -1;
+    }//GEN-LAST:event_jPanel4MouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -298,7 +306,7 @@ public class principal extends javax.swing.JFrame {
         for(int i=0;i<routers.size();i++){
             if(p.y>=routers.get(i).y-40 && p.y <= routers.get(i).y + 40){
                 if(p.x>=routers.get(i).x-40 && p.x <= routers.get(i).x + 40){
-                    System.err.println("Colision");
+                    
                     return "router"+i;
                     
                 }
@@ -308,12 +316,18 @@ public class principal extends javax.swing.JFrame {
         for(int i=0;i<pcs.size();i++){
             if(p.y>=pcs.get(i).y-40 && p.y <= pcs.get(i).y + 40){
                 if(p.x>=pcs.get(i).x-40 && p.x <= pcs.get(i).x + 40){
-                    System.err.println("Colision");
+                    
                     return "pc"+i;
                     
                 }
             }
         }
+        
+        if(p.y<0 || p.y> jPanel4.getHeight() || p.x<0 || p.x>jPanel4.getWidth()){
+            return "pared";
+        }
+        
+        
         
         return "false";
     }
