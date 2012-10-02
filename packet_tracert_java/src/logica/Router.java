@@ -15,11 +15,11 @@ public class Router extends Dispositivo{
     public Router() {
     }
 
-    public Router(String nombre, ArrayList<Modulo> modulos) {
-        super(nombre, modulos);
+    public Router(String nombre, ArrayList<Modulo> modulos, int id) {
+        super(nombre, modulos, id);
     }
     
-    public Router router_1(String nombre){
+    public Router router_1(String nombre, int id){
         Puerto puerto1 = new Puerto(false, "", "0", 100, "MB/s", "fastEthernet", false);
         Puerto puerto2 = new Puerto(false, "", "1", 100, "MB/s", "fastEthernet", false);
         
@@ -44,7 +44,7 @@ public class Router extends Dispositivo{
         modulos.add(modulos2);
         
         
-        Router router = new Router(nombre, modulos);
+        Router router = new Router(nombre, modulos, id);
         
         return router;
         

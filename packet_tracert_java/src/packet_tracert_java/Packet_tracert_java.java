@@ -25,12 +25,12 @@ public class Packet_tracert_java {
         
         //puertos del pc
         
-        PC pc1 = creador_pc.pc_1("pc1");
+        PC pc1 = creador_pc.pc_1("pc1",0);
         pc1.mostrarPuertos();
         
-        Router router1 = creador_router.router_1("Router1");
-        Router router2 = creador_router.router_1("Router2");
-        Router router3 = creador_router.router_1("Router3");
+        Router router1 = creador_router.router_1("Router1",1);
+        Router router2 = creador_router.router_1("Router2",2);
+        Router router3 = creador_router.router_1("Router3",3);
                 
         router1.mostrarPuertos();
         router3.mostrarPuertos();

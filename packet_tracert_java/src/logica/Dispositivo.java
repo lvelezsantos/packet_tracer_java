@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class Dispositivo {
     private String nombre;
+    private int id;
     private ArrayList<Modulo>  modulos;
     private ArrayList<Conexion> conexiones;
     
@@ -19,10 +20,11 @@ public class Dispositivo {
         this.conexiones = new  ArrayList<Conexion>();
     }
     
-    public Dispositivo(String nombre, ArrayList<Modulo> modulos) {
+    public Dispositivo(String nombre, ArrayList<Modulo> modulos,int id) {
         this.nombre = nombre;
         this.modulos = modulos;
         this.conexiones = new  ArrayList<Conexion>();
+        this.id = id;
     }
 
     public String getNombre() {
@@ -40,6 +42,16 @@ public class Dispositivo {
     public void setModulos(ArrayList<Modulo> puertos) {
         this.modulos = puertos;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
     
     public void agregar_conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad){
         Conexion conexion;
