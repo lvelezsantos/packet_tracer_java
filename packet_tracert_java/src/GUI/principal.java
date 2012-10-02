@@ -48,11 +48,13 @@ public class principal extends javax.swing.JFrame {
                 for(int i=0;i<pcs.size();i++){
                     //33,30
                     g.drawImage(ii2.getImage(),pcs.get(i).x - 33 , pcs.get(i).y - 30,this);
+                    //g.drawRect(pcs.get(i).x-40,pcs.get(i).y-40,80, 80);
                 }
 
                 for(int i=0;i<routers.size();i++){
                     //33,30
                     g.drawImage(ii.getImage(),routers.get(i).x - 34 , routers.get(i).y - 27,this);
+                    //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);
                 }
             }
         };
@@ -165,6 +167,7 @@ public class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+        if(!choque(new Point(evt.getX(),evt.getY()))){
         if(selected.equalsIgnoreCase("router")){
         routers.add(new Point(evt.getX(),evt.getY()));
         }else if(selected.equalsIgnoreCase("pc")){
@@ -172,6 +175,7 @@ public class principal extends javax.swing.JFrame {
         }
         imprimir();
         jPanel4.repaint();
+        }
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
@@ -233,4 +237,20 @@ public class principal extends javax.swing.JFrame {
         System.out.println("PC -> "+pcs.get(i).toString());
         }        
     }
+    
+    private boolean choque(Point p){
+        
+        for(int i=0;i<routers.size();i++){
+            if(p.y>=routers.get(i).y-40 && p.y <= routers.get(i).y + 40){
+                if(p.x>=routers.get(i).x-40 && p.x <= routers.get(i).x + 40){
+                    System.err.println("Colision");
+                    return true;
+                    
+                }
+            }
+        }
+        
+        return false;
+    }
+    
 }
