@@ -4,6 +4,8 @@
  */
 package packet_tracert_java;
 
+import java.security.Principal;
+import GUI.principal;
 /**
  *
  * @author minrock
@@ -14,7 +16,8 @@ public class Packet_tracert_java {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        principal p = new principal();
+        p.show();
     }
     
     
