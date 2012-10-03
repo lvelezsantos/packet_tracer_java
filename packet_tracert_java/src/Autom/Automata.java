@@ -131,6 +131,7 @@ public class Automata {
         State estado4 = new State(),estado5 = new State(),estado6 = new State();
         State estado7 = new State(),estado8 = new State(),estado9 = new State();
         State estado10 = new State(),estado11 = new State(),estado12 = new State();
+        State estado13 = new State();
         
         estado1.setAccept(true);
         //enable
@@ -148,11 +149,12 @@ public class Automata {
         estado2.addTransition(new Transition('g', estado6));
         estado6.addTransition(new Transition('h', estado7));
         estado7.addTransition(new Transition('j', estado1));
-        //ip address <<ip>> netsmask
+        //ip address <<ip>> netsmask <<ip>>
         estado2.addTransition(new Transition('k', estado8));
         estado8.addTransition(new Transition('l', estado9));
         estado9.addTransition(new Transition('i', estado10));
-        estado10.addTransition(new Transition('m', estado1));
+        estado10.addTransition(new Transition('m', estado13));
+        estado13.addTransition(new Transition('i', estado1));
         //exit
         estado2.addTransition(new Transition('n', estado1));
         //no shutdown
