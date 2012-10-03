@@ -11,6 +11,7 @@ import java.util.ArrayList;
  *
  * @author warlock
  */
+
 public class Dispositivo {
     private String nombre;
     private int id;

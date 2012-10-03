@@ -9,6 +9,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import logica.Dispositivo;
+import logica.Router;
 
 /**
  *
@@ -22,6 +24,10 @@ public class principal extends javax.swing.JFrame {
     private int sel = 0;
     private boolean panel = false;
     private Controlador con = new Controlador();
+    private String kind = "none";
+    private Dispositivo d1 = null;
+    private Dispositivo d2 = null;
+    
     /**
      * Creates new form principal
      */
@@ -52,9 +58,6 @@ public class principal extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel(){
             public void paint(Graphics g){
                 paintElements(g);
@@ -118,6 +121,13 @@ public class principal extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setVisible(false);
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel5MouseClicked(evt);
+            }
+        });
+
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/rj45.png"))); // NOI18N
         jLabel4.setText(" ");
 
@@ -145,6 +155,13 @@ public class principal extends javax.swing.JFrame {
                 .addComponent(jLabel5))
         );
 
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel9MouseClicked(evt);
+            }
+        });
+
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/serial.png"))); // NOI18N
         jLabel12.setText(" ");
 
@@ -168,33 +185,6 @@ public class principal extends javax.swing.JFrame {
                 .addComponent(jLabel13))
         );
 
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/rj45.png"))); // NOI18N
-        jLabel14.setText(" ");
-
-        jLabel15.setText("Directo");
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel14))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel15))
-        );
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -202,19 +192,16 @@ public class principal extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(162, 162, 162))
+                .addContainerGap(246, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -290,9 +277,27 @@ public class principal extends javax.swing.JFrame {
         }else if(selected.equalsIgnoreCase("pc")){
         con.add_pc(new Point(evt.getX(),evt.getY()));
         }
+        }
+        if(selected.equalsIgnoreCase("conn")){
+            
+            Dispositivo d11 = disxpoint(evt.getPoint());
+            if(d11 != null){
+                System.out.println("A conectar");
+                if(d1 == null){
+                    d1 = d11;
+                    System.out.println("Dispositivo 1 seleccionado");
+                }else{
+                    d2 = d11;
+                    System.out.println("Dispositivo 2 seleccionado");
+                    connect();
+                }
+            
+                
+            }
+        }
         imprimir();
         jPanel4.repaint();
-        }
+        
            
         
     }//GEN-LAST:event_jPanel4MouseClicked
@@ -324,18 +329,18 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseDragged
 
     private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
-        String resp = choque(new Point(evt.getX(),evt.getY()));
-            if(resp.contains("router")){
-                String num = resp.substring(6);
-                System.out.println("Router numero : " +num);
-                selectedr = Integer.parseInt(num);
-                sel = 1;
-            }else if(resp.contains("pc")){
-                String num = resp.substring(2);
-                System.out.println("Pc numero : " +num);
-                selectedp = Integer.parseInt(num);
-                sel = 1;
-            }
+//        String resp = choque(new Point(evt.getX(),evt.getY()));
+//            if(resp.contains("router")){
+//                String num = resp.substring(6);
+//                System.out.println("Router numero : " +num);
+//                selectedr = Integer.parseInt(num);
+//                sel = 1;
+//            }else if(resp.contains("pc")){
+//                String num = resp.substring(2);
+//                System.out.println("Pc numero : " +num);
+//                selectedp = Integer.parseInt(num);
+//                sel = 1;
+//            }
     }//GEN-LAST:event_jPanel4MousePressed
 
     private void jPanel4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseReleased
@@ -344,9 +349,18 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseReleased
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        selected = "conn";
         this.panel = true;
         this.jPanel3.setVisible(panel);
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
+        kind = "cross";
+    }//GEN-LAST:event_jPanel5MouseClicked
+
+    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
+       kind = "serial";
+    }//GEN-LAST:event_jPanel9MouseClicked
 
     /**
      * @param args the command line arguments
@@ -386,14 +400,11 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -458,6 +469,39 @@ public class principal extends javax.swing.JFrame {
             g.drawImage(ii.getImage(),con.routers.get(i).getPoint().x - 34 , con.routers.get(i).getPoint().y - 27,this);
             //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);
         }
+    }
+    
+    public Dispositivo disxpoint(Point p){
+    System.out.println("Encontrar dispositivo");
+        Dispositivo dre = null;
+        for(int i=0;i<con.routers.size();i++){
+            if(p.y>=con.routers.get(i).getPoint().y-40 && p.y <= con.routers.get(i).getPoint().y + 40){
+                if(p.x>=con.routers.get(i).getPoint().x-40 && p.x <= con.routers.get(i).getPoint().x + 40){
+                    
+                    dre = con.routers.get(i);
+                    
+                }
+            }
+        }
+        
+        for(int i=0;i<con.pcs.size();i++){
+            if(p.y>=con.pcs.get(i).getPoint().y-40 && p.y <= con.pcs.get(i).getPoint().y + 40){
+                if(p.x>=con.pcs.get(i).getPoint().x-40 && p.x <= con.pcs.get(i).getPoint().x + 40){
+                    
+                    dre =con.pcs.get(i);
+                    
+                }
+            }
+        }
+        
+        return dre;
+    
+    }
+
+    private void connect() {
+        System.out.println("Connect :"+d1.getId()+" <> "+d2.getId());
+        d1 = null;
+        d2 = null;
     }
     
 }
