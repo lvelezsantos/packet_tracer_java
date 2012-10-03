@@ -103,7 +103,7 @@ public class Controlador {
         return this.pcs;
     }
     
-    private String tipo_dispositivo(int id){
+    public String tipo_dispositivo(int id){
         String tipo = "pc";
         int dispositivo = search_pos_pc(id);
         if(dispositivo == -1){

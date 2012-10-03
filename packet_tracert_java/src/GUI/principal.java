@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import logica.Dispositivo;
 import logica.Router;
 
@@ -27,6 +28,8 @@ public class principal extends javax.swing.JFrame {
     private String kind = "none";
     private Dispositivo d1 = null;
     private Dispositivo d2 = null;
+    String d1c1= "";
+    String d2c1= "";
     
     /**
      * Creates new form principal
@@ -468,6 +471,7 @@ public class principal extends javax.swing.JFrame {
             //33,30
             g.drawImage(ii.getImage(),con.routers.get(i).getPoint().x - 34 , con.routers.get(i).getPoint().y - 27,this);
             //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);
+            
         }
     }
     
@@ -500,6 +504,18 @@ public class principal extends javax.swing.JFrame {
 
     private void connect() {
         System.out.println("Connect :"+d1.getId()+" <> "+d2.getId());
+                
+        if(con.tipo_dispositivo(d1.getId()).equalsIgnoreCase("pc")){
+        d1c1 = "0/0";
+        }else{
+        d1c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)");
+        }
+        if(con.tipo_dispositivo(d2.getId()).equalsIgnoreCase("pc")){
+        d2c1 = "0/0";
+        }else{
+        d2c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)");
+        }
+        con.connect(d1.getId(), d2.getId(), d1c1.charAt(0)+"",d2c1.charAt(0)+"", d1c1.charAt(2)+"", d2c1.charAt(2)+"");
         d1 = null;
         d2 = null;
     }
