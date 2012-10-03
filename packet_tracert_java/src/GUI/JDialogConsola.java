@@ -4,18 +4,34 @@
  */
 package GUI;
 
+import java.awt.Point;
+import java.awt.Robot;
+import logica.Router;
+
 /**
  *
  * @author warlock
  */
 public class JDialogConsola extends javax.swing.JDialog {
-
+    
     /**
      * Creates new form JDialogConsola
      */
+    
+    Router r_crea = new Router();
+    Router r_prueba;
+    String nivel;
+    private static String nivel_normal = ">";
+    private static String nivel_enable = "#";
+    private static String nivel_configure_terminal = "(config)#";
+    private static String nivel_router_vector = "(config-router)#";
+    private static String nivel_interface = "(config-if)#";
+    
     public JDialogConsola(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        r_prueba = r_crea.router_1("Router1", 1, new Point(1, 2));
+        nivel = nivel_normal;
     }
 
     /**
@@ -42,6 +58,9 @@ public class JDialogConsola extends javax.swing.JDialog {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldComandoKeyTyped(evt);
             }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldComandoKeyPressed(evt);
+            }
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -51,7 +70,7 @@ public class JDialogConsola extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                     .addComponent(jTextFieldComando))
                 .addContainerGap())
         );
@@ -59,9 +78,9 @@ public class JDialogConsola extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jTextFieldComando, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextFieldComando, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -69,8 +88,69 @@ public class JDialogConsola extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldComandoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldComandoKeyTyped
-        jTextAreaConsola.append(">> "+"prueba"+"\n");
+       
     }//GEN-LAST:event_jTextFieldComandoKeyTyped
+
+    String eliminar_espacios(String cadena){
+        String cadena_sin_espacios=cadena.trim();
+        
+        while(!cadena_sin_espacios.replaceAll("  ", " ").equals(cadena_sin_espacios)){ 
+            cadena_sin_espacios = cadena_sin_espacios.replaceAll("  ", " ");
+        }
+        
+        return cadena_sin_espacios;
+    }
+    
+    private void jTextFieldComandoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldComandoKeyPressed
+        if(evt.getKeyCode()==10){
+            String comando = jTextFieldComando.getText();
+            comando = eliminar_espacios(comando);
+            jTextAreaConsola.append(r_prueba.getNombre()+nivel+comando+"\n");
+            if(comando.equals("enable") && nivel.equals(nivel_normal)){
+                nivel = nivel_enable;
+            }
+            if(comando.equals("configure terminal") && nivel.equals(nivel_enable)) {
+                nivel = nivel_configure_terminal;
+            }
+            if(comando.equals("router vector") && nivel.equals(nivel_configure_terminal)){
+                nivel = nivel_router_vector;
+            }
+            try{
+                if(comando.length()>21){
+                    if(comando.substring(0, 22).equals("interface fastEthernet") && nivel.equals(nivel_configure_terminal)) {
+                        String[] lista_coms;
+                        lista_coms = comando.split(" ");
+                        String[] lista_modulo_puerto;
+                        lista_modulo_puerto = lista_coms[2].split("/");
+                        if(lista_modulo_puerto.length == 2 ){
+                            String modulo = lista_modulo_puerto[0];
+                            String puerto = lista_modulo_puerto[1];
+                            nivel = nivel_interface;
+                        }
+                        
+                    }
+                    
+                }
+            }catch(Exception e){
+                System.err.println(e.toString());
+            }
+            
+            if(comando.equals("exit")){
+                if(nivel.equals(nivel_interface)){
+                    nivel = nivel_configure_terminal;
+                }else if(nivel.equals(nivel_router_vector)){
+                    nivel = nivel_configure_terminal;
+                }else if(nivel.equals(nivel_configure_terminal)){
+                    nivel = nivel_enable;
+                }else if(nivel.equals(nivel_enable)){
+                    nivel = nivel_normal;
+                }
+               
+            }
+                
+            jTextFieldComando.setText("");
+        }
+    }//GEN-LAST:event_jTextFieldComandoKeyPressed
 
     /**
      * @param args the command line arguments
