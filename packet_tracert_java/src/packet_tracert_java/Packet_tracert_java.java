@@ -35,7 +35,9 @@ public class Packet_tracert_java {
         controlador.add_pc(point);
         controlador.add_pc(point);
         
-        System.out.println(controlador.search_pc(4));
+        controlador.connect(1, 1, "0", "0", "0", "0");
+        
+        System.out.println(controlador.search_all_pcs().get(1).getConexiones());
         /*PC pc1 = creador_pc.pc_1("pc1",0);
         pc1.mostrarPuertos();
         
