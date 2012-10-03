@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.border.LineBorder;
 import logica.Conexion;
 import logica.Dispositivo;
 import logica.Router;
@@ -117,7 +118,7 @@ public class principal extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel2)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel1)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -308,15 +309,31 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        if(selected.equalsIgnoreCase("router")){
+        selected = "none";
+        jLabel2.setBorder(null);
+        }else{
         selected = "router";
+        jLabel2.setBorder(new LineBorder(Color.blue, 2));
+        }
         panel = false;
         this.jPanel3.setVisible(panel);
+        jLabel1.setBorder(null);
+        jLabel3.setBorder(null);
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        if(selected.equalsIgnoreCase("pc")){
+        selected = "none";
+        jLabel1.setBorder(null);
+        }else{
         selected = "pc";
+        jLabel1.setBorder(new LineBorder(Color.blue, 2));
+        }
         panel = false;
         this.jPanel3.setVisible(panel);
+        jLabel2.setBorder(null);
+        jLabel3.setBorder(null);
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jPanel4MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseDragged
@@ -354,9 +371,17 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseReleased
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        if(selected.equalsIgnoreCase("conn")){
+        selected = "none";
+        jLabel3.setBorder(null);
+        }else{
         selected = "conn";
+        jLabel3.setBorder(new LineBorder(Color.blue, 2));
+        }
         this.panel = true;
         this.jPanel3.setVisible(panel);
+        jLabel1.setBorder(null);
+        jLabel2.setBorder(null);
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
