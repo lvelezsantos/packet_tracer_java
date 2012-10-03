@@ -57,6 +57,7 @@ public class principal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -103,6 +104,14 @@ public class principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/Terminal Icon.jpg"))); // NOI18N
+        jLabel6.setText("Terminal");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -113,6 +122,8 @@ public class principal extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -120,7 +131,8 @@ public class principal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel1)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -284,6 +296,9 @@ public class principal extends javax.swing.JFrame {
         con.add_pc(new Point(evt.getX(),evt.getY()));
         }
         }
+        if(selected.equalsIgnoreCase("term") && !choque(evt.getPoint()).equalsIgnoreCase("false")){
+        iniciar_Consola(evt.getPoint());
+        }
         if(selected.equalsIgnoreCase("conn")){
             
             Dispositivo d11 = disxpoint(evt.getPoint());
@@ -334,6 +349,7 @@ public class principal extends javax.swing.JFrame {
         this.jPanel3.setVisible(panel);
         jLabel2.setBorder(null);
         jLabel3.setBorder(null);
+        jLabel6.setBorder(null);
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jPanel4MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseDragged
@@ -382,6 +398,7 @@ public class principal extends javax.swing.JFrame {
         this.jPanel3.setVisible(panel);
         jLabel1.setBorder(null);
         jLabel2.setBorder(null);
+        jLabel6.setBorder(null);
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
@@ -391,6 +408,21 @@ public class principal extends javax.swing.JFrame {
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
        kind = "serial";
     }//GEN-LAST:event_jPanel9MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        if(selected.equalsIgnoreCase("term")){
+        selected = "none";
+        jLabel6.setBorder(null);
+        }else{
+        selected = "term";
+        jLabel6.setBorder(new LineBorder(Color.blue, 2));
+        }
+        this.panel = true;
+        this.jPanel3.setVisible(panel);
+        jLabel1.setBorder(null);
+        jLabel2.setBorder(null);
+        jLabel3.setBorder(null);
+    }//GEN-LAST:event_jLabel6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -434,6 +466,7 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -558,6 +591,15 @@ public class principal extends javax.swing.JFrame {
         }
         d1 = null;
         d2 = null;
+    }
+
+    private void iniciar_Consola(Point point) {
+        Dispositivo a = disxpoint(point);
+        System.out.println("bout show console");
+        if(con.tipo_dispositivo(a.getId()).equalsIgnoreCase("router")){
+            JDialogConsola jd = new JDialogConsola(null,true, con, a.getId());
+            jd.setVisible(true);
+        }
     }
     
 }
