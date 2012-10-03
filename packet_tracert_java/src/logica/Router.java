@@ -12,12 +12,14 @@ import java.util.ArrayList;
  * @author warlock
  */
 public class Router extends Dispositivo{
-
+    private ProtocoloVectorDistancia p_vector;
+    
     public Router() {
     }
 
     public Router(String nombre, ArrayList<Modulo> modulos, int id, Point point) {
         super(nombre, modulos, id, point);
+        this.p_vector = new ProtocoloVectorDistancia();
     }
     
     public Router router_1(String nombre, int id, Point point){
@@ -50,5 +52,15 @@ public class Router extends Dispositivo{
         return router;
         
     }
+
+    public ProtocoloVectorDistancia getP_vector() {
+        return p_vector;
+    }
+
+    public void setP_vector(ProtocoloVectorDistancia p_vector) {
+        this.p_vector = p_vector;
+    }
+    
+    
         
 }

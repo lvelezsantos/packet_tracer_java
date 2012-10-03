@@ -12,6 +12,7 @@ public class Puerto {
     private boolean activado;
     private boolean usado;
     private String ip;
+    private String netmask;
     private String nombre;
     private int velocidad;
     private String nombre_velocidad;
@@ -86,7 +87,13 @@ public class Puerto {
     public void setUsado(boolean usado) {
         this.usado = usado;
     }
-    
-    
+
+    public String getNetmask() {
+        return netmask;
+    }
+
+    public void setNetmask(String netmask) {
+        this.netmask = netmask;
+    }
     
 }
