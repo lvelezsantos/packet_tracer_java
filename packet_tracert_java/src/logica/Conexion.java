@@ -28,7 +28,7 @@ public class Conexion {
     
     
     
-    public boolean conectar(){
+    public boolean conectar() throws Exception{
         /*
          Asigna el puerto del dispositivo como usado 
          */
@@ -48,7 +48,7 @@ public class Conexion {
                         this.dispositivo.getModulos().set(i, modulo);
                         flag = true;
                     }else{
-                        System.err.println("El puerto elegido ya esta siendo usado");
+                        throw new Exception("Puerto Ocupado");
                     }
                 }              
                 

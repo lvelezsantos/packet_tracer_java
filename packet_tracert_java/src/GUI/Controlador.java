@@ -117,7 +117,10 @@ public class Controlador {
     }
     
     public void connect(int dispositivo_1_id, int dispositivo_2_id, String puerto_dis_1,String puerto_dis_2,
-            String modulo_dis_1,String modulo_dis_2){
+            String modulo_dis_1,String modulo_dis_2) throws Exception{
+        
+        
+        
         if(dispositivo_1_id != dispositivo_2_id){
             //Agrega la conexion en el dispositivo 1 y pone los puertos del dispositivo 2 como ocupado
             if(tipo_dispositivo(dispositivo_1_id).equals("pc")){

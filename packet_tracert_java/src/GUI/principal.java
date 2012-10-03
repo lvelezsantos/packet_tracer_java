@@ -519,14 +519,18 @@ public class principal extends javax.swing.JFrame {
         if(con.tipo_dispositivo(d1.getId()).equalsIgnoreCase("pc")){
         d1c1 = "0/0";
         }else{
-        d1c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)");
+        d1c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)\n"+d1.mostrarPuertos());
         }
         if(con.tipo_dispositivo(d2.getId()).equalsIgnoreCase("pc")){
         d2c1 = "0/0";
         }else{
-        d2c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)");
+        d2c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)\n"+d2.mostrarPuertos());
         }
+        try{
         con.connect(d1.getId(), d2.getId(), d1c1.charAt(0)+"",d2c1.charAt(0)+"", d1c1.charAt(2)+"", d2c1.charAt(2)+"");
+        }catch(Exception e){
+        JOptionPane.showMessageDialog(null, e.getMessage());
+        }
         d1 = null;
         d2 = null;
     }

@@ -57,7 +57,7 @@ public class Dispositivo {
     
     
     
-    public void agregar_conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad){
+    public void agregar_conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad) throws Exception{
         Conexion conexion;
         conexion = new Conexion(dispositivo, modulo_cad, puerto_cad);
         conexion.conectar();

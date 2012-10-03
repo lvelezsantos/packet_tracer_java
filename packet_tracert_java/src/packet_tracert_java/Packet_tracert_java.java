@@ -19,7 +19,7 @@ public class Packet_tracert_java {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Router creador_router = new Router();
         PC creador_pc = new PC();
         principal p = new principal();
