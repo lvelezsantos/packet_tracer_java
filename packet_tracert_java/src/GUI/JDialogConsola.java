@@ -18,20 +18,33 @@ public class JDialogConsola extends javax.swing.JDialog {
      * Creates new form JDialogConsola
      */
     
-    Router r_crea = new Router();
-    Router r_prueba;
-    String nivel;
+    /*
+     * Comandos
+     * 
+     * enable
+     * configure terminal
+     * router vector
+     * interface fastEthernet modulo/puerto
+     * ip address ip netmask
+     * exit
+     * 
+     */
+    
+    Controlador controlador;
+    int id_router;
+    private String nivel;
     private static String nivel_normal = ">";
     private static String nivel_enable = "#";
     private static String nivel_configure_terminal = "(config)#";
     private static String nivel_router_vector = "(config-router)#";
     private static String nivel_interface = "(config-if)#";
     
-    public JDialogConsola(java.awt.Frame parent, boolean modal) {
+    public JDialogConsola(java.awt.Frame parent, boolean modal, Controlador controlador, int id_router) {
         super(parent, modal);
         initComponents();
-        r_prueba = r_crea.router_1("Router1", 1, new Point(1, 2));
         nivel = nivel_normal;
+        this.controlador = controlador;
+        this.id_router = id_router;
     }
 
     /**
@@ -105,19 +118,24 @@ public class JDialogConsola extends javax.swing.JDialog {
         if(evt.getKeyCode()==10){
             String comando = jTextFieldComando.getText();
             comando = eliminar_espacios(comando);
-            jTextAreaConsola.append(r_prueba.getNombre()+nivel+comando+"\n");
-            if(comando.equals("enable") && nivel.equals(nivel_normal)){
-                nivel = nivel_enable;
+            jTextAreaConsola.append("Router1"+nivel+comando+"\n");
+            if(nivel.equals(nivel_normal)){
+                if(comando.equals("enable")){
+                    nivel = nivel_enable;
+                }
             }
-            if(comando.equals("configure terminal") && nivel.equals(nivel_enable)) {
-                nivel = nivel_configure_terminal;
+            if(nivel.equals(nivel_enable)){
+                if(comando.equals("configure terminal")) {
+                    nivel = nivel_configure_terminal;
+                }
             }
-            if(comando.equals("router vector") && nivel.equals(nivel_configure_terminal)){
-                nivel = nivel_router_vector;
-            }
-            try{
+            if(nivel.equals(nivel_configure_terminal)){
+                if(comando.equals("router vector")){
+                    nivel = nivel_router_vector;
+                }
+                
                 if(comando.length()>21){
-                    if(comando.substring(0, 22).equals("interface fastEthernet") && nivel.equals(nivel_configure_terminal)) {
+                    if(comando.substring(0, 22).equals("interface fastEthernet")) {
                         String[] lista_coms;
                         lista_coms = comando.split(" ");
                         String[] lista_modulo_puerto;
@@ -127,13 +145,25 @@ public class JDialogConsola extends javax.swing.JDialog {
                             String puerto = lista_modulo_puerto[1];
                             nivel = nivel_interface;
                         }
-                        
+
                     }
-                    
+
                 }
-            }catch(Exception e){
-                System.err.println(e.toString());
+
             }
+            
+            if(nivel.equals(nivel_interface)){
+                String[] list_ip_addres;
+                list_ip_addres = comando.split(" ");
+                 
+                if(list_ip_addres.length==4){
+                    if(list_ip_addres[0].equals("ip") && list_ip_addres[1].equals("address")){
+                        String ip = comando.split(" ")[2];
+                        String netmask = comando.split(" ")[3];
+                    }                        
+                }
+            }
+            
             
             if(comando.equals("exit")){
                 if(nivel.equals(nivel_interface)){
@@ -182,7 +212,7 @@ public class JDialogConsola extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JDialogConsola dialog = new JDialogConsola(new javax.swing.JFrame(), true);
+                JDialogConsola dialog = new JDialogConsola(new javax.swing.JFrame(), true,new Controlador(), 1);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
