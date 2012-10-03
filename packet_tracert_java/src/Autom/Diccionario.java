@@ -94,6 +94,11 @@ public class Diccionario {
         
     }
     
+    public boolean solver(String solver){
+        String solve = solveLine(solver);
+        return Automata.backbone(solve);
+    }
+    
     
     public static void main(String args[]){
         Diccionario d = new Diccionario();
