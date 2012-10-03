@@ -198,4 +198,9 @@ public class Controlador {
         int pos_router = search_pos_router(id_router);
         return this.routers.get(pos_router).mostrar_informacion();
     }
+
+    public String ping(int id_router, String ip) {
+        int pos = this.search_pos_router(id_router);
+        return this.routers.get(pos).ping(ip);
+    }
 }

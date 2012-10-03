@@ -6,7 +6,6 @@ package logica;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import javax.xml.crypto.KeySelector;
 
 /**
  *
@@ -207,6 +206,35 @@ public class Dispositivo {
         }
         informacion += cad_conexiones;
         return informacion;
+    }
+    
+    public String ping(String ip){
+        String respuesta;
+        respuesta = "host "+ ip+ " no encontado";
+        for(int i=0;i<getConexiones().size();i++){
+            Dispositivo dispositivo = getConexiones().get(i).getDispositivo();
+            for(int j=0;j< dispositivo.getModulos().size();j++){
+                Modulo modulo = dispositivo.getModulos().get(j);
+                for(int k=0; k < modulo.getPuertos().size(); k++){
+                    Puerto puerto = modulo.getPuertos().get(k);
+                    if(puerto.getIp().equals(ip)){
+                        respuesta = "Host "+ ip + " encontrado";
+                    }
+                }
+            }            
+        }
+        for(int j=0;j< getModulos().size();j++){
+            Modulo modulo = getModulos().get(j);
+            for(int k=0; k < modulo.getPuertos().size(); k++){
+                Puerto puerto = modulo.getPuertos().get(k);
+                if(puerto.getIp().equals(ip)){
+                    respuesta = "Host "+ ip + " encontrado";
+                }
+            }
+        }
+        
+        
+        return respuesta;
     }
     
     
