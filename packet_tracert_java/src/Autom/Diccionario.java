@@ -96,6 +96,7 @@ public class Diccionario {
     
     public boolean solver(String solver){
         String solve = solveLine(solver);
+        System.err.println(solve);
         return Automata.backbone(solve);
     }
     

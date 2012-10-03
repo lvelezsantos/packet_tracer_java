@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Autom.Diccionario;
 import java.util.ArrayList;
 
 /**
@@ -50,6 +51,7 @@ public class JDialogConsola extends javax.swing.JDialog {
     private String puerto;
     private ArrayList<String> comandos_ejecutados;
     private int posicion_comandos;
+    private Diccionario diccionario;
     
     public JDialogConsola(java.awt.Frame parent, boolean modal, Controlador controlador, int id_router) {
         super(parent, modal);
@@ -62,6 +64,7 @@ public class JDialogConsola extends javax.swing.JDialog {
         set_label_nivel();
         this.comandos_ejecutados = new ArrayList<String>();
         this.posicion_comandos = comandos_ejecutados.size();
+        this.diccionario = new Diccionario();
     }
 
     /**
@@ -143,6 +146,10 @@ public class JDialogConsola extends javax.swing.JDialog {
         jTextAreaConsola.append(this.controlador.routers.get(this.pos_router).getNombre() +nivel+mensaje+"\n");
     }
     
+    private void mensaje_2_consola(String mensaje){
+        jTextAreaConsola.append("\n"+mensaje+"\n");
+    }
+    
     private void set_label_nivel(){
         jLabelNivel.setText(this.controlador.routers.get(this.pos_router).getNombre() +this.nivel);
     }
@@ -185,149 +192,153 @@ public class JDialogConsola extends javax.swing.JDialog {
             String comando = jTextFieldComando.getText();
             comando = eliminar_espacios(comando);
             mensaje_consola(comando);
-            if(nivel.equals(nivel_normal)){
-                if(comando.equals("enable")){
-                    nivel = nivel_enable;
-                }
-                if(comando.equals("?")){
-                    mensaje_consola("\nComandos Disponibles\n\nenable");
-                }
-            }
-            if(nivel.equals(nivel_enable)){
-                String[] list_com;
-                list_com = comando.split(" ");
-                if(comando.equals("configure terminal")) {
-                    nivel = nivel_configure_terminal;
-                }
-                
-                if(comando.equals("show running-config")||comando.equals("sh run")){
-                    mensaje_consola(this.controlador.mostrar_informacion(this.id_router));
-                }
-                
-                if(comando.equals("?")){
-                    mensaje_consola("\nComandos Disponibles\n\nconfigure terminal\nshow running-config");
-                }
-                
-                if(list_com.length==2){
-                    if(list_com[0].equals("ping")){
-                        String ip = list_com[1];
-                        String resultado = this.controlador.ping(this.id_router,ip);
-                        mensaje_consola("\n!\n!"+resultado);
+            comandos_ejecutados.add(comando);
+            if(diccionario.solver(comando)){
+                if(nivel.equals(nivel_normal)){
+                    if(comando.equals("enable")){
+                        nivel = nivel_enable;
+                    }
+                    if(comando.equals("?")){
+                        mensaje_consola("\nComandos Disponibles\n\nenable");
                     }
                 }
-            }
-            
-            if(nivel.equals(nivel_configure_terminal)){
-                String[] list_comando;
-                list_comando = comando.split(" ");
-                if(list_comando.length==2){
-                    if(list_comando[0].equals("hostname")){
-                        controlador.cambiar_nombre_router(this.id_router, list_comando[1]);
+                if(nivel.equals(nivel_enable)){
+                    String[] list_com;
+                    list_com = comando.split(" ");
+                    if(comando.equals("configure terminal")) {
+                        nivel = nivel_configure_terminal;
                     }
-                }
-                
-                if(comando.equals("router vector")){
-                    nivel = nivel_router_vector;
-                }
-                
-                if(list_comando.length == 3){
-                    if(list_comando[0].equals("interface")){
-                        if(list_comando[1].equals("fastEthernet")){
-                            String[] lista_modulo_puerto;
-                            lista_modulo_puerto = list_comando[2].split("/");
-                            if(lista_modulo_puerto.length == 2 ){
-                                modulo = lista_modulo_puerto[0];
-                                puerto = lista_modulo_puerto[1];
-                                int[] variable = new int[2];
-                                
-                                if(this.controlador.routers.get(this.pos_router).buscar_modulo_puerto(modulo, puerto)[0]!=-1){
-                                    nivel = nivel_interface;
-                                }else{
-                                    mensaje_consola("No existe modulos o interfaz seleccionada"); 
-                                }
-                             }
+
+                    if(comando.equals("show running-config")||comando.equals("sh run")){
+                        mensaje_consola(this.controlador.mostrar_informacion(this.id_router));
+                    }
+
+                    if(comando.equals("?")){
+                        mensaje_consola("\nComandos Disponibles\n\nconfigure terminal\nshow running-config");
+                    }
+
+                    if(list_com.length==2){
+                        if(list_com[0].equals("ping")){
+                            String ip = list_com[1];
+                            String resultado = this.controlador.ping(this.id_router,ip);
+                            mensaje_consola("\n!\n!"+resultado);
                         }
                     }
-                }
-                
-                if(comando.equals("?")){
-                    mensaje_consola("\nComandos Disponibles\n\nhostname <nombre>\n"
-                            + "interface fastEthernet <modulo>/<puerto>\n"
-                            + "router vector");
                 }
 
-            }
-            
-            if(nivel.equals(nivel_interface)){
-                String[] list_ip_addres;
-                list_ip_addres = comando.split(" ");
-                 
-                
-                if(list_ip_addres.length==4){
-                    if(list_ip_addres[0].equals("ip") && list_ip_addres[1].equals("address")){
-                        String ip = list_ip_addres[2];
-                        String netmask = list_ip_addres[3];
-                        boolean flag;
-                        flag = this.controlador.asignar_ip_puerto(this.id_router, this.modulo, this.puerto, ip, netmask);
-                        if(!flag){
-                            mensaje_consola("No se asigno la ip al puerto");
+                if(nivel.equals(nivel_configure_terminal)){
+                    String[] list_comando;
+                    list_comando = comando.split(" ");
+                    if(list_comando.length==2){
+                        if(list_comando[0].equals("hostname")){
+                            controlador.cambiar_nombre_router(this.id_router, list_comando[1]);
                         }
-                    }                        
-                }
-                
-                if(comando.equals("no shutdown")){
-                    boolean flag = this.controlador.encender_puerto(this.id_router, this.modulo, this.puerto);
-                    if(flag){
-                        mensaje_consola("el puerto  se ha encendido");
-                    }else{
-                        mensaje_consola("El puerto ya estaba encendido");
                     }
-                }
-                
-                if(comando.equals("shutdown")){
-                    boolean flag = this.controlador.apagar_puerto(this.id_router, this.modulo, this.puerto);
-                    if(flag){
-                        mensaje_consola("El puerto se ha apagado");
-                    }else{
-                        mensaje_consola("El puerto ya estaba apagado");
+
+                    if(comando.equals("router vector")){
+                        nivel = nivel_router_vector;
                     }
-                }
-                if(comando.equals("?")){
-                    mensaje_consola("\nComandos Disponibles\n\nip address <ip> <netmask>\n"
-                            + "shutdown\nno shutdown");
-                }
-            }
-            
-            if(nivel.equals(nivel_router_vector)){
-                String[] list_comando;
-                list_comando = comando.split(" ");
-                if(list_comando.length == 2){
-                    if(list_comando[0].equals("network")){
-                        
+
+                    if(list_comando.length == 3){
+                        if(list_comando[0].equals("interface")){
+                            if(list_comando[1].equals("fastEthernet")){
+                                String[] lista_modulo_puerto;
+                                lista_modulo_puerto = list_comando[2].split("/");
+                                if(lista_modulo_puerto.length == 2 ){
+                                    modulo = lista_modulo_puerto[0];
+                                    puerto = lista_modulo_puerto[1];
+                                    int[] variable = new int[2];
+
+                                    if(this.controlador.routers.get(this.pos_router).buscar_modulo_puerto(modulo, puerto)[0]!=-1){
+                                        nivel = nivel_interface;
+                                    }else{
+                                        mensaje_consola("No existe modulos o interfaz seleccionada"); 
+                                    }
+                                 }
+                            }
+                        }
                     }
+
+                    if(comando.equals("?")){
+                        mensaje_consola("\nComandos Disponibles\n\nhostname <nombre>\n"
+                                + "interface fastEthernet <modulo>/<puerto>\n"
+                                + "router vector");
+                    }
+
                 }
-            }
-            if(comando.equals("exit")){
+
                 if(nivel.equals(nivel_interface)){
-                    nivel = nivel_configure_terminal;
-                }else if(nivel.equals(nivel_router_vector)){
-                    nivel = nivel_configure_terminal;
-                }else if(nivel.equals(nivel_configure_terminal)){
-                    nivel = nivel_enable;
-                }else if(nivel.equals(nivel_enable)){
-                    nivel = nivel_normal;
+                    String[] list_ip_addres;
+                    list_ip_addres = comando.split(" ");
+
+
+                    if(list_ip_addres.length==5){
+                        if(list_ip_addres[0].equals("ip") && list_ip_addres[1].equals("address") && list_ip_addres[3].equals("netmask")){
+                            String ip = list_ip_addres[2];
+                            String netmask = list_ip_addres[4];
+                            boolean flag;
+                            flag = this.controlador.asignar_ip_puerto(this.id_router, this.modulo, this.puerto, ip, netmask);
+                            if(!flag){
+                                mensaje_consola("No se asigno la ip al puerto");
+                            }
+                        }                        
+                    }
+
+                    if(comando.equals("no shutdown")){
+                        boolean flag = this.controlador.encender_puerto(this.id_router, this.modulo, this.puerto);
+                        if(flag){
+                            mensaje_consola("el puerto  se ha encendido");
+                        }else{
+                            mensaje_consola("El puerto ya estaba encendido");
+                        }
+                    }
+
+                    if(comando.equals("shutdown")){
+                        boolean flag = this.controlador.apagar_puerto(this.id_router, this.modulo, this.puerto);
+                        if(flag){
+                            mensaje_consola("El puerto se ha apagado");
+                        }else{
+                            mensaje_consola("El puerto ya estaba apagado");
+                        }
+                    }
+                    if(comando.equals("?")){
+                        mensaje_consola("\nComandos Disponibles\n\nip address <ip> <netmask>\n"
+                                + "shutdown\nno shutdown");
+                    }
                 }
-               
+
+                if(nivel.equals(nivel_router_vector)){
+                    String[] list_comando;
+                    list_comando = comando.split(" ");
+                    if(list_comando.length == 2){
+                        if(list_comando[0].equals("network")){
+
+                        }
+                    }
+                }
+                if(comando.equals("exit")){
+                    if(nivel.equals(nivel_interface)){
+                        nivel = nivel_configure_terminal;
+                    }else if(nivel.equals(nivel_router_vector)){
+                        nivel = nivel_configure_terminal;
+                    }else if(nivel.equals(nivel_configure_terminal)){
+                        nivel = nivel_enable;
+                    }else if(nivel.equals(nivel_enable)){
+                        nivel = nivel_normal;
+                    }
+
+                }
+
+                if(comando.equals("end")){
+                    nivel = nivel_enable;
+                }
+
+                jTextFieldComando.setText("");
+                set_label_nivel();
+                this.posicion_comandos = comandos_ejecutados.size()-1;
+            }else{
+                mensaje_2_consola("Comando incorrecto");
             }
-            
-            if(comando.equals("end")){
-                nivel = nivel_enable;
-            }
-                
-            jTextFieldComando.setText("");
-            set_label_nivel();
-            comandos_ejecutados.add(comando);
-            this.posicion_comandos = comandos_ejecutados.size()-1;
         }
     }//GEN-LAST:event_jTextFieldComandoKeyPressed
 
