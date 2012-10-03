@@ -18,7 +18,7 @@ public class JDialogConsola extends javax.swing.JDialog {
     
     /*
      * Comandos
-     * 
+     * hostname nombre_router
      * enable
      * configure terminal
      * conf t
@@ -33,6 +33,7 @@ public class JDialogConsola extends javax.swing.JDialog {
      * show running-config
      * sh run
      * end
+     * ping
      * ?
      */
     
@@ -193,7 +194,9 @@ public class JDialogConsola extends javax.swing.JDialog {
                 }
             }
             if(nivel.equals(nivel_enable)){
-                if(comando.equals("configure terminal") || comando.equals("conf t")) {
+                String[] list_com;
+                list_com = comando.split(" ");
+                if(comando.equals("configure terminal")) {
                     nivel = nivel_configure_terminal;
                 }
                 
@@ -203,6 +206,14 @@ public class JDialogConsola extends javax.swing.JDialog {
                 
                 if(comando.equals("?")){
                     mensaje_consola("\nComandos Disponibles\n\nconfigure terminal\nshow running-config");
+                }
+                
+                if(list_com.length==2){
+                    if(list_com[0].equals("ping")){
+                        String ip = list_com[1];
+                        String resultado = this.controlador.ping(this.id_router,ip);
+                        mensaje_consola("\n!\n!"+resultado);
+                    }
                 }
             }
             
