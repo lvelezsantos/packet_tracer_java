@@ -26,7 +26,7 @@ public class Automata {
         r = new RegExp("(1|2|3|4|5|6|7|8|9|0)(1|2|3|4|5|6|7|8|9|0)*");
         Automaton c = r.toAutomaton();
         
-        estd1.addTransition(new Transition('i',a.getInitialState()));//i=interface
+        estd1.addTransition(new Transition('a',estd2));//i=interface
         estd1.addTransition(new Transition('h',b.getInitialState()));//h=hostname
         estd1.addTransition(new Transition('e',estd4));//e=enable
         estd1.addTransition(new Transition('c',estd4));//c=configure terminal
