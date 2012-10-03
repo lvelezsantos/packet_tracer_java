@@ -23,16 +23,16 @@ public class Router extends Dispositivo{
     }
     
     public Router router_1(String nombre, int id, Point point){
-        Puerto puerto1 = new Puerto(false, "", "0", 100, "MB/s", "fastEthernet", false);
-        Puerto puerto2 = new Puerto(false, "", "1", 100, "MB/s", "fastEthernet", false);
+        Puerto puerto1 = new Puerto(false, "0.0.0.0", "0", 100, "MB/s", "fastEthernet", false,"0.0.0.0");
+        Puerto puerto2 = new Puerto(false, "0.0.0.0", "1", 100, "MB/s", "fastEthernet", false,"0.0.0.0");
         
         ArrayList<Puerto> puertos_modulo_1 = new ArrayList<Puerto>();
         
         puertos_modulo_1.add(puerto1);
         puertos_modulo_1.add(puerto2); 
         
-        Puerto puerto3 = new Puerto(false, "", "0", 100, "MB/s", "fastEthernet", false);
-        Puerto puerto4 = new Puerto(false, "", "1", 100, "MB/s", "fastEthernet", false);
+        Puerto puerto3 = new Puerto(false, "0.0.0.0", "0", 100, "MB/s", "fastEthernet", false,"0.0.0.0");
+        Puerto puerto4 = new Puerto(false, "0.0.0.0", "1", 100, "MB/s", "fastEthernet", false,"0.0.0.0");
         
         ArrayList<Puerto> puertos_modulo_2 = new ArrayList<Puerto>();
         
@@ -60,7 +60,7 @@ public class Router extends Dispositivo{
     public void setP_vector(ProtocoloVectorDistancia p_vector) {
         this.p_vector = p_vector;
     }
+
     
     
-        
 }

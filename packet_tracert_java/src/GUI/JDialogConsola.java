@@ -27,24 +27,32 @@ public class JDialogConsola extends javax.swing.JDialog {
      * interface fastEthernet modulo/puerto
      * ip address ip netmask
      * exit
-     * 
+     * no shutdown
+     * shutdown
+     * show running-config
      */
     
     Controlador controlador;
     int id_router;
+    int pos_router;
     private String nivel;
     private static String nivel_normal = ">";
     private static String nivel_enable = "#";
     private static String nivel_configure_terminal = "(config)#";
     private static String nivel_router_vector = "(config-router)#";
     private static String nivel_interface = "(config-if)#";
+    private String modulo;
+    private String puerto;
     
     public JDialogConsola(java.awt.Frame parent, boolean modal, Controlador controlador, int id_router) {
         super(parent, modal);
         initComponents();
         nivel = nivel_normal;
         this.controlador = controlador;
+        
         this.id_router = id_router;
+        this.pos_router = this.controlador.search_pos_router(this.id_router);
+        set_label_nivel();
     }
 
     /**
@@ -59,8 +67,9 @@ public class JDialogConsola extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaConsola = new javax.swing.JTextArea();
         jTextFieldComando = new javax.swing.JTextField();
+        jLabelNivel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Consola");
 
         jTextAreaConsola.setEditable(false);
         jTextAreaConsola.setColumns(20);
@@ -76,6 +85,8 @@ public class JDialogConsola extends javax.swing.JDialog {
             }
         });
 
+        jLabelNivel.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -83,17 +94,22 @@ public class JDialogConsola extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
-                    .addComponent(jTextFieldComando))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldComando, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldComando, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldComando, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelNivel))
                 .addContainerGap())
         );
 
@@ -114,40 +130,78 @@ public class JDialogConsola extends javax.swing.JDialog {
         return cadena_sin_espacios;
     }
     
+    private void mensaje_consola(String mensaje){
+        jTextAreaConsola.append(this.controlador.routers.get(this.pos_router).getNombre() +nivel+mensaje+"\n");
+    }
+    
+    private void set_label_nivel(){
+        jLabelNivel.setText(this.controlador.routers.get(this.pos_router).getNombre() +this.nivel);
+    }
+    
     private void jTextFieldComandoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldComandoKeyPressed
         if(evt.getKeyCode()==10){
             String comando = jTextFieldComando.getText();
             comando = eliminar_espacios(comando);
-            jTextAreaConsola.append("Router1"+nivel+comando+"\n");
+            mensaje_consola(comando);
             if(nivel.equals(nivel_normal)){
                 if(comando.equals("enable")){
                     nivel = nivel_enable;
+                }
+                if(comando.equals("?")){
+                    mensaje_consola("\nComandos Disponibles\n\nenable");
                 }
             }
             if(nivel.equals(nivel_enable)){
                 if(comando.equals("configure terminal")) {
                     nivel = nivel_configure_terminal;
                 }
+                
+                if(comando.equals("show running-config")){
+                    mensaje_consola(this.controlador.mostrar_informacion(this.id_router));
+                }
+                
+                if(comando.equals("?")){
+                    mensaje_consola("\nComandos Disponibles\n\nconfigure terminal\nshow running-config");
+                }
             }
+            
             if(nivel.equals(nivel_configure_terminal)){
+                String[] list_comando;
+                list_comando = comando.split(" ");
+                if(list_comando.length==2){
+                    if(list_comando[0].equals("hostname")){
+                        controlador.cambiar_nombre_router(this.id_router, list_comando[1]);
+                    }
+                }
+                
                 if(comando.equals("router vector")){
                     nivel = nivel_router_vector;
                 }
                 
-                if(comando.length()>21){
-                    if(comando.substring(0, 22).equals("interface fastEthernet")) {
-                        String[] lista_coms;
-                        lista_coms = comando.split(" ");
-                        String[] lista_modulo_puerto;
-                        lista_modulo_puerto = lista_coms[2].split("/");
-                        if(lista_modulo_puerto.length == 2 ){
-                            String modulo = lista_modulo_puerto[0];
-                            String puerto = lista_modulo_puerto[1];
-                            nivel = nivel_interface;
+                if(list_comando.length == 3){
+                    if(list_comando[0].equals("interface")){
+                        if(list_comando[1].equals("fastEthernet")){
+                            String[] lista_modulo_puerto;
+                            lista_modulo_puerto = list_comando[2].split("/");
+                            if(lista_modulo_puerto.length == 2 ){
+                                modulo = lista_modulo_puerto[0];
+                                puerto = lista_modulo_puerto[1];
+                                int[] variable = new int[2];
+                                
+                                if(this.controlador.routers.get(this.pos_router).buscar_modulo_puerto(modulo, puerto)[0]!=-1){
+                                    nivel = nivel_interface;
+                                }else{
+                                    mensaje_consola("No existe modulos o interfaz seleccionada"); 
+                                }
+                             }
                         }
-
                     }
-
+                }
+                
+                if(comando.equals("?")){
+                    mensaje_consola("\nComandos Disponibles\n\nhostname <nombre>\n"
+                            + "interface fastEthernet <modulo>/<puerto>\n"
+                            + "router vector");
                 }
 
             }
@@ -156,11 +210,39 @@ public class JDialogConsola extends javax.swing.JDialog {
                 String[] list_ip_addres;
                 list_ip_addres = comando.split(" ");
                  
+                
                 if(list_ip_addres.length==4){
                     if(list_ip_addres[0].equals("ip") && list_ip_addres[1].equals("address")){
-                        String ip = comando.split(" ")[2];
-                        String netmask = comando.split(" ")[3];
+                        String ip = list_ip_addres[2];
+                        String netmask = list_ip_addres[3];
+                        boolean flag;
+                        flag = this.controlador.asignar_ip_puerto(this.id_router, this.modulo, this.puerto, ip, netmask);
+                        if(!flag){
+                            mensaje_consola("No se asigno la ip al puerto");
+                        }
                     }                        
+                }
+                
+                if(comando.equals("no shutdown")){
+                    boolean flag = this.controlador.encender_puerto(this.id_router, this.modulo, this.puerto);
+                    if(flag){
+                        mensaje_consola("el puerto  se ha encendido");
+                    }else{
+                        mensaje_consola("El puerto ya estaba encendido");
+                    }
+                }
+                
+                if(comando.equals("shutdown")){
+                    boolean flag = this.controlador.apagar_puerto(this.id_router, this.modulo, this.puerto);
+                    if(flag){
+                        mensaje_consola("El puerto se ha apagado");
+                    }else{
+                        mensaje_consola("El puerto ya estaba apagado");
+                    }
+                }
+                if(comando.equals("?")){
+                    mensaje_consola("\nComandos Disponibles\n\nip address <ip> <netmask>\n"
+                            + "shutdown\nno shutdown");
                 }
             }
             
@@ -177,8 +259,13 @@ public class JDialogConsola extends javax.swing.JDialog {
                 }
                
             }
+            
+            if(comando.equals("end")){
+                nivel = nivel_enable;
+            }
                 
             jTextFieldComando.setText("");
+            set_label_nivel();
         }
     }//GEN-LAST:event_jTextFieldComandoKeyPressed
 
@@ -224,6 +311,7 @@ public class JDialogConsola extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabelNivel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextAreaConsola;
     private javax.swing.JTextField jTextFieldComando;

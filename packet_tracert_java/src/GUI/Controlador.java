@@ -165,17 +165,37 @@ public class Controlador {
     
    
     
-    public boolean asignar_ip_puerto(int dispositivo_id, String modulo, String puerto, String ip){
+    public boolean asignar_ip_puerto(int dispositivo_id, String modulo, String puerto, String ip, String netmask){
         boolean flag = true;
         String tipo = tipo_dispositivo(dispositivo_id);
         if(tipo.equals("pc")){
             int pos = search_pos_pc(dispositivo_id); 
-            this.pcs.get(pos).asignar_ip_puerto(modulo, puerto, ip);
+            flag = this.pcs.get(pos).asignar_ip_puerto(modulo, puerto, ip, netmask);
         }else if(tipo.equals("router")){
             int pos = search_pos_router(dispositivo_id);
-            this.routers.get(pos).asignar_ip_puerto(modulo, puerto, ip); 
+            flag = this.routers.get(pos).asignar_ip_puerto(modulo, puerto, ip, netmask); 
         }
         return flag;
     }
     
+    public void cambiar_nombre_router(int id_router, String nombre){
+        int pos_router = search_pos_router(id_router);
+        this.routers.get(pos_router).setNombre(nombre);
+    
+    }
+    
+    public boolean encender_puerto(int id_router, String modulo, String puerto){
+        int pos_router = search_pos_router(id_router);
+        return this.routers.get(pos_router).encender_puerto(modulo, puerto); 
+    }
+    
+    public boolean apagar_puerto(int id_router, String modulo, String puerto){
+        int pos_router = search_pos_router(id_router);
+        return this.routers.get(pos_router).apagar_puerto(modulo, puerto); 
+    }
+    
+    public String mostrar_informacion(int id_router){
+        int pos_router = search_pos_router(id_router);
+        return this.routers.get(pos_router).mostrar_informacion();
+    }
 }

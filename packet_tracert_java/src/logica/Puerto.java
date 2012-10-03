@@ -23,13 +23,15 @@ public class Puerto {
 
     
     
-    public Puerto(boolean activado, String ip, String nombre, int velocidad, String nombre_velocidad,String tipo_puerto, boolean usado) {
+    public Puerto(boolean activado, String ip, String nombre, int velocidad, String nombre_velocidad,String tipo_puerto, boolean usado, String netmask) {
         this.activado = activado;
         this.ip = ip;
         this.nombre = nombre;
         this.velocidad = velocidad;
         this.nombre_velocidad = nombre_velocidad;
         this.usado = usado;
+        this.tipo_puerto = tipo_puerto;
+        this.netmask = netmask;
     }
 
     public boolean isActivado() {
@@ -94,6 +96,14 @@ public class Puerto {
 
     public void setNetmask(String netmask) {
         this.netmask = netmask;
+    }
+
+    String encendido() {
+        if(isActivado()){
+            return "no shutdown";
+        }else{
+            return "shutdown";
+        }
     }
     
 }

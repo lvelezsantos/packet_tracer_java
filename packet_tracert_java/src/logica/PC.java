@@ -21,7 +21,7 @@ public class PC extends Dispositivo{
     }
    
     public PC pc_1(String nombre,int id, Point point){
-        Puerto puerto1 = new Puerto(false, "", "eth0", 100, "MB/s", "fastEthernet", false);
+        Puerto puerto1 = new Puerto(false, "0.0.0.0", "eth0", 100, "MB/s", "fastEthernet", false,"0.0.0.0");
 
         ArrayList<Puerto> puertos = new ArrayList<Puerto>();
         puertos.add(puerto1);

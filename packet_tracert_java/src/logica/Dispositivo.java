@@ -6,6 +6,7 @@ package logica;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import javax.xml.crypto.KeySelector;
 
 /**
  *
@@ -109,12 +110,14 @@ public class Dispositivo {
         this.conexiones = conexiones;
     }
     
-    private int[] buscar_modulo_puerto(String modulo, String puerto){
+    public int[] buscar_modulo_puerto(String modulo, String puerto){
         /*
          * Los datos iran de la siguiente forma en el vector
          * [modulo,puerto]
          */
         int[] datos = new int[2];
+        datos[0] = -1;
+        datos[1] = -1;
         for(int i=0;i<getModulos().size();i++){
             for(int j=0;j<getModulos().get(i).getPuertos().size(); j++){
                 if(getModulos().get(i).getNombre().equals(modulo) && 
@@ -130,13 +133,80 @@ public class Dispositivo {
         return datos;
     }
     
-    public boolean asignar_ip_puerto(String modulo, String puerto, String ip){
+    public boolean asignar_ip_puerto(String modulo, String puerto, String ip, String netmask){
         boolean flag = true;
         int[] datos = buscar_modulo_puerto(modulo, puerto);
-        //if(validador.validar_ip(ip){
-        getModulos().get(datos[0]).getPuertos().get(datos[1]).setIp(ip);
-        //}
+        if(datos[0]!=-1){
+            getModulos().get(datos[0]).getPuertos().get(datos[1]).setIp(ip);
+            getModulos().get(datos[0]).getPuertos().get(datos[1]).setNetmask(netmask);
+        }else{
+            System.err.println("No se pudo asignar la ip al puerto");
+            flag = false;
+        }
         return flag;
+    }
+    
+    public boolean encender_puerto(String modulo, String puerto) {
+        boolean flag;
+        int[] datos ;
+        datos = buscar_modulo_puerto(modulo, puerto);
+        if(!getModulos().get(datos[0]).getPuertos().get(datos[1]).isActivado()){
+            getModulos().get(datos[0]).getPuertos().get(datos[1]).setActivado(true);        
+            flag = true;
+        }else{
+            flag = false;
+            System.err.println("No se activo el puerto porque ya estaba activado");
+        }
+        
+        return flag;
+    }
+    
+    public boolean apagar_puerto(String modulo, String puerto) {
+        boolean flag;
+        int[] datos ;
+        datos = buscar_modulo_puerto(modulo, puerto);
+        if(getModulos().get(datos[0]).getPuertos().get(datos[1]).isActivado()){
+            getModulos().get(datos[0]).getPuertos().get(datos[1]).setActivado(false);        
+            flag = true;
+        }else{
+            flag = false;
+            System.err.println("No se desactivo el puerto porque ya estaba desactivado");
+        }
+        
+        return flag;
+    }
+    
+    public String mostrar_informacion(){
+        String informacion;
+        informacion = "\nhotname\t" +getNombre();
+        informacion += "\n!\n!\n!\n!\n!";
+        String cad_puertos = "";
+        for(int i=0;i<getModulos().size();i++){
+            Modulo mod = getModulos().get(i);
+            for(int j=0; j<mod.getPuertos().size();j++){
+                Puerto puer = mod.getPuertos().get(j);
+                cad_puertos += "\ninterface  "+ puer.getTipo_puerto() + " " + mod.getNombre() + "/" + puer.getNombre();
+                if(!puer.getIp().equals("0.0.0.0")){
+                    cad_puertos += "\n" + puer.getIp()+ "  " + puer.getNetmask();
+                }else{
+                    cad_puertos += "\nno ip address";
+                }
+                cad_puertos += "\nspeed   "+ puer.getVelocidad() + " " + puer.getNombre_velocidad();
+                cad_puertos += "\n"+ puer.encendido();
+                cad_puertos += "\n!";
+                        
+            }
+        }
+        informacion += cad_puertos;
+        
+        String cad_conexiones = "\nConexiones: ";
+        for(int i=0;i<getConexiones().size();i++){
+            Conexion conex = getConexiones().get(i);
+            cad_conexiones += conex.getDispositivo().getNombre() + "\t" + conex.getModulo_cad() + "/" + 
+                    conex.getPuerto_cad();
+        }
+        informacion += cad_conexiones;
+        return informacion;
     }
     
     
