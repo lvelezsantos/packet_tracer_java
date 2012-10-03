@@ -50,6 +50,8 @@ public class Conexion {
                     }else{
                         throw new Exception("Puerto Ocupado");
                     }
+                }else{
+                    throw new Exception("No existe puerto/modulo");
                 }              
                 
             }
