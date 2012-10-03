@@ -21,13 +21,19 @@ public class JDialogConsola extends javax.swing.JDialog {
      * 
      * enable
      * configure terminal
+     * conf t
      * router vector
+     * network ip
      * interface fastEthernet modulo/puerto
+     * interface fa modulo/puerto
      * ip address ip netmask
      * exit
      * no shutdown
      * shutdown
      * show running-config
+     * sh run
+     * end
+     * ?
      */
     
     Controlador controlador;
@@ -187,11 +193,11 @@ public class JDialogConsola extends javax.swing.JDialog {
                 }
             }
             if(nivel.equals(nivel_enable)){
-                if(comando.equals("configure terminal")) {
+                if(comando.equals("configure terminal") || comando.equals("conf t")) {
                     nivel = nivel_configure_terminal;
                 }
                 
-                if(comando.equals("show running-config")){
+                if(comando.equals("show running-config")||comando.equals("sh run")){
                     mensaje_consola(this.controlador.mostrar_informacion(this.id_router));
                 }
                 
@@ -281,7 +287,15 @@ public class JDialogConsola extends javax.swing.JDialog {
                 }
             }
             
-            
+            if(nivel.equals(nivel_router_vector)){
+                String[] list_comando;
+                list_comando = comando.split(" ");
+                if(list_comando.length == 2){
+                    if(list_comando[0].equals("network")){
+                        
+                    }
+                }
+            }
             if(comando.equals("exit")){
                 if(nivel.equals(nivel_interface)){
                     nivel = nivel_configure_terminal;
