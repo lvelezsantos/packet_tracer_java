@@ -4,9 +4,7 @@
  */
 package GUI;
 
-import java.awt.Point;
-import java.awt.Robot;
-import logica.Router;
+import java.util.ArrayList;
 
 /**
  *
@@ -43,6 +41,8 @@ public class JDialogConsola extends javax.swing.JDialog {
     private static String nivel_interface = "(config-if)#";
     private String modulo;
     private String puerto;
+    private ArrayList<String> comandos_ejecutados;
+    private int posicion_comandos;
     
     public JDialogConsola(java.awt.Frame parent, boolean modal, Controlador controlador, int id_router) {
         super(parent, modal);
@@ -53,6 +53,8 @@ public class JDialogConsola extends javax.swing.JDialog {
         this.id_router = id_router;
         this.pos_router = this.controlador.search_pos_router(this.id_router);
         set_label_nivel();
+        this.comandos_ejecutados = new ArrayList<String>();
+        this.posicion_comandos = comandos_ejecutados.size();
     }
 
     /**
@@ -139,6 +141,39 @@ public class JDialogConsola extends javax.swing.JDialog {
     }
     
     private void jTextFieldComandoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldComandoKeyPressed
+        if(evt.getKeyCode()==17){
+            //Se hara la funcion de autocompletado
+        }
+        if(evt.getKeyCode()==38){
+            if(comandos_ejecutados.size()>0){
+                if(posicion_comandos==comandos_ejecutados.size()){
+                    posicion_comandos = comandos_ejecutados.size() -1 ;
+                }
+                if(posicion_comandos>=0){
+                    jTextFieldComando.setText(comandos_ejecutados.get(posicion_comandos));
+                }else{
+                jTextFieldComando.setText("");
+                }
+                if(posicion_comandos >= 0){
+                    posicion_comandos--;
+                }
+            }
+        }
+        if(evt.getKeyCode()==40){
+            if(comandos_ejecutados.size()>0){
+                if(posicion_comandos<0){
+                    posicion_comandos = 0;
+                }
+                if(posicion_comandos<comandos_ejecutados.size()) {
+                    jTextFieldComando.setText(comandos_ejecutados.get(posicion_comandos));
+                }else{
+                    jTextFieldComando.setText("");
+                }
+                if(posicion_comandos < comandos_ejecutados.size()){
+                    posicion_comandos++;
+                }
+            }
+        }
         if(evt.getKeyCode()==10){
             String comando = jTextFieldComando.getText();
             comando = eliminar_espacios(comando);
@@ -266,6 +301,8 @@ public class JDialogConsola extends javax.swing.JDialog {
                 
             jTextFieldComando.setText("");
             set_label_nivel();
+            comandos_ejecutados.add(comando);
+            this.posicion_comandos = comandos_ejecutados.size()-1;
         }
     }//GEN-LAST:event_jTextFieldComandoKeyPressed
 
