@@ -70,12 +70,20 @@ public class Diccionario {
         p = Pattern.compile("^[0-9].[0-9].[0-9].[0-9]");
         Matcher m = p.matcher(aux);
            if(m.find()){
+           if(Automata.evalip(aux)){
            solve+="i";
+           }else{
+               solve+="z";
+           }
            }
         p = Pattern.compile("^[0-9]/[0-9]");
         m = p.matcher(aux);
             if(m.find()){
+            if(Automata.mod(aux)){
             solve+="j";
+            }else{
+                solve+="z";
+            }
             }
         }else{
             solve+=this.getSol(aux);
