@@ -36,8 +36,8 @@ public class Packet_tracert_java {
         controlador.add_pc(point);
         
         controlador.connect(1, 1, "0", "0", "0", "0");
-        
-        System.out.println(controlador.search_all_pcs().get(1).getConexiones());
+        controlador.asignar_ip_puerto(1, "0", "0", "192.168.1.2");
+        System.out.println(controlador.search_all_routers().get(1).getModulos().get(0).getPuertos().get(0).getIp());
         /*PC pc1 = creador_pc.pc_1("pc1",0);
         pc1.mostrarPuertos();
         

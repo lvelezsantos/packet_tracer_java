@@ -108,6 +108,35 @@ public class Dispositivo {
         this.conexiones = conexiones;
     }
     
+    private int[] buscar_modulo_puerto(String modulo, String puerto){
+        /*
+         * Los datos iran de la siguiente forma en el vector
+         * [modulo,puerto]
+         */
+        int[] datos = new int[2];
+        for(int i=0;i<getModulos().size();i++){
+            for(int j=0;j<getModulos().get(i).getPuertos().size(); j++){
+                if(getModulos().get(i).getNombre().equals(modulo) && 
+                        getModulos().get(i).getPuertos().get(j).getNombre().equals(puerto))
+                {
+                    datos[0] = i;
+                    datos[1] = j;
+                }
+            }
+
+        
+        }
+        return datos;
+    }
+    
+    public boolean asignar_ip_puerto(String modulo, String puerto, String ip){
+        boolean flag = true;
+        int[] datos = buscar_modulo_puerto(modulo, puerto);
+        //if(validador.validar_ip(ip){
+        getModulos().get(datos[0]).getPuertos().get(datos[1]).setIp(ip);
+        //}
+        return flag;
+    }
     
     
 }

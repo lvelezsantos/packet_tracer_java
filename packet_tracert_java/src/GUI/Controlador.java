@@ -160,4 +160,19 @@ public class Controlador {
         return this.pcs.get(search_pos_pc(id)).getConexiones();
     }
     
+   
+    
+    public boolean asignar_ip_puerto(int dispositivo_id, String modulo, String puerto, String ip){
+        boolean flag = true;
+        String tipo = tipo_dispositivo(dispositivo_id);
+        if(tipo.equals("pc")){
+            int pos = search_pos_pc(dispositivo_id); 
+            this.pcs.get(pos).asignar_ip_puerto(modulo, puerto, ip);
+        }else if(tipo.equals("router")){
+            int pos = search_pos_router(dispositivo_id);
+            this.routers.get(pos).asignar_ip_puerto(modulo, puerto, ip); 
+        }
+        return flag;
+    }
+    
 }
