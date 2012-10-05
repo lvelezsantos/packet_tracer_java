@@ -107,7 +107,7 @@
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/GUI/Image/router2.png"/>
+                  <Image iconType="3" name="/GUI/Image/router1.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Router"/>
               </Properties>
@@ -121,7 +121,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/GUI/Image/pc.png"/>
+                  <Image iconType="3" name="/GUI/Image/pc1.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="PC"/>
               </Properties>

@@ -80,7 +80,7 @@ public class principal extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router2.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router1.png"))); // NOI18N
         jLabel2.setText("Router");
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -89,7 +89,7 @@ public class principal extends javax.swing.JFrame {
         });
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc1.png"))); // NOI18N
         jLabel1.setText("PC");
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -520,8 +520,8 @@ public class principal extends javax.swing.JFrame {
     private void paintElements(Graphics g){
     g.setColor(Color.white);
         g.fillRect(0,0,jPanel4.getWidth(), jPanel4.getHeight());
-        ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router2.png"));
-        ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc.png"));
+        ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router1.png"));
+        ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc1.png"));
         
 
         for(int i=0;i<con.routers.size();i++){
@@ -600,6 +600,12 @@ public class principal extends javax.swing.JFrame {
         if(con.tipo_dispositivo(a.getId()).equalsIgnoreCase("router")){
             JDialogConsola jd = new JDialogConsola(null,true, con, a.getId());
             jd.setVisible(true);
+        }else{
+            String ip = JOptionPane.showInputDialog("Digite la IP del computador");
+            a.getModulos().get(0).getPuertos().get(0).setIp(ip);
+            String netmask = JOptionPane.showInputDialog("Digite la mascara de red del computador");
+            a.getModulos().get(0).getPuertos().get(0).setNetmask(netmask);
+            JOptionPane.showMessageDialog(null, a.mostrar_informacion());
         }
     }
     

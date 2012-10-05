@@ -177,7 +177,7 @@ public class Dispositivo {
     
     public String mostrar_informacion(){
         String informacion;
-        informacion = "\nhotname\t" +getNombre();
+        informacion = "\nhostname\t" +getNombre();
         informacion += "\n!\n!\n!\n!\n!";
         String cad_puertos = "";
         for(int i=0;i<getModulos().size();i++){
@@ -204,7 +204,9 @@ public class Dispositivo {
             cad_conexiones += conex.getDispositivo().getNombre() + "\t" + conex.getModulo_cad() + "/" + 
                     conex.getPuerto_cad();
         }
-        informacion += cad_conexiones;
+        if(!getConexiones().isEmpty()){
+            informacion += cad_conexiones;
+        }
         return informacion;
     }
     
