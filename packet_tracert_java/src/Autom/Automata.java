@@ -167,6 +167,8 @@ public class Automata {
         estado12.addTransition(new Transition('r', estado1));
         //end
         estado2.addTransition(new Transition('s', estado1));
+        //?
+        estado2.addTransition(new Transition('?',estado1));
         
         atmtGrl.setInitialState(estado2);
         
