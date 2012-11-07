@@ -354,32 +354,32 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jPanel4MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseDragged
-//        if(choque(evt.getPoint()).contains("false")){
-//        if(sel == 1){
-//            if(selectedr != -1){
-//                this.routers.set(selectedr, evt.getPoint());
-//            }else if(selectedp != -1){
-//                this.pcs.set(selectedp, evt.getPoint());
-//            }
-//        }
-//        this.jPanel4.repaint();
-//        }
-//        
+        if(!choque(evt.getPoint()).contains("false")){
+        if(sel == 1){
+            if(selectedr != -1){
+                this.con.routers.get(selectedr).setPoint(evt.getPoint());//set(selectedr, evt.getPoint());
+            }else if(selectedp != -1){
+                this.con.pcs.get(selectedp).setPoint(evt.getPoint());
+            }
+        }
+        this.jPanel4.repaint();
+        }
+        
     }//GEN-LAST:event_jPanel4MouseDragged
 
     private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
-//        String resp = choque(new Point(evt.getX(),evt.getY()));
-//            if(resp.contains("router")){
-//                String num = resp.substring(6);
-//                System.out.println("Router numero : " +num);
-//                selectedr = Integer.parseInt(num);
-//                sel = 1;
-//            }else if(resp.contains("pc")){
-//                String num = resp.substring(2);
-//                System.out.println("Pc numero : " +num);
-//                selectedp = Integer.parseInt(num);
-//                sel = 1;
-//            }
+        String resp = choque(new Point(evt.getX(),evt.getY()));
+            if(resp.contains("router")){
+                String num = resp.substring(6);
+                System.out.println("Router numero : " +num);
+                selectedr = Integer.parseInt(num);
+                sel = 1;
+            }else if(resp.contains("pc")){
+                String num = resp.substring(2);
+                System.out.println("Pc numero : " +num);
+                selectedp = Integer.parseInt(num);
+                sel = 1;
+            }
     }//GEN-LAST:event_jPanel4MousePressed
 
     private void jPanel4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseReleased
