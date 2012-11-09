@@ -6,6 +6,7 @@ package GUI;
 
 import Autom.Diccionario;
 import java.util.ArrayList;
+import logica.Dispositivo;
 
 /**
  *
@@ -193,7 +194,14 @@ public class JDialogConsola extends javax.swing.JDialog {
             comando = eliminar_espacios(comando);
             mensaje_consola(comando);
             comandos_ejecutados.add(comando);
-            if(diccionario.solver(comando)){
+            //if(diccionario.solver(comando)){
+            if(true){
+                if(comando.equals("flooding")){
+                    String[] list_com = comando.split(" ");
+                    Dispositivo dis = this.controlador.routers.get(pos_router);
+                    dis.getFlooding().ejecutar_protocolo(dis.getConexiones(), list_com[1], Integer.getInteger(list_com[2]));
+                    
+                }
                 if(nivel.equals(nivel_normal)){
                     if(comando.equals("enable")){
                         nivel = nivel_enable;

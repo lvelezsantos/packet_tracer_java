@@ -6,6 +6,7 @@ package logica;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import logica.algoritmos_de_enrutamiento.ProtocoloFlooding;
 
 /**
  *
@@ -18,9 +19,11 @@ public class Dispositivo {
     private ArrayList<Modulo>  modulos;
     private ArrayList<Conexion> conexiones;
     private Point point;
+    private ProtocoloFlooding flooding;
     
     public Dispositivo() {
         this.conexiones = new  ArrayList<Conexion>();
+        this.flooding = new ProtocoloFlooding();
     }
     
     public Dispositivo(String nombre, ArrayList<Modulo> modulos,int id, Point point) {
@@ -29,6 +32,7 @@ public class Dispositivo {
         this.conexiones = new  ArrayList<Conexion>();
         this.id = id;
         this.point = point;
+        this.flooding = new ProtocoloFlooding();
     }
 
     public String getNombre() {
@@ -54,8 +58,14 @@ public class Dispositivo {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
+
+    public ProtocoloFlooding getFlooding() {
+        return flooding;
+    }
+
+    public void setFlooding(ProtocoloFlooding flooding) {
+        this.flooding = flooding;
+    }
     
     public void agregar_conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad) throws Exception{
         Conexion conexion;
@@ -210,9 +220,9 @@ public class Dispositivo {
         return informacion;
     }
     
-    public String ping(String ip){
-        String respuesta;
-        respuesta = "host "+ ip+ " no encontado";
+    public boolean buscar_ip_en_conexiones(String ip){
+        boolean respuesta;
+        respuesta = false;
         for(int i=0;i<getConexiones().size();i++){
             Dispositivo dispositivo = getConexiones().get(i).getDispositivo();
             for(int j=0;j< dispositivo.getModulos().size();j++){
@@ -220,7 +230,7 @@ public class Dispositivo {
                 for(int k=0; k < modulo.getPuertos().size(); k++){
                     Puerto puerto = modulo.getPuertos().get(k);
                     if(puerto.getIp().equals(ip)){
-                        respuesta = "Host "+ ip + " encontrado";
+                        respuesta = true;
                     }
                 }
             }            
@@ -230,14 +240,26 @@ public class Dispositivo {
             for(int k=0; k < modulo.getPuertos().size(); k++){
                 Puerto puerto = modulo.getPuertos().get(k);
                 if(puerto.getIp().equals(ip)){
-                    respuesta = "Host "+ ip + " encontrado";
+                    respuesta = true;
                 }
             }
         }
         
-        
         return respuesta;
     }
+    
+    public String ping(String ip){
+        boolean respuesta = buscar_ip_en_conexiones(ip);
+        if(respuesta) {
+            return "Encontrada la ip: " + ip;
+        }
+        else {
+            return "No Encontrada la ip: " + ip;
+        }
+        
+        
+    }
+    
     
     
 }

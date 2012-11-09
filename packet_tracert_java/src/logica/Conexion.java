@@ -39,7 +39,9 @@ public class Conexion {
             ArrayList<Puerto> puertos = modulo.getPuertos();
             for(int j=0;j < puertos.size(); j++){
                 Puerto puerto = puertos.get(j);
-                if(modulo.getNombre().equals(this.modulo_cad) && puerto.getNombre().equals(this.puerto_cad)){
+                System.out.println("ModuloSeleccionado/PuertoSeleccionado"+this.modulo_cad + "/"+this.puerto_cad);
+                System.out.println("ModuloRouter/PuertoRouter"+modulo.getNombre()+"/"+puerto.getNombre());
+                if(modulo.getNombre().equalsIgnoreCase(this.modulo_cad+"") && puerto.getNombre().equalsIgnoreCase(this.puerto_cad+"")){
                     if(!puerto.isUsado()){
                         System.out.println(modulo_cad);
                         System.out.println(puerto_cad);
@@ -47,17 +49,17 @@ public class Conexion {
                         modulo.getPuertos().set(j, puerto);
                         this.dispositivo.getModulos().set(i, modulo);
                         flag = true;
+                        break;
                     }else{
                         throw new Exception("Puerto Ocupado");
                     }
-                }else{
-                    throw new Exception("No existe puerto/modulo");
                 }              
                 
             }
-            
         }
-        
+        if(!flag){
+            throw new Exception("No existe modulo/puerto");
+        }
         return flag;
         
     }
