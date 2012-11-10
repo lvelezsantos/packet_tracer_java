@@ -528,14 +528,19 @@ public class principal extends javax.swing.JFrame {
             //33,30
             g.setColor(Color.blue);
             Iterator it = con.routers.get(i).getConexiones().iterator();
+            
             while(it.hasNext()){
                 Dispositivo aux = ((Conexion) it.next()).getDispositivo();
                 g.drawLine(con.routers.get(i).getPoint().x, con.routers.get(i).getPoint().y,aux.getPoint().x, aux.getPoint().y);
             }
-            g.drawImage(ii.getImage(),con.routers.get(i).getPoint().x - 34 , con.routers.get(i).getPoint().y - 27,this);
+            
             //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);
             
         }
+        for(int i=0;i<con.routers.size();i++){
+        g.drawImage(ii.getImage(),con.routers.get(i).getPoint().x - 34 , con.routers.get(i).getPoint().y - 27,this);
+        }
+        
         
         for(int i=0;i<con.pcs.size();i++){
             //33,30
