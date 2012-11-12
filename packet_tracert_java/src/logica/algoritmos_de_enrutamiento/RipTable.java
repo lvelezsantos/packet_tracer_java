@@ -30,20 +30,21 @@ public class RipTable {
     public void compare_entrances(RipEntrance rip){
         int localizado=-1;
         for (RipEntrance aux : rips) {
+            localizado++;
             if(aux.getDestip().equalsIgnoreCase(rip.getDestip())){
                 if(!v2_active){
-                    if(rip.getHops()<aux.getHops()){
+                    if(rip.getHops()+1<aux.getHops()){
                         replace(localizado,rip);
                         break;
                     }
                 }else{
-                    if(rip.getHops()<aux.getHops() && rip.getDestmask().equalsIgnoreCase(aux.getDestmask())){
+                    if(rip.getHops()+1<aux.getHops() && rip.getDestmask().equalsIgnoreCase(aux.getDestmask())){
                         replace(localizado,rip);
                         break;
                     }
                 }
             }
-            localizado++;
+            
         }
         if(localizado == -1){
             rips.add(new RipEntrance(rip.getHops()+1, rip.getDestip(), rip.getDestmask(), rip.getOwnerip(), ownerTable));
@@ -51,6 +52,7 @@ public class RipTable {
     }
 
     private void replace(int aux, RipEntrance rip) {
+        System.out.println(aux);
         rips.set(aux, new RipEntrance(rip.getHops()+1,rip.getDestip(), rip.getDestmask(), rip.getOwnerip(),ownerTable));
     }
 

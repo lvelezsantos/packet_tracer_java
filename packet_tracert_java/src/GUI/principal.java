@@ -396,7 +396,7 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBorder(new LineBorder(Color.blue, 2));
         }
         this.panel = true;
-        this.jPanel3.setVisible(panel);
+        //this.jPanel3.setVisible(panel);
         jLabel1.setBorder(null);
         jLabel2.setBorder(null);
         jLabel6.setBorder(null);
@@ -591,7 +591,7 @@ public class principal extends javax.swing.JFrame {
         d2c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)\n"+d2.mostrarPuertos());
         }
         try{
-        con.connect(d1.getId(), d2.getId(), d1c1.charAt(0)+"",d2c1.charAt(0)+"", d1c1.charAt(2)+"", d2c1.charAt(2)+"");
+        con.connect(d1.getId(), d2.getId(), d1c1.charAt(2)+"",d2c1.charAt(2)+"", d1c1.charAt(0)+"", d2c1.charAt(0)+"");
         }catch(Exception e){
         JOptionPane.showMessageDialog(null, e.getMessage());
         }
