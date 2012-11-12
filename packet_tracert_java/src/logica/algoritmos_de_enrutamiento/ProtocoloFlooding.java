@@ -4,6 +4,7 @@
  */
 package logica.algoritmos_de_enrutamiento;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import logica.Conexion;
 import logica.Dispositivo;
@@ -12,7 +13,7 @@ import logica.Dispositivo;
  *
  * @author warlock
  */
-public class ProtocoloFlooding {
+public class ProtocoloFlooding implements Serializable{
     private int numero_de_saltos;
     
     public void ejecutar_protocolo(ArrayList<Conexion> conexiones, 

@@ -5,6 +5,7 @@
 package GUI;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import logica.Conexion;
 import logica.Dispositivo;
@@ -15,7 +16,7 @@ import logica.Router;
  *
  * @author warlock
  */
-public class Controlador {
+public class Controlador implements Serializable{
     private int id;
     ArrayList<Router> routers;
     ArrayList<PC> pcs;

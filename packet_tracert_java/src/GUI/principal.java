@@ -7,9 +7,17 @@ package GUI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import logica.Conexion;
@@ -58,6 +66,8 @@ public class principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jButtonExportar = new javax.swing.JButton();
+        jButtonImportar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -113,6 +123,20 @@ public class principal extends javax.swing.JFrame {
             }
         });
 
+        jButtonExportar.setText("Exportar");
+        jButtonExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExportarActionPerformed(evt);
+            }
+        });
+
+        jButtonImportar.setText("Importar");
+        jButtonImportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImportarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -125,15 +149,25 @@ public class principal extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonExportar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonImportar)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel1)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButtonExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jButtonImportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -425,6 +459,14 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBorder(null);
     }//GEN-LAST:event_jLabel6MouseClicked
 
+    private void jButtonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExportarActionPerformed
+        exportar();
+    }//GEN-LAST:event_jButtonExportarActionPerformed
+
+    private void jButtonImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImportarActionPerformed
+        importar();
+    }//GEN-LAST:event_jButtonImportarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -460,6 +502,8 @@ public class principal extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonExportar;
+    private javax.swing.JButton jButtonImportar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -613,5 +657,48 @@ public class principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, a.mostrar_informacion());
         }
     }
+    
+    private void exportar() {
+        JFileChooser jf = new JFileChooser();
+        jf.setMultiSelectionEnabled(false);
+        int r =jf.showSaveDialog(jf); 
+        if(r == JFileChooser.APPROVE_OPTION){
+            try {
+                FileOutputStream bs = new FileOutputStream(jf.getSelectedFile());
+                ObjectOutputStream os;
+                System.out.println("Serializando");
+                os = new ObjectOutputStream(bs);
+                os.writeObject(this.con);  // this es de tipo DatoUdp
+                os.close();
+                JOptionPane.showMessageDialog(null, "El archivo se ha exportado exitosamente");
+            } catch (IOException ex) {
+                Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    private void importar() {
+        JFileChooser jf = new JFileChooser();
+        jf.setMultiSelectionEnabled(false);
+        int r =jf.showOpenDialog(jf);
+        if(r == JFileChooser.APPROVE_OPTION){
+             ObjectInputStream entrada;
+            try {
+                entrada = new ObjectInputStream(new FileInputStream(jf.getSelectedFile()));                
+                this.con = (Controlador) entrada.readObject();
+                System.out.println(con);
+                
+                JOptionPane.showMessageDialog(null, "Controlador importado con exito");
+                this.repaint();
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null , "Error al escoger el archivo");
+            }
+
+
+        }
+    }
+
     
 }

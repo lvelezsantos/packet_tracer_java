@@ -5,6 +5,7 @@
 package logica;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import logica.algoritmos_de_enrutamiento.ProtocoloFlooding;
 
@@ -13,7 +14,7 @@ import logica.algoritmos_de_enrutamiento.ProtocoloFlooding;
  * @author warlock
  */
 
-public class Dispositivo {
+public class Dispositivo implements Serializable{
     private String nombre;
     private int id;
     private ArrayList<Modulo>  modulos;
