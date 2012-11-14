@@ -14,16 +14,25 @@ public class Conexion {
     private Dispositivo dispositivo; // dispositivo al cual se conecta.
     private String modulo_cad; //modulo del dispositivo
     private String puerto_cad; // puerto del dispositivo
+    private String modulo_local;
+    private String puerto_local;
 
     public Conexion() {
     }
 
     
     
-    public Conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad) {
+    public Conexion(
+                    Dispositivo dispositivo, 
+                    String modulo_cad, 
+                    String puerto_cad,
+                    String modulo_local,
+                    String puerto_local) {
         this.dispositivo = dispositivo;
         this.modulo_cad = modulo_cad;
         this.puerto_cad = puerto_cad;
+        this.puerto_local = puerto_local;
+        this.modulo_local = modulo_local;
     }
     
     
@@ -118,4 +127,22 @@ public class Conexion {
     public void setPuerto_cad(String puerto_cad) {
         this.puerto_cad = puerto_cad;
     }
+
+    public String getModulo_local() {
+        return modulo_local;
+    }
+
+    public void setModulo_local(String modulo_local) {
+        this.modulo_local = modulo_local;
+    }
+
+    public String getPuerto_local() {
+        return puerto_local;
+    }
+
+    public void setPuerto_local(String puerto_local) {
+        this.puerto_local = puerto_local;
+    }
+    
+    
 }

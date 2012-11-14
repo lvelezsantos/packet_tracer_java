@@ -68,16 +68,16 @@ public class Dispositivo implements Serializable{
         this.flooding = flooding;
     }
     
-    public void agregar_conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad) throws Exception{
+    public void agregar_conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad, String modulo_local, String puerto_local) throws Exception{
         Conexion conexion;
-        conexion = new Conexion(dispositivo, modulo_cad, puerto_cad);
+        conexion = new Conexion(dispositivo, modulo_cad, puerto_cad, modulo_local, puerto_local);
         conexion.conectar();
         this.conexiones.add(conexion);
     }
     
-    public void eliminar_conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad){
+    public void eliminar_conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad, String modulo_local, String puerto_local){
         Conexion conexion;
-        conexion = new Conexion(dispositivo, modulo_cad, puerto_cad);
+        conexion = new Conexion(dispositivo, modulo_cad, puerto_cad, modulo_local, puerto_local);
         conexion.desconectar();
         this.conexiones.remove(conexion);
     }
@@ -213,7 +213,7 @@ public class Dispositivo implements Serializable{
         for(int i=0;i<getConexiones().size();i++){
             Conexion conex = getConexiones().get(i);
             cad_conexiones += conex.getDispositivo().getNombre() + "\t" + conex.getModulo_cad() + "/" + 
-                    conex.getPuerto_cad();
+                    conex.getPuerto_cad()+'\n';
         }
         if(!getConexiones().isEmpty()){
             informacion += cad_conexiones;
@@ -265,6 +265,22 @@ public class Dispositivo implements Serializable{
         return false;
     }
     
+    public String ip_modulo_puerto(String modulo, String puerto) throws Exception{
+        String ip = null;
+        for(int i=0; i<this.modulos.size(); i++){
+            Modulo mod = this.modulos.get(i);
+            for(int j=0; j<mod.getPuertos().size(); j++){
+                Puerto puer = mod.getPuertos().get(j);
+                if(mod.getNombre().equalsIgnoreCase(modulo) && puer.getNombre().equalsIgnoreCase(puerto)){
+                    ip = puer.getIp();
+                }
+            }
+        }
+        if(ip==null){
+            throw new Exception("No tiene ip");
+        }
+        return ip;
+    }
     
     
 }
