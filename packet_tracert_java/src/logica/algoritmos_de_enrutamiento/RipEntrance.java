@@ -4,11 +4,13 @@
  */
 package logica.algoritmos_de_enrutamiento;
 
+import java.io.Serializable;
+
 /**
  *
  * @author minrock
  */
-public class RipEntrance {
+public class RipEntrance implements Serializable{
     
     private int hops;
     private String destip;

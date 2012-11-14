@@ -261,6 +261,10 @@ public class Dispositivo implements Serializable{
         
     }
     
+    public boolean thisisrouter(){
+        return false;
+    }
+    
     
     
 }

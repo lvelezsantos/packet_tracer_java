@@ -6,6 +6,8 @@ package logica;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import logica.algoritmos_de_enrutamiento.RipTable;
+import logica.algoritmos_de_enrutamiento.RipEntrance;
 
 /**
  *
@@ -13,6 +15,7 @@ import java.util.ArrayList;
  */
 public class Router extends Dispositivo{
     private ProtocoloVectorDistancia p_vector;
+    private RipTable rip;
     
     public Router() {
     }
@@ -20,6 +23,7 @@ public class Router extends Dispositivo{
     public Router(String nombre, ArrayList<Modulo> modulos, int id, Point point) {
         super(nombre, modulos, id, point);
         this.p_vector = new ProtocoloVectorDistancia();
+        this.rip = new RipTable();
     }
     
     public Router router_1(String nombre, int id, Point point){
@@ -59,6 +63,34 @@ public class Router extends Dispositivo{
 
     public void setP_vector(ProtocoloVectorDistancia p_vector) {
         this.p_vector = p_vector;
+    }
+    
+    @Override
+    public boolean thisisrouter(){
+        return true;
+        
+    }
+    
+    public void recibir_riptalbe(RipTable ript){
+        
+        for(RipEntrance ripe : ript.getRips()){
+            rip.compare_entrances(ripe);
+        }
+        
+        this.rip.upgradeVersion();
+        
+    }
+    
+    public void enviar_riptable(){
+    
+    for(Conexion c : this.getConexiones()){
+        if(c.getDispositivo().getClass() == Router.class){
+            Router router = (Router) c.getDispositivo();
+            
+            router.recibir_riptalbe(rip);
+        }
+    }
+        
     }
 
     
