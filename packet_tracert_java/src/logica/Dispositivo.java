@@ -218,6 +218,9 @@ public class Dispositivo implements Serializable{
         if(!getConexiones().isEmpty()){
             informacion += cad_conexiones;
         }
+        
+        
+        
         return informacion;
     }
     

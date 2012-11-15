@@ -42,6 +42,8 @@ public class Diccionario {
         tuplas.add(new Tupla("end", "s"));
         tuplas.add(new Tupla("ping", "t"));
         tuplas.add(new Tupla("hostname", "u"));
+        tuplas.add(new Tupla("rip", "v"));
+        tuplas.add(new Tupla("version2","w"));
         tuplas.add(new Tupla("?", "?"));
     }
     

@@ -28,6 +28,16 @@ public class RipTable implements Serializable {
         getRips().add(new RipEntrance(hops, ipdest, maskdst,nextHop, getOwnerTable()));
     }
     
+     public Object clone(){
+        Object obj=null;
+        try{
+            obj=super.clone();
+        }catch(CloneNotSupportedException ex){
+            System.out.println(" no se puede duplicar");
+        }
+        return obj;
+    }
+    
     public void compare_entrances(RipEntrance rip){
         int localizado=-1;
         for (RipEntrance aux : getRips()) {

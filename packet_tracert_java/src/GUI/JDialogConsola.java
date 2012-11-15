@@ -7,6 +7,7 @@ package GUI;
 import Autom.Diccionario;
 import java.util.ArrayList;
 import logica.Dispositivo;
+import logica.Router;
 
 /**
  *
@@ -37,6 +38,8 @@ public class JDialogConsola extends javax.swing.JDialog {
      * end
      * ping
      * ?
+     * router rip
+     * version2
      */
     
     Controlador controlador;
@@ -47,12 +50,14 @@ public class JDialogConsola extends javax.swing.JDialog {
     private static String nivel_enable = "#";
     private static String nivel_configure_terminal = "(config)#";
     private static String nivel_router_vector = "(config-router)#";
+    private static String nivel_router_rip = "(config-router)#";
     private static String nivel_interface = "(config-if)#";
     private String modulo;
     private String puerto;
     private ArrayList<String> comandos_ejecutados;
     private int posicion_comandos;
     private Diccionario diccionario;
+    private boolean isripv2 = false;
     
     public JDialogConsola(java.awt.Frame parent, boolean modal, Controlador controlador, int id_router) {
         super(parent, modal);
@@ -63,6 +68,7 @@ public class JDialogConsola extends javax.swing.JDialog {
         this.id_router = id_router;
         this.pos_router = this.controlador.search_pos_router(this.id_router);
         set_label_nivel();
+        isripv2 = this.controlador.routers.get(this.pos_router).getRip().isV2_active();
         this.comandos_ejecutados = new ArrayList<String>();
         this.posicion_comandos = comandos_ejecutados.size();
         this.diccionario = new Diccionario();
@@ -218,7 +224,7 @@ public class JDialogConsola extends javax.swing.JDialog {
                     }
 
                     if(comando.equals("show running-config")||comando.equals("sh run")){
-                        mensaje_consola(this.controlador.mostrar_informacion(this.id_router));
+                        mensaje_consola(this.controlador.mostrar_informacion(this.id_router)+"\n"+this.controlador.routers.get(pos_router).getRipConf());
                     }
 
                     if(comando.equals("?")){
@@ -245,6 +251,10 @@ public class JDialogConsola extends javax.swing.JDialog {
 
                     if(comando.equals("router vector")){
                         nivel = nivel_router_vector;
+                    }
+                    
+                    if(comando.equals("router rip")){
+                        nivel = nivel_router_rip;
                     }
 
                     if(list_comando.length == 3){
@@ -320,10 +330,32 @@ public class JDialogConsola extends javax.swing.JDialog {
                     list_comando = comando.split(" ");
                     if(list_comando.length == 2){
                         if(list_comando[0].equals("network")){
-
+                            
                         }
                     }
                 }
+                
+                if(nivel.equals(nivel_router_rip)){
+                    String[] list_comando;
+                    list_comando = comando.split(" ");
+                        if(list_comando[0].equals("network")){
+                            String ip = list_comando[1];
+                            System.err.println("AQUI ESTOY");
+                            String mask;
+                            if(isripv2){
+                                try{
+                                mask = list_comando[2];
+                                addRipEntrance(ip,mask);
+                                }catch(IndexOutOfBoundsException iex){
+                                mensaje_consola("Por favor Escriba la mascara de subred");
+                                }
+                            }else{
+                                addRipEntrance(ip,"");
+                            }
+                            
+                        }
+                }
+                
                 if(comando.equals("exit")){
                     if(nivel.equals(nivel_interface)){
                         nivel = nivel_configure_terminal;
@@ -397,4 +429,10 @@ public class JDialogConsola extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaConsola;
     private javax.swing.JTextField jTextFieldComando;
     // End of variables declaration//GEN-END:variables
+
+    private void addRipEntrance(String ip, String mask) {
+        Router r = this.controlador.routers.get(this.pos_router);
+        r.getRip().add_rip_Entrance(1, ip, mask, ip);
+        
+    }
 }

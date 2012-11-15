@@ -6,6 +6,9 @@ package logica;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import logica.algoritmos_de_enrutamiento.RipTable;
 import logica.algoritmos_de_enrutamiento.RipEntrance;
 
@@ -74,10 +77,10 @@ public class Router extends Dispositivo{
     public void recibir_riptalbe(RipTable ript){
         
         for(RipEntrance ripe : ript.getRips()){
-            rip.compare_entrances(ripe);
+            getRip().compare_entrances(ripe);
         }
         
-        this.rip.upgradeVersion();
+        this.getRip().upgradeVersion();
         
     }
     
@@ -86,13 +89,51 @@ public class Router extends Dispositivo{
     for(Conexion c : this.getConexiones()){
         if(c.getDispositivo().getClass() == Router.class){
             Router router = (Router) c.getDispositivo();
-            
-            router.recibir_riptalbe(rip);
+            RipTable ripsend = (RipTable) getRip().clone();
+            try {
+                ripsend.setOwner(router.ip_modulo_puerto(c.getModulo_local(),c.getPuerto_local()));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex);
+            }
+            router.recibir_riptalbe(ripsend);
         }
     }
         
     }
 
+    /**
+     * @return the rip
+     */
+    public RipTable getRip() {
+        return rip;
+    }
+
+    /**
+     * @param rip the rip to set
+     */
+    public void setRip(RipTable rip) {
+        this.rip = rip;
+    }
+
+
+    public String getRipConf(){
+        String ripconf = "";
+        if(!rip.getRips().isEmpty()){
+            if(rip.isV2_active()){
+                ripconf +="\n!\n!\nRip Version 2 enable";
+            }
+            
+            for(RipEntrance r : rip.getRips()){
+                ripconf +="!\n!\nnetwork "+r.getDestip();
+                if(rip.isV2_active()){
+                ripconf +=" netmask "+r.getDestmask();
+                }
+                ripconf+=" -> "+r.getNextHop();
+            }
+            
+        }
+        return ripconf;
+    }
     
     
 }
