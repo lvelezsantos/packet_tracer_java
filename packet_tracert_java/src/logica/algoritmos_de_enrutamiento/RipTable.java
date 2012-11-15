@@ -26,16 +26,17 @@ public class RipTable implements Serializable {
     
     public void add_rip_Entrance(int hops, String ipdest, String maskdst, String nextHop){
         getRips().add(new RipEntrance(hops, ipdest, maskdst,nextHop, getOwnerTable()));
+        this.upgradeVersion();
     }
     
-     public Object clone(){
-        Object obj=null;
-        try{
-            obj=super.clone();
-        }catch(CloneNotSupportedException ex){
-            System.out.println(" no se puede duplicar");
-        }
-        return obj;
+     public RipTable clone(String owner){
+         
+         RipTable rip = new RipTable();
+         rip.setOwnerTable(owner);
+         rip.setRips(rips);
+         rip.setVersion(version);
+         return rip;
+        
     }
     
     public void compare_entrances(RipEntrance rip){
@@ -59,6 +60,7 @@ public class RipTable implements Serializable {
         }
         if(localizado == -1){
             getRips().add(new RipEntrance(rip.getHops()+1, rip.getDestip(), rip.getDestmask(), rip.getOwnerip(), getOwnerTable()));
+            System.out.println("Agregado");
         }
     }
 
@@ -83,6 +85,7 @@ public class RipTable implements Serializable {
     
     public void upgradeVersion(){
         setVersion(getVersion() + 1);
+        System.out.println("Wait Upgrading........ -> Finished New version :"+getVersion());
     }
     
     public void setOwner(String owner){

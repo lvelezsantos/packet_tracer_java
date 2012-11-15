@@ -6,6 +6,8 @@ package GUI;
 
 import Autom.Diccionario;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import logica.Dispositivo;
 import logica.Router;
 
@@ -296,6 +298,12 @@ public class JDialogConsola extends javax.swing.JDialog {
                             String netmask = list_ip_addres[4];
                             boolean flag;
                             flag = this.controlador.asignar_ip_puerto(this.id_router, this.modulo, this.puerto, ip, netmask);
+                            try {
+                                this.controlador.routers.get(pos_router).enviar_riptable();
+                                System.out.println("Envio exitoso");
+                            } catch (Exception ex) {
+                                System.err.println("Intente enviar una tabla sin configuracion de puertos :'(");
+                            }
                             if(!flag){
                                 mensaje_consola("No se asigno la ip al puerto");
                             }
@@ -306,6 +314,13 @@ public class JDialogConsola extends javax.swing.JDialog {
                         boolean flag = this.controlador.encender_puerto(this.id_router, this.modulo, this.puerto);
                         if(flag){
                             mensaje_consola("el puerto  se ha encendido");
+                            try {
+                                this.controlador.routers.get(pos_router).enviar_riptable();
+                                System.out.println("Envio exitoso");
+                            } catch (Exception ex) {
+                                System.err.println("Intente enviar una tabla sin configuracion de puertos :'(");
+                                
+                            }
                         }else{
                             mensaje_consola("El puerto ya estaba encendido");
                         }
@@ -433,6 +448,11 @@ public class JDialogConsola extends javax.swing.JDialog {
     private void addRipEntrance(String ip, String mask) {
         Router r = this.controlador.routers.get(this.pos_router);
         r.getRip().add_rip_Entrance(1, ip, mask, ip);
-        
+        try {
+            r.enviar_riptable();
+            System.out.println("Envio exitoso");
+        } catch (Exception ex) {
+             System.err.println("Intente enviar una tabla sin configuracion de puertos :'(");
+        }
     }
 }

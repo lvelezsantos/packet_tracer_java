@@ -75,28 +75,35 @@ public class Router extends Dispositivo{
     }
     
     public void recibir_riptalbe(RipTable ript){
-        
+        System.out.println("Version actual router "+rip.getVersion());
+        System.out.println("Version recibida por compañero "+ript.getVersion());
+        if(ript.getVersion()> this.rip.getVersion()){
+        System.err.println("Recibiendo");
         for(RipEntrance ripe : ript.getRips()){
             getRip().compare_entrances(ripe);
         }
-        
         this.getRip().upgradeVersion();
-        
+        }
     }
     
-    public void enviar_riptable(){
+    public void enviar_riptable() throws Exception{
     
     for(Conexion c : this.getConexiones()){
-        if(c.getDispositivo().getClass() == Router.class){
+            try{
             Router router = (Router) c.getDispositivo();
-            RipTable ripsend = (RipTable) getRip().clone();
             try {
-                ripsend.setOwner(router.ip_modulo_puerto(c.getModulo_local(),c.getPuerto_local()));
+                RipTable ripsend = (RipTable) getRip().clone(router.ip_modulo_puerto(c.getModulo_local(),c.getPuerto_local()));
+                System.out.println("Supuesta IP del router en blanco "+router.ip_modulo_puerto(c.getModulo_local(),c.getPuerto_local()));
+                if(!router.ip_modulo_puerto(c.getModulo_local(),c.getPuerto_local()).equalsIgnoreCase("0.0.0.0")){
+                router.recibir_riptalbe(ripsend);
+                }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex);
+                JOptionPane.showMessageDialog(null,"Por favor primero configure la interfaz "+c.getModulo_local()+"/"+c.getPuerto_local());
             }
-            router.recibir_riptalbe(ripsend);
-        }
+            }catch(Exception e){
+                System.err.println("Intente castear un pc como un router y no pude");
+            }
+        
     }
         
     }
