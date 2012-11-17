@@ -7,7 +7,7 @@ package logica.algoritmos_de_enrutamiento;
 import java.io.Serializable;
 
 /**
- *
+ *hola mundo
  * @author minrock
  */
 public class RipEntrance implements Serializable{
@@ -99,3 +99,9 @@ public class RipEntrance implements Serializable{
     
     
 }
+
+
+
+
+
+
