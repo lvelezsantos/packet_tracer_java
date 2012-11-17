@@ -70,7 +70,6 @@ public class JDialogConsola extends javax.swing.JDialog {
         this.id_router = id_router;
         this.pos_router = this.controlador.search_pos_router(this.id_router);
         set_label_nivel();
-        isripv2 = this.controlador.routers.get(this.pos_router).getRip().isV2_active();
         this.comandos_ejecutados = new ArrayList<String>();
         this.posicion_comandos = comandos_ejecutados.size();
         this.diccionario = new Diccionario();
@@ -226,7 +225,7 @@ public class JDialogConsola extends javax.swing.JDialog {
                     }
 
                     if(comando.equals("show running-config")||comando.equals("sh run")){
-                        mensaje_consola(this.controlador.mostrar_informacion(this.id_router)+"\n"+this.controlador.routers.get(pos_router).getRipConf());
+                        mensaje_consola(this.controlador.mostrar_informacion(this.id_router)+"\n");
                     }
 
                     if(comando.equals("?")){
@@ -299,7 +298,6 @@ public class JDialogConsola extends javax.swing.JDialog {
                             boolean flag;
                             flag = this.controlador.asignar_ip_puerto(this.id_router, this.modulo, this.puerto, ip, netmask);
                             try {
-                                this.controlador.routers.get(pos_router).enviar_riptable();
                                 System.out.println("Envio exitoso");
                             } catch (Exception ex) {
                                 System.err.println("Intente enviar una tabla sin configuracion de puertos :'(");
@@ -315,7 +313,6 @@ public class JDialogConsola extends javax.swing.JDialog {
                         if(flag){
                             mensaje_consola("el puerto  se ha encendido");
                             try {
-                                this.controlador.routers.get(pos_router).enviar_riptable();
                                 System.out.println("Envio exitoso");
                             } catch (Exception ex) {
                                 System.err.println("Intente enviar una tabla sin configuracion de puertos :'(");
@@ -360,12 +357,10 @@ public class JDialogConsola extends javax.swing.JDialog {
                             if(isripv2){
                                 try{
                                 mask = list_comando[2];
-                                addRipEntrance(ip,mask);
                                 }catch(IndexOutOfBoundsException iex){
                                 mensaje_consola("Por favor Escriba la mascara de subred");
                                 }
                             }else{
-                                addRipEntrance(ip,"");
                             }
                             
                         }
@@ -445,14 +440,5 @@ public class JDialogConsola extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldComando;
     // End of variables declaration//GEN-END:variables
 
-    private void addRipEntrance(String ip, String mask) {
-        Router r = this.controlador.routers.get(this.pos_router);
-        r.getRip().add_rip_Entrance(1, ip, mask, ip);
-        try {
-            r.enviar_riptable();
-            System.out.println("Envio exitoso");
-        } catch (Exception ex) {
-             System.err.println("Intente enviar una tabla sin configuracion de puertos :'(");
-        }
-    }
+
 }
