@@ -22,8 +22,8 @@ public class PanelCentral extends JPanel implements Runnable{
 
     private Controlador con;
     
-    public PanelCentral(Controlador c){
-        this.con = c;
+    public PanelCentral(){
+        this.con = new Controlador();
         Thread t = new Thread(this);
         t.start();
     }
@@ -34,14 +34,16 @@ public class PanelCentral extends JPanel implements Runnable{
         while(true){
          repaint();
             try {
-                Thread.sleep(1000/24);
+                Thread.sleep(1000/24); //cambios de 24fps
             } catch (InterruptedException ex) {
                 
             }
         }
     }
 
-    public void Paint(Graphics g){
+    public void paint(Graphics g){
+        
+        System.out.println("DIBUJANDO");
         paintElements(g);
     }
     
@@ -53,29 +55,45 @@ public class PanelCentral extends JPanel implements Runnable{
         ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc1.png"));
         
 
-        for(int i=0;i<con.routers.size();i++){
+        for(int i=0;i<getCon().routers.size();i++){
             //33,30
             g.setColor(Color.blue);
-            Iterator it = con.routers.get(i).getConexiones().iterator();
+            Iterator it = getCon().routers.get(i).getConexiones().iterator();
             
             while(it.hasNext()){
                 Dispositivo aux = ((Conexion) it.next()).getDispositivo();
-                g.drawLine(con.routers.get(i).getPoint().x, con.routers.get(i).getPoint().y,aux.getPoint().x, aux.getPoint().y);
+                g.drawLine(getCon().routers.get(i).getPoint().x, getCon().routers.get(i).getPoint().y,aux.getPoint().x, aux.getPoint().y);
             }
             
             //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);
             
         }
-        for(int i=0;i<con.routers.size();i++){
-        g.drawImage(ii.getImage(),con.routers.get(i).getPoint().x - 34 , con.routers.get(i).getPoint().y - 27,this);
+        for(int i=0;i<getCon().routers.size();i++){
+        g.drawImage(ii.getImage(),getCon().routers.get(i).getPoint().x - 34 , getCon().routers.get(i).getPoint().y - 27,this);
         }
         
         
-        for(int i=0;i<con.pcs.size();i++){
+        for(int i=0;i<getCon().pcs.size();i++){
             //33,30
-            g.drawImage(ii2.getImage(),con.pcs.get(i).getPoint().x - 33 , con.pcs.get(i).getPoint().y - 30,this);
+            g.drawImage(ii2.getImage(),getCon().pcs.get(i).getPoint().x - 33 , getCon().pcs.get(i).getPoint().y - 30,this);
             //g.drawRect(pcs.get(i).x-40,pcs.get(i).y-40,80, 80);
         }
+        
+        this.repaint();
+    }
+
+    /**
+     * @return the con
+     */
+    public Controlador getCon() {
+        return con;
+    }
+
+    /**
+     * @param con the con to set
+     */
+    public void setCon(Controlador con) {
+        this.con = con;
     }
     
 }
