@@ -285,5 +285,4 @@ public class Dispositivo implements Serializable{
         return ip;
     }
     
-    
 }

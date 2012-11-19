@@ -69,4 +69,9 @@ public class Router extends Dispositivo{
         return true;
         
     }
+
+    public Paquete enrutar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

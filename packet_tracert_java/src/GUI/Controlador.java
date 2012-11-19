@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import logica.Conexion;
 import logica.Dispositivo;
 import logica.PC;
+import logica.Paquete;
 import logica.Router;
 
 /**
@@ -20,6 +21,7 @@ public class Controlador implements Serializable{
     private int id;
     ArrayList<Router> routers;
     ArrayList<PC> pcs;
+    ArrayList<Paquete> paquetes;
     Router creador_router = new Router();
     PC creador_pc = new PC(); 
     
@@ -27,7 +29,7 @@ public class Controlador implements Serializable{
         id = 0;
         routers = new ArrayList<Router>();
         pcs = new ArrayList<PC>();
-        
+        paquetes = new ArrayList<>();
     }
     
     public void add_router(Point point){
@@ -202,4 +204,27 @@ public class Controlador implements Serializable{
         int pos = this.search_pos_router(id_router);
         return this.routers.get(pos).ping(ip);
     }
+    
+    public void recorrido(){
+        ArrayList<Paquete> toremove = new ArrayList<>();
+        for(Paquete p : paquetes){
+            if(p.arrive()){
+                if(tipo_dispositivo(p.getNxthp().getId()).equalsIgnoreCase("router")){
+                    Router r = this.search_router(p.getNxthp().getId());
+                    Paquete np = r.enrutar();
+                    this.paquetes.add(np);
+                    toremove.add(p);
+                }else{
+                    toremove.add(p);
+                    //aaaaaaaa
+                }
+            }
+        }
+        
+         for(Paquete p : toremove){
+             paquetes.remove(p);
+         }
+        
+    }
+    
 }

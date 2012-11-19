@@ -448,7 +448,7 @@ public class principal extends javax.swing.JFrame {
     
     
     private void paintElements(Graphics g){
-    g.setColor(Color.white);
+        g.setColor(Color.white);
         g.fillRect(0,0,jPanel4.getWidth(), jPanel4.getHeight());
         ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router1.png"));
         ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc1.png"));
