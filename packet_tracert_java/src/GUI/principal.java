@@ -35,6 +35,7 @@ public class principal extends javax.swing.JFrame {
     private int selectedp = -1;
     private int sel = 0;
     private boolean panel = false;
+    private Controlador con = new Controlador();
     private String kind = "none";
     private Dispositivo d1 = null;
     private Dispositivo d2 = null;
@@ -67,7 +68,12 @@ public class principal extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButtonExportar = new javax.swing.JButton();
         jButtonImportar = new javax.swing.JButton();
-        jPanel4 = new PanelCentral();
+        jPanel4 = new javax.swing.JPanel(){
+            public void paint(Graphics g){
+                paintElements(g);
+
+            }
+        };
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -221,9 +227,9 @@ public class principal extends javax.swing.JFrame {
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
         if(choque(new Point(evt.getX(),evt.getY())).equalsIgnoreCase("false")){
         if(selected.equalsIgnoreCase("router")){
-        jPanel4.getCon().add_router(evt.getPoint());
+        con.add_router(evt.getPoint());
         }else if(selected.equalsIgnoreCase("pc")){
-        jPanel4.getCon().add_pc(new Point(evt.getX(),evt.getY()));
+        con.add_pc(new Point(evt.getX(),evt.getY()));
         }
         }
         if(selected.equalsIgnoreCase("term") && !choque(evt.getPoint()).equalsIgnoreCase("false")){
@@ -286,9 +292,9 @@ public class principal extends javax.swing.JFrame {
         if(!choque(evt.getPoint()).contains("false")){
         if(sel == 1){
             if(selectedr != -1){
-                jPanel4.getCon().routers.get(selectedr).setPoint(evt.getPoint());//set(selectedr, evt.getPoint());
+                this.con.routers.get(selectedr).setPoint(evt.getPoint());//set(selectedr, evt.getPoint());
             }else if(selectedp != -1){
-                jPanel4.getCon().pcs.get(selectedp).setPoint(evt.getPoint());
+                this.con.pcs.get(selectedp).setPoint(evt.getPoint());
             }
         }
         this.jPanel4.repaint();
@@ -397,23 +403,23 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private PanelCentral jPanel4;
+    private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
 
     private void imprimir() {
-        for(int i=0; i<jPanel4.getCon().routers.size();i++){
-        System.out.println("Router -> "+jPanel4.getCon().routers.get(i).toString());
+        for(int i=0; i<con.routers.size();i++){
+        System.out.println("Router -> "+con.routers.get(i).toString());
         }
-        for(int i=0; i<jPanel4.getCon().pcs.size();i++){
-        System.out.println("PC -> "+jPanel4.getCon().pcs.get(i).toString());
+        for(int i=0; i<con.pcs.size();i++){
+        System.out.println("PC -> "+con.pcs.get(i).toString());
         }        
     }
     
     private String choque(Point p){
         
-        for(int i=0;i<jPanel4.getCon().routers.size();i++){
-            if(p.y>=jPanel4.getCon().routers.get(i).getPoint().y-40 && p.y <= jPanel4.getCon().routers.get(i).getPoint().y + 40){
-                if(p.x>=jPanel4.getCon().routers.get(i).getPoint().x-40 && p.x <= jPanel4.getCon().routers.get(i).getPoint().x + 40){
+        for(int i=0;i<con.routers.size();i++){
+            if(p.y>=con.routers.get(i).getPoint().y-40 && p.y <= con.routers.get(i).getPoint().y + 40){
+                if(p.x>=con.routers.get(i).getPoint().x-40 && p.x <= con.routers.get(i).getPoint().x + 40){
                     
                     return "router"+i;
                     
@@ -421,9 +427,9 @@ public class principal extends javax.swing.JFrame {
             }
         }
         
-        for(int i=0;i<jPanel4.getCon().pcs.size();i++){
-            if(p.y>=jPanel4.getCon().pcs.get(i).getPoint().y-40 && p.y <= jPanel4.getCon().pcs.get(i).getPoint().y + 40){
-                if(p.x>=jPanel4.getCon().pcs.get(i).getPoint().x-40 && p.x <= jPanel4.getCon().pcs.get(i).getPoint().x + 40){
+        for(int i=0;i<con.pcs.size();i++){
+            if(p.y>=con.pcs.get(i).getPoint().y-40 && p.y <= con.pcs.get(i).getPoint().y + 40){
+                if(p.x>=con.pcs.get(i).getPoint().x-40 && p.x <= con.pcs.get(i).getPoint().x + 40){
                     
                     return "pc"+i;
                     
@@ -441,26 +447,57 @@ public class principal extends javax.swing.JFrame {
     }
     
     
-    
+    private void paintElements(Graphics g){
+        g.setColor(Color.white);
+        g.fillRect(0,0,jPanel4.getWidth(), jPanel4.getHeight());
+        ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router1.png"));
+        ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc1.png"));
+        
+
+        for(int i=0;i<con.routers.size();i++){
+            //33,30
+            g.setColor(Color.blue);
+            Iterator it = con.routers.get(i).getConexiones().iterator();
+            
+            while(it.hasNext()){
+                Dispositivo aux = ((Conexion) it.next()).getDispositivo();
+                g.drawLine(con.routers.get(i).getPoint().x, con.routers.get(i).getPoint().y,aux.getPoint().x, aux.getPoint().y);
+            }
+            
+            //g.drawRect(routers.get(i).x-40,routers.get(i).y-40,80, 80);
+            
+        }
+        for(int i=0;i<con.routers.size();i++){
+        g.drawImage(ii.getImage(),con.routers.get(i).getPoint().x - 34 , con.routers.get(i).getPoint().y - 27,this);
+        }
+        
+        
+        for(int i=0;i<con.pcs.size();i++){
+            //33,30
+            g.drawImage(ii2.getImage(),con.pcs.get(i).getPoint().x - 33 , con.pcs.get(i).getPoint().y - 30,this);
+            //g.drawRect(pcs.get(i).x-40,pcs.get(i).y-40,80, 80);
+        }
+        
+    }
     
     public Dispositivo disxpoint(Point p){
     System.out.println("Encontrar dispositivo");
         Dispositivo dre = null;
-        for(int i=0;i<jPanel4.getCon().routers.size();i++){
-            if(p.y>=jPanel4.getCon().routers.get(i).getPoint().y-40 && p.y <= jPanel4.getCon().routers.get(i).getPoint().y + 40){
-                if(p.x>=jPanel4.getCon().routers.get(i).getPoint().x-40 && p.x <= jPanel4.getCon().routers.get(i).getPoint().x + 40){
+        for(int i=0;i<con.routers.size();i++){
+            if(p.y>=con.routers.get(i).getPoint().y-40 && p.y <= con.routers.get(i).getPoint().y + 40){
+                if(p.x>=con.routers.get(i).getPoint().x-40 && p.x <= con.routers.get(i).getPoint().x + 40){
                     
-                    dre = jPanel4.getCon().routers.get(i);
+                    dre = con.routers.get(i);
                     
                 }
             }
         }
         
-        for(int i=0;i<jPanel4.getCon().pcs.size();i++){
-            if(p.y>=jPanel4.getCon().pcs.get(i).getPoint().y-40 && p.y <= jPanel4.getCon().pcs.get(i).getPoint().y + 40){
-                if(p.x>=jPanel4.getCon().pcs.get(i).getPoint().x-40 && p.x <= jPanel4.getCon().pcs.get(i).getPoint().x + 40){
+        for(int i=0;i<con.pcs.size();i++){
+            if(p.y>=con.pcs.get(i).getPoint().y-40 && p.y <= con.pcs.get(i).getPoint().y + 40){
+                if(p.x>=con.pcs.get(i).getPoint().x-40 && p.x <= con.pcs.get(i).getPoint().x + 40){
                     
-                    dre =jPanel4.getCon().pcs.get(i);
+                    dre =con.pcs.get(i);
                     
                 }
             }
@@ -473,18 +510,18 @@ public class principal extends javax.swing.JFrame {
     private void connect() {
         System.out.println("Connect :"+d1.getId()+" <> "+d2.getId());
                 
-        if(jPanel4.getCon().tipo_dispositivo(d1.getId()).equalsIgnoreCase("pc")){
+        if(con.tipo_dispositivo(d1.getId()).equalsIgnoreCase("pc")){
         d1c1 = "0/0";
         }else{
         d1c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)\n"+d1.mostrarPuertos());
         }
-        if(jPanel4.getCon().tipo_dispositivo(d2.getId()).equalsIgnoreCase("pc")){
+        if(con.tipo_dispositivo(d2.getId()).equalsIgnoreCase("pc")){
         d2c1 = "0/0";
         }else{
         d2c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)\n"+d2.mostrarPuertos());
         }
         try{
-        jPanel4.getCon().connect(d1.getId(), d2.getId(), d1c1.charAt(2)+"",d2c1.charAt(2)+"", d1c1.charAt(0)+"", d2c1.charAt(0)+"");
+        con.connect(d1.getId(), d2.getId(), d1c1.charAt(2)+"",d2c1.charAt(2)+"", d1c1.charAt(0)+"", d2c1.charAt(0)+"");
         }catch(Exception e){
         JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -495,8 +532,8 @@ public class principal extends javax.swing.JFrame {
     private void iniciar_Consola(Point point) {
         Dispositivo a = disxpoint(point);
         System.out.println("bout show console");
-        if(jPanel4.getCon().tipo_dispositivo(a.getId()).equalsIgnoreCase("router")){
-            JDialogConsola jd = new JDialogConsola(null,true, jPanel4.getCon(), a.getId());
+        if(con.tipo_dispositivo(a.getId()).equalsIgnoreCase("router")){
+            JDialogConsola jd = new JDialogConsola(null,true, con, a.getId());
             jd.setVisible(true);
         }else{
             String ip = JOptionPane.showInputDialog("Digite la IP del computador");
@@ -517,7 +554,7 @@ public class principal extends javax.swing.JFrame {
                 ObjectOutputStream os;
                 System.out.println("Serializando");
                 os = new ObjectOutputStream(bs);
-                os.writeObject(this.jPanel4.getCon());  // this es de tipo DatoUdp
+                os.writeObject(this.con);  // this es de tipo DatoUdp
                 os.close();
                 JOptionPane.showMessageDialog(null, "El archivo se ha exportado exitosamente");
             } catch (IOException ex) {
@@ -535,8 +572,8 @@ public class principal extends javax.swing.JFrame {
              ObjectInputStream entrada;
             try {
                 entrada = new ObjectInputStream(new FileInputStream(jf.getSelectedFile()));                
-                jPanel4.setCon((Controlador) entrada.readObject());
-                System.out.println(jPanel4.getCon());
+                this.con = (Controlador) entrada.readObject();
+                System.out.println(con);
                 
                 JOptionPane.showMessageDialog(null, "Controlador importado con exito");
                 this.repaint();
