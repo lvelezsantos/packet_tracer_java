@@ -35,6 +35,7 @@ public class Controlador implements Serializable{
          agrega un router y aumenta el id
          */
         Router router = this.creador_router.router_1("Router"+this.routers.size(), this.id, point);
+        router.start();
         this.id++;
         routers.add(router);
     }
@@ -45,6 +46,7 @@ public class Controlador implements Serializable{
          */
         PC pc = this.creador_pc.pc_1("PC"+this.pcs.size(), id, point);
         this.id++;
+        pc.start();
         pcs.add(pc);
     }
     
@@ -54,7 +56,7 @@ public class Controlador implements Serializable{
          */
         Router router = null;
         for(int i=0;i<this.routers.size();i++){
-            if(routers.get(i).getId()==id){
+            if(routers.get(i).getIdDispositivo()==id){
                 router = routers.get(i);
             }
         }
@@ -70,7 +72,7 @@ public class Controlador implements Serializable{
          */
         PC pc = null;
         for(int i=0;i<this.pcs.size();i++){
-            if(this.pcs.get(i).getId()==id){
+            if(this.pcs.get(i).getIdDispositivo()==id){
                 pc = this.pcs.get(i);
             }
         }
@@ -80,7 +82,7 @@ public class Controlador implements Serializable{
     
     public int search_pos_pc(int id){
         for(int i=0;i<this.pcs.size();i++){
-            if(this.pcs.get(i).getId()==id){
+            if(this.pcs.get(i).getIdDispositivo()==id){
                 return i;
             }
         }
@@ -89,7 +91,7 @@ public class Controlador implements Serializable{
     
     public int search_pos_router(int id){
         for(int j=0; j < this.routers.size(); j++){
-            if(this.routers.get(j).getId()==id) {
+            if(this.routers.get(j).getIdDispositivo()==id) {
                 return j;
             }
         }

@@ -508,20 +508,20 @@ public class principal extends javax.swing.JFrame {
     }
 
     private void connect() {
-        System.out.println("Connect :"+d1.getId()+" <> "+d2.getId());
+        System.out.println("Connect :"+d1.getIdDispositivo()+" <> "+d2.getIdDispositivo());
                 
-        if(con.tipo_dispositivo(d1.getId()).equalsIgnoreCase("pc")){
+        if(con.tipo_dispositivo(d1.getIdDispositivo()).equalsIgnoreCase("pc")){
         d1c1 = "0/0";
         }else{
-        d1c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)\n"+d1.mostrarPuertos());
+        d1c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getIdDispositivo()+" (modulo/conector)\n"+d1.mostrarPuertos());
         }
-        if(con.tipo_dispositivo(d2.getId()).equalsIgnoreCase("pc")){
+        if(con.tipo_dispositivo(d2.getIdDispositivo()).equalsIgnoreCase("pc")){
         d2c1 = "0/0";
         }else{
-        d2c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getId()+" (modulo/conector)\n"+d2.mostrarPuertos());
+        d2c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getIdDispositivo()+" (modulo/conector)\n"+d2.mostrarPuertos());
         }
         try{
-        con.connect(d1.getId(), d2.getId(), d1c1.charAt(2)+"",d2c1.charAt(2)+"", d1c1.charAt(0)+"", d2c1.charAt(0)+"");
+        con.connect(d1.getIdDispositivo(), d2.getIdDispositivo(), d1c1.charAt(2)+"",d2c1.charAt(2)+"", d1c1.charAt(0)+"", d2c1.charAt(0)+"");
         }catch(Exception e){
         JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -532,8 +532,8 @@ public class principal extends javax.swing.JFrame {
     private void iniciar_Consola(Point point) {
         Dispositivo a = disxpoint(point);
         System.out.println("bout show console");
-        if(con.tipo_dispositivo(a.getId()).equalsIgnoreCase("router")){
-            JDialogConsola jd = new JDialogConsola(null,true, con, a.getId());
+        if(con.tipo_dispositivo(a.getIdDispositivo()).equalsIgnoreCase("router")){
+            JDialogConsola jd = new JDialogConsola(null,true, con, a.getIdDispositivo());
             jd.setVisible(true);
         }else{
             String ip = JOptionPane.showInputDialog("Digite la IP del computador");

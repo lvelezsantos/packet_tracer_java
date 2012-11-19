@@ -14,9 +14,9 @@ import logica.algoritmos_de_enrutamiento.ProtocoloFlooding;
  * @author warlock
  */
 
-public class Dispositivo implements Serializable{
+public class Dispositivo extends Thread implements Serializable{
     private String nombre;
-    private int id;
+    private int id_dispositivo;
     private ArrayList<Modulo>  modulos;
     private ArrayList<Conexion> conexiones;
     private Point point;
@@ -31,7 +31,7 @@ public class Dispositivo implements Serializable{
         this.nombre = nombre;
         this.modulos = modulos;
         this.conexiones = new  ArrayList<Conexion>();
-        this.id = id;
+        this.id_dispositivo = id;
         this.point = point;
         this.flooding = new ProtocoloFlooding();
     }
@@ -52,12 +52,12 @@ public class Dispositivo implements Serializable{
         this.modulos = puertos;
     }
 
-    public int getId() {
-        return id;
+    public int getIdDispositivo() {
+        return id_dispositivo;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdDispositivo(int id) {
+        this.id_dispositivo = id;
     }
 
     public ProtocoloFlooding getFlooding() {
@@ -222,6 +222,11 @@ public class Dispositivo implements Serializable{
         
         
         return informacion;
+    }
+    
+    @Override
+    public void run(){
+        
     }
     
     public boolean buscar_ip_en_conexiones(String ip){
