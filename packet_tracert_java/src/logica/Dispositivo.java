@@ -290,5 +290,4 @@ public class Dispositivo extends Thread implements Serializable{
         return ip;
     }
     
-    
 }
