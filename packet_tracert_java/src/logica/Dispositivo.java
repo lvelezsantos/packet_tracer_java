@@ -269,9 +269,7 @@ public class Dispositivo extends Thread implements Serializable{
         
     }
     
-    public boolean thisisrouter(){
-        return false;
-    }
+  
     
     public String ip_modulo_puerto(String modulo, String puerto) throws Exception{
         String ip = null;
@@ -288,6 +286,23 @@ public class Dispositivo extends Thread implements Serializable{
             throw new Exception("No tiene ip");
         }
         return ip;
+    }
+    
+    public boolean hasIP(String ip){
+        boolean respuesta = false;
+        
+        for(int j=0;j< getModulos().size();j++){
+            Modulo modulo = getModulos().get(j);
+            for(int k=0; k < modulo.getPuertos().size(); k++){
+                Puerto puerto = modulo.getPuertos().get(k);
+                if(puerto.getIp().equals(ip)){
+                    respuesta = true;
+                }
+            }
+        }
+        
+        return respuesta;
+        
     }
     
 }

@@ -6,9 +6,12 @@ package logica;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import packet_tracert_java.EntradaRip;
+import packet_tracert_java.RipTabla;
 
 /**
  *
@@ -16,6 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class Router extends Dispositivo{
     private ProtocoloVectorDistancia p_vector;
+    private RipTabla ript;
     
     public Router() {
     }
@@ -23,6 +27,7 @@ public class Router extends Dispositivo{
     public Router(String nombre, ArrayList<Modulo> modulos, int id, Point point) {
         super(nombre, modulos, id, point);
         this.p_vector = new ProtocoloVectorDistancia();
+        this.ript = new RipTabla(id);
     }
     
     public Router router_1(String nombre, int id, Point point){
@@ -64,7 +69,7 @@ public class Router extends Dispositivo{
         this.p_vector = p_vector;
     }
     
-    @Override
+
     public boolean thisisrouter(){
         return true;
         
@@ -79,20 +84,33 @@ public class Router extends Dispositivo{
         return null;
     }
     
-    public boolean hasIP(String ip){
-        boolean respuesta = false;
-        
-        for(int j=0;j< getModulos().size();j++){
-            Modulo modulo = getModulos().get(j);
-            for(int k=0; k < modulo.getPuertos().size(); k++){
-                Puerto puerto = modulo.getPuertos().get(k);
-                if(puerto.getIp().equals(ip)){
-                    respuesta = true;
+    
+    
+    public void compararEntrada(EntradaRip en, long id_owner){
+        for(int i=0;i<ript.getEntradas().size();i++){
+            EntradaRip aux = ript.getEntradas().get(i);
+            if(aux.getIpdst().equalsIgnoreCase(en.getIpdst())){
+                if(aux.getNhops()>en.getNhops()){
+                    replace(en,i,id_owner);
                 }
             }
         }
-        
-        return respuesta;
+    }
+
+    private void replace(EntradaRip en, int i,long id_owner) {
+//        ArrayList con = this.getConexiones();
+//        Conexion aux=null;
+//        Iterator it = con.iterator();
+//        while(it.hasNext()){
+//            Conexion c = (Conexion) it.next();
+//            if(c.getDispositivo().getIdDispositivo() == id_owner){
+//                aux = c;
+//            }
+//        }
+//        String ipnexthop = "";
+//        if(aux!=null){
+//            aux.getDispositivo().getModulos().get(i)
+//        }
         
     }
     
