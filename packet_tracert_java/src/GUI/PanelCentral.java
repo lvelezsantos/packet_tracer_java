@@ -34,6 +34,7 @@ public class PanelCentral extends JPanel implements Runnable{
     public void run() {
         while(true){
          repaint();
+         con.recorrido();
             try {
                 Thread.sleep(1000/24);
             } catch (InterruptedException ex) {
