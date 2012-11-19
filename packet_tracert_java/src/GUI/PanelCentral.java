@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import logica.Conexion;
 import logica.Dispositivo;
+import logica.Paquete;
 
 /**
  *
@@ -33,6 +34,7 @@ public class PanelCentral extends JPanel implements Runnable{
     public void run() {
         while(true){
          repaint();
+         con.recorrido();
             try {
                 Thread.sleep(1000/24);
             } catch (InterruptedException ex) {
@@ -51,6 +53,7 @@ public class PanelCentral extends JPanel implements Runnable{
         g.fillRect(0,0,this.getWidth(), this.getHeight());
         ImageIcon ii = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router1.png"));
         ImageIcon ii2 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc1.png"));
+        ImageIcon ii3 = new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/mss.jpg"));
         
 
         for(int i=0;i<con.routers.size();i++){
@@ -76,6 +79,11 @@ public class PanelCentral extends JPanel implements Runnable{
             g.drawImage(ii2.getImage(),con.pcs.get(i).getPoint().x - 33 , con.pcs.get(i).getPoint().y - 30,this);
             //g.drawRect(pcs.get(i).x-40,pcs.get(i).y-40,80, 80);
         }
+        
+        for(Paquete p : this.con.paquetes){
+            g.drawImage(ii3.getImage(),p.getP().x,p.getP().y, this);
+        }
+        
     }
     
 }

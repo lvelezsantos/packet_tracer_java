@@ -70,8 +70,30 @@ public class Router extends Dispositivo{
         
     }
 
-    public Paquete enrutar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Paquete enrutar(Paquete p) {
+        if(hasIP(p.getIpdst())){
+            return null;
+        }else{
+            //logica del enrutamiento...
+        }
+        return null;
+    }
+    
+    public boolean hasIP(String ip){
+        boolean respuesta = false;
+        
+        for(int j=0;j< getModulos().size();j++){
+            Modulo modulo = getModulos().get(j);
+            for(int k=0; k < modulo.getPuertos().size(); k++){
+                Puerto puerto = modulo.getPuertos().get(k);
+                if(puerto.getIp().equals(ip)){
+                    respuesta = true;
+                }
+            }
+        }
+        
+        return respuesta;
+        
     }
     
 }
