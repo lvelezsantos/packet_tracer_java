@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import logica.Dispositivo;
 import logica.Router;
-import packet_tracert_java.EntradaRip;
+import logica.algoritmos_de_enrutamiento.EntradaRip;
 
 /**
  *

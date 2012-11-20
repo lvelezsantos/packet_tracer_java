@@ -304,4 +304,15 @@ public class Dispositivo extends Thread implements Serializable{
         
     }
     
+    public String giveAIp(){
+        for(Modulo m : this.getModulos()){
+            for(Puerto p : m.getPuertos()){
+                if(p.isActivado() && p.isActivado() && !p.getIp().equals("0.0.0.0")){
+                    return p.getIp()+"/"+p.getNetmask();
+                }
+            }
+        }
+        return "noneip";
+    }
+    
 }

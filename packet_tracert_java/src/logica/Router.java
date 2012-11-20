@@ -10,8 +10,8 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import packet_tracert_java.EntradaRip;
-import packet_tracert_java.RipTabla;
+import logica.algoritmos_de_enrutamiento.EntradaRip;
+import logica.algoritmos_de_enrutamiento.RipTabla;
 
 /**
  *
@@ -75,11 +75,12 @@ public class Router extends Dispositivo{
             return null;
         }else{
             if(!ript.getEntradas().isEmpty()){
-            String ipdst = p.getIpdst();
+            try{
+            String ipdst = toNetworkip(p.getIpdst(), p.getMskdst());
             String nmks = p.getMskdst();
             Dispositivo nxthp = null;
             String ipnxt = "";
-            for(EntradaRip r : this.ript.getEntradas()){
+            for(EntradaRip r : this.getRipt().getEntradas()){
                 if(r.getIpdst().equals(ipdst)){
                     ipnxt = r.getNextHop();
                 }
@@ -95,7 +96,10 @@ public class Router extends Dispositivo{
                     return r;
                 }
             }
-        }else{
+            }catch(Exception er){
+                return null;
+            }
+            }else{
             // enrutamiento para otros protocolos
             }
         }
@@ -106,8 +110,8 @@ public class Router extends Dispositivo{
     
     public void compararEntrada(EntradaRip en, long id_owner){
         boolean localizado = false;
-        for(int i=0;i<ript.getEntradas().size();i++){
-            EntradaRip aux = ript.getEntradas().get(i);
+        for(int i=0;i<getRipt().getEntradas().size();i++){
+            EntradaRip aux = getRipt().getEntradas().get(i);
             if(aux.getIpdst().equalsIgnoreCase(en.getIpdst())){
                 if(aux.getNhops()>en.getNhops()+1){
                     replace(en,i,id_owner);
@@ -158,7 +162,7 @@ public class Router extends Dispositivo{
             }
         }
         
-        ript.getEntradas().set(i, new EntradaRip(en.getIpdst(), en.getMaskdst(), ipnexthop, en.getNhops()+1));
+        getRipt().getEntradas().set(i, new EntradaRip(en.getIpdst(), en.getMaskdst(), ipnexthop, en.getNhops()+1));
         
     }
     
@@ -179,7 +183,7 @@ public class Router extends Dispositivo{
             
             try{
                 Router aux = (Router)c.getDispositivo();
-                aux.recibirRip(ript);
+                aux.recibirRip(getRipt());
             }catch(Exception e){
                 System.err.println("Error al enviar datos no soy un router");
             }
@@ -195,7 +199,21 @@ public class Router extends Dispositivo{
     }
     
     public void agregarRip(EntradaRip r){
-        this.ript.getEntradas().add(r);
+        boolean localizado = false;
+        int pos=0;
+        for(int i = 0; i<this.getRipt().getEntradas().size();i++){
+            if(this.ript.getEntradas().get(i).getIpdst() == r.getIpdst()){
+                localizado = true;
+                pos = i;
+                break;
+            }
+        }
+        if(!localizado){
+            this.getRipt().getEntradas().add(r);
+        }else{
+            this.ript.getEntradas().set(pos,r);
+       }
+        
     }
     
     public String mostrar_informacion(){
@@ -233,7 +251,7 @@ public class Router extends Dispositivo{
         
         if(!ript.getEntradas().isEmpty()){
         informacion+="!\n!\n!";
-            for(EntradaRip r : ript.getEntradas()){
+            for(EntradaRip r : getRipt().getEntradas()){
                 informacion+="network "+r.getIpdst();
                 if(ripv2){
                     informacion+=" netmask "+r.getMaskdst();
@@ -244,6 +262,42 @@ public class Router extends Dispositivo{
         }
         
         return informacion;
+    }
+    
+    private String toNetworkip(String ipdst,String msk) throws Exception {
+        String[] dividemask = msk.split(".");
+        String netip ="";
+        if(dividemask[0].equals("255")){
+            netip += ipdst.split(".")[0]+".";
+            if(dividemask[1].equals("255")){
+                netip += ipdst.split(".")[1]+".";
+                if(dividemask[2].equals("255")){
+                    netip = ipdst.split(".")[2];
+                    if(dividemask[3].equals("255")){
+                        throw new Exception("La mascara del dispositivo no acepta conexiones (Full Mask)");
+                    }
+                    return netip+"0";
+                }
+                return netip+"0.0";
+            }
+            return netip+"0.0.0";
+        }else{
+            throw new Exception("Un dispositivo no tiene mascara aceptada");
+        }
+    }
+
+    /**
+     * @return the ript
+     */
+    public RipTabla getRipt() {
+        return ript;
+    }
+
+    /**
+     * @param ript the ript to set
+     */
+    public void setRipt(RipTabla ript) {
+        this.ript = ript;
     }
     
 }

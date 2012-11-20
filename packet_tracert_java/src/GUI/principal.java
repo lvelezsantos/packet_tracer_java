@@ -284,7 +284,13 @@ public class principal extends javax.swing.JFrame {
                 }else{
                     d2 = d11;
                     System.out.println("Dispositivo 2 seleccionado");
-                    // Para realizar esto se necesita una funcion en router/dispositivo que regale la ip de uno de sus puertos
+                    String ret = d2.giveAIp(); // obtengo una IP valida del dispositivo
+                    String ipdst = ret.split("/")[0];
+                    String msk = ret.split("/")[1];
+                    //trabajo de la ip para convertirlo a ip de red
+                        Paquete p = new Paquete(ipdst, msk, d2, 15, d1.getPoint());
+                        System.out.println("A enviar "+p.toString());
+                        this.jPanel4.getCon().paquetes.add(p);                   
                 }
             
                 

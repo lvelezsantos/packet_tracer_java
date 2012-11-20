@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package packet_tracert_java;
+package logica.algoritmos_de_enrutamiento;
 
 import java.util.ArrayList;
 
