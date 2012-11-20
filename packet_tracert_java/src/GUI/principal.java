@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import logica.Conexion;
 import logica.Dispositivo;
+import logica.Paquete;
 import logica.Router;
 
 /**
@@ -271,6 +272,24 @@ public class principal extends javax.swing.JFrame {
                 
             }
         }
+        
+        if(selected.equalsIgnoreCase("mess")){
+            
+            Dispositivo d11 = disxpoint(evt.getPoint());
+            if(d11 != null){
+                System.out.println("A conectar");
+                if(d1 == null){
+                    d1 = d11;
+                    System.out.println("Dispositivo 1 seleccionado");
+                }else{
+                    d2 = d11;
+                    System.out.println("Dispositivo 2 seleccionado");
+                    // Para realizar esto se necesita una funcion en router/dispositivo que regale la ip de uno de sus puertos
+                }
+            
+                
+            }
+        }
         imprimir();
         jPanel4.repaint();
         
@@ -290,6 +309,8 @@ public class principal extends javax.swing.JFrame {
 //        this.jPanel3.setVisible(panel);
         jLabel1.setBorder(null);
         jLabel3.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel5.setBorder(null);
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
@@ -305,6 +326,8 @@ public class principal extends javax.swing.JFrame {
         jLabel2.setBorder(null);
         jLabel3.setBorder(null);
         jLabel6.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel5.setBorder(null);
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jPanel4MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseDragged
@@ -354,6 +377,8 @@ public class principal extends javax.swing.JFrame {
         jLabel1.setBorder(null);
         jLabel2.setBorder(null);
         jLabel6.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel5.setBorder(null);
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
@@ -369,6 +394,8 @@ public class principal extends javax.swing.JFrame {
         jLabel1.setBorder(null);
         jLabel2.setBorder(null);
         jLabel3.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel5.setBorder(null);
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jButtonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExportarActionPerformed
@@ -381,10 +408,33 @@ public class principal extends javax.swing.JFrame {
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // Activacion de envio de mensajes
+        if(selected.equalsIgnoreCase("mess")){
+            selected = "none";
+            this.jLabel4.setBorder(null);
+        }else{
+            this.jLabel4.setBorder(new LineBorder(Color.blue));
+            selected = "mess";
+        }
+        jLabel1.setBorder(null);
+        jLabel2.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel6.setBorder(null);
+        jLabel5.setBorder(null);
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        // Envio por flooding
+        if(selected.equalsIgnoreCase("flood")){
+            selected = "none";
+            this.jLabel4.setBorder(null);
+        }else{
+            this.jLabel4.setBorder(new LineBorder(Color.blue));
+            selected = "flood";
+        }
+        jLabel1.setBorder(null);
+        jLabel2.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel6.setBorder(null);
+        jLabel5.setBorder(null);
     }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
