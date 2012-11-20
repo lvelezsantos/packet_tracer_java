@@ -70,16 +70,34 @@ public class Router extends Dispositivo{
     }
     
 
-    public boolean thisisrouter(){
-        return true;
-        
-    }
-
      public Paquete enrutar(Paquete p) {
         if(hasIP(p.getIpdst())){
             return null;
         }else{
-            //logica del enrutamiento...
+            if(!ript.getEntradas().isEmpty()){
+            String ipdst = p.getIpdst();
+            String nmks = p.getMskdst();
+            Dispositivo nxthp = null;
+            String ipnxt = "";
+            for(EntradaRip r : this.ript.getEntradas()){
+                if(r.getIpdst().equals(ipdst)){
+                    ipnxt = r.getNextHop();
+                }
+            }
+            if(!ipnxt.equals("")){
+                for(Conexion c : this.getConexiones()){
+                   if(c.getDispositivo().hasIP(ipnxt)){
+                       nxthp = c.getDispositivo();
+                   }
+                }
+                if(nxthp!=null){
+                    Paquete r = new Paquete(ipdst, nmks, nxthp, p.getTtl() -1 , this.getPoint());
+                    return r;
+                }
+            }
+        }else{
+            // enrutamiento para otros protocolos
+            }
         }
         return null;
     }
@@ -220,7 +238,7 @@ public class Router extends Dispositivo{
                 if(ripv2){
                     informacion+=" netmask "+r.getMaskdst();
                 }
-                informacion+=" NextHop "+r.getNextHop()+" #hops : "+r.getNhops();
+                informacion+=" NextHop "+r.getNextHop()+" #hops : "+r.getNhops()+"\n!\n";
             }
         informacion+="\n!\n!";
         }

@@ -220,7 +220,6 @@ public class Controlador implements Serializable{
                     toremove.add(p);
                 }else{
                     toremove.add(p);
-                    //aaaaaaaa
                 }
             }
         }
