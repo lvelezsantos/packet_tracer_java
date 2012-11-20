@@ -120,4 +120,37 @@ public class Router extends Dispositivo{
         
     }
     
+    public void run(){
+        while(true){
+            enviartRip();
+            try {
+                Thread.sleep(1000*5);
+            } catch (InterruptedException ex) {
+                System.err.println("Error al hacer dormir el hilo");
+            }
+        }
+    }
+
+    private void enviartRip() {
+        for(Conexion c : this.getConexiones()){
+            Router aux = (Router)c.getDispositivo();
+            aux.recibirRip(ript);
+            try{
+            
+            }catch(Exception e){
+            }
+            
+        }
+    }
+    
+    public void recibirRip(RipTabla rip){
+        for(EntradaRip r : rip.getEntradas()){
+            this.compararEntrada(r,rip.getId_owner());
+        }
+    }
+    
+    public void agregarRip(EntradaRip r){
+        this.ript.getEntradas().add(r);
+    }
+    
 }

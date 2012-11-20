@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import logica.Dispositivo;
 import logica.Router;
+import packet_tracert_java.EntradaRip;
 
 /**
  *
@@ -210,7 +211,7 @@ public class JDialogConsola extends javax.swing.JDialog {
                     
                 }
                 if(nivel.equals(nivel_normal)){
-                    if(comando.equals("enable")){
+                    if(comando.equals("enable") || comando.equals("en")){
                         nivel = nivel_enable;
                     }
                     if(comando.equals("?")){
@@ -220,7 +221,7 @@ public class JDialogConsola extends javax.swing.JDialog {
                 if(nivel.equals(nivel_enable)){
                     String[] list_com;
                     list_com = comando.split(" ");
-                    if(comando.equals("configure terminal")) {
+                    if(comando.equals("configure terminal") || comando.equals("conf t")) {
                         nivel = nivel_configure_terminal;
                     }
 
@@ -259,8 +260,8 @@ public class JDialogConsola extends javax.swing.JDialog {
                     }
 
                     if(list_comando.length == 3){
-                        if(list_comando[0].equals("interface")){
-                            if(list_comando[1].equals("fastEthernet")){
+                        if(list_comando[0].equals("interface") || list_comando[0].equals("int")){
+                            if(list_comando[1].equals("fastEthernet") || list_comando[1].equals("fa")){
                                 String[] lista_modulo_puerto;
                                 lista_modulo_puerto = list_comando[2].split("/");
                                 if(lista_modulo_puerto.length == 2 ){
@@ -336,24 +337,14 @@ public class JDialogConsola extends javax.swing.JDialog {
                                 + "shutdown\nno shutdown");
                     }
                 }
-
-                if(nivel.equals(nivel_router_vector)){
-                    String[] list_comando;
-                    list_comando = comando.split(" ");
-                    if(list_comando.length == 2){
-                        if(list_comando[0].equals("network")){
-                            
-                        }
-                    }
-                }
-                
+         
                 if(nivel.equals(nivel_router_rip)){
                     String[] list_comando;
                     list_comando = comando.split(" ");
                         if(list_comando[0].equals("network")){
                             String ip = list_comando[1];
                             System.err.println("AQUI ESTOY");
-                            String mask;
+                            String mask = "0.0.0.0";
                             if(isripv2){
                                 try{
                                 mask = list_comando[2];
@@ -362,7 +353,7 @@ public class JDialogConsola extends javax.swing.JDialog {
                                 }
                             }else{
                             }
-                            
+                            nuevaentradaRip(ip,mask); 
                         }
                 }
                 
@@ -439,6 +430,11 @@ public class JDialogConsola extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaConsola;
     private javax.swing.JTextField jTextFieldComando;
     // End of variables declaration//GEN-END:variables
+
+    private void nuevaentradaRip(String ip, String mask) {
+        Router r = this.controlador.routers.get(pos_router);
+        r.agregarRip(new EntradaRip(ip, mask, ip, 1));
+    }
 
 
 }
