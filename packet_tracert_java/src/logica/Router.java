@@ -20,7 +20,7 @@ import packet_tracert_java.RipTabla;
 public class Router extends Dispositivo{
     private ProtocoloVectorDistancia p_vector;
     private RipTabla ript;
-    
+    private boolean ripv2=false;
     public Router() {
     }
 
@@ -87,13 +87,37 @@ public class Router extends Dispositivo{
     
     
     public void compararEntrada(EntradaRip en, long id_owner){
+        boolean localizado = false;
         for(int i=0;i<ript.getEntradas().size();i++){
             EntradaRip aux = ript.getEntradas().get(i);
             if(aux.getIpdst().equalsIgnoreCase(en.getIpdst())){
-                if(aux.getNhops()>en.getNhops()){
+                if(aux.getNhops()>en.getNhops()+1){
                     replace(en,i,id_owner);
+                    localizado = true;
+                }else{
+                    localizado = true;
                 }
             }
+        }
+        if(!localizado){
+            ArrayList con = this.getConexiones();
+        Conexion aux=null;
+        Iterator it = con.iterator();
+        while(it.hasNext()){
+            Conexion c = (Conexion) it.next();
+            if(c.getDispositivo().getIdDispositivo() == id_owner){
+                aux = c;
+            }
+        }
+        String ipnexthop = "";
+        if(aux!=null){
+            try{
+            ipnexthop = ""+aux.getDispositivo().ip_modulo_puerto(aux.getModulo_cad(), aux.getPuerto_cad());
+            }catch(Exception e){
+                System.out.println("Error No existe IP");
+            }
+        }
+            this.agregarRip(new EntradaRip(en.getIpdst(), en.getMaskdst(), ipnexthop, en.getNhops()+1)); //falta calcular el nextHop
         }
     }
 
@@ -122,6 +146,7 @@ public class Router extends Dispositivo{
     
     public void run(){
         while(true){
+            System.out.println("Enviando tablas rip");
             enviartRip();
             try {
                 Thread.sleep(1000*5);
@@ -133,11 +158,12 @@ public class Router extends Dispositivo{
 
     private void enviartRip() {
         for(Conexion c : this.getConexiones()){
-            Router aux = (Router)c.getDispositivo();
-            aux.recibirRip(ript);
-            try{
             
+            try{
+                Router aux = (Router)c.getDispositivo();
+                aux.recibirRip(ript);
             }catch(Exception e){
+                System.err.println("Error al enviar datos no soy un router");
             }
             
         }
@@ -147,10 +173,59 @@ public class Router extends Dispositivo{
         for(EntradaRip r : rip.getEntradas()){
             this.compararEntrada(r,rip.getId_owner());
         }
+        System.err.println("Acabando de comparar tablas rip soy"+this.getNombre());
     }
     
     public void agregarRip(EntradaRip r){
         this.ript.getEntradas().add(r);
+    }
+    
+    public String mostrar_informacion(){
+        String informacion;
+        informacion = "\nhostname\t" +getNombre();
+        informacion += "\n!\n!\n!\n!\n!";
+        String cad_puertos = "";
+        for(int i=0;i<getModulos().size();i++){
+            Modulo mod = getModulos().get(i);
+            for(int j=0; j<mod.getPuertos().size();j++){
+                Puerto puer = mod.getPuertos().get(j);
+                cad_puertos += "\ninterface  "+ puer.getTipo_puerto() + " " + mod.getNombre() + "/" + puer.getNombre();
+                if(!puer.getIp().equals("0.0.0.0")){
+                    cad_puertos += "\n" + puer.getIp()+ "  " + puer.getNetmask();
+                }else{
+                    cad_puertos += "\nno ip address";
+                }
+                cad_puertos += "\nspeed   "+ puer.getVelocidad() + " " + puer.getNombre_velocidad();
+                cad_puertos += "\n"+ puer.encendido();
+                cad_puertos += "\n!";
+                        
+            }
+        }
+        informacion += cad_puertos;
+        
+        String cad_conexiones = "\nConexiones: ";
+        for(int i=0;i<getConexiones().size();i++){
+            Conexion conex = getConexiones().get(i);
+            cad_conexiones += conex.getDispositivo().getNombre() + "\t" + conex.getModulo_cad() + "/" + 
+                    conex.getPuerto_cad()+'\n';
+        }
+        if(!getConexiones().isEmpty()){
+            informacion += cad_conexiones;
+        }
+        
+        if(!ript.getEntradas().isEmpty()){
+        informacion+="!\n!\n!";
+            for(EntradaRip r : ript.getEntradas()){
+                informacion+="network "+r.getIpdst();
+                if(ripv2){
+                    informacion+=" netmask "+r.getMaskdst();
+                }
+                informacion+=" NextHop "+r.getNextHop()+" #hops : "+r.getNhops();
+            }
+        informacion+="\n!\n!";
+        }
+        
+        return informacion;
     }
     
 }
