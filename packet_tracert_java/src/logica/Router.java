@@ -98,19 +98,25 @@ public class Router extends Dispositivo{
     }
 
     private void replace(EntradaRip en, int i,long id_owner) {
-//        ArrayList con = this.getConexiones();
-//        Conexion aux=null;
-//        Iterator it = con.iterator();
-//        while(it.hasNext()){
-//            Conexion c = (Conexion) it.next();
-//            if(c.getDispositivo().getIdDispositivo() == id_owner){
-//                aux = c;
-//            }
-//        }
-//        String ipnexthop = "";
-//        if(aux!=null){
-//            aux.getDispositivo().getModulos().get(i)
-//        }
+        ArrayList con = this.getConexiones();
+        Conexion aux=null;
+        Iterator it = con.iterator();
+        while(it.hasNext()){
+            Conexion c = (Conexion) it.next();
+            if(c.getDispositivo().getIdDispositivo() == id_owner){
+                aux = c;
+            }
+        }
+        String ipnexthop = "";
+        if(aux!=null){
+            try{
+            ipnexthop = ""+aux.getDispositivo().ip_modulo_puerto(aux.getModulo_cad(), aux.getPuerto_cad());
+            }catch(Exception e){
+                System.out.println("Error No existe IP");
+            }
+        }
+        
+        ript.getEntradas().set(i, new EntradaRip(en.getIpdst(), en.getMaskdst(), ipnexthop, en.getNhops()+1));
         
     }
     
