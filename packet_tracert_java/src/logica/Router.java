@@ -267,12 +267,13 @@ public class Router extends Dispositivo{
     private String toNetworkip(String ipdst,String msk) throws Exception {
         String[] dividemask = msk.split(".");
         String netip ="";
+        String[] splitip = ipdst.split(".");
         if(dividemask[0].equals("255")){
-            netip += ipdst.split(".")[0]+".";
+            netip += splitip[0]+".";
             if(dividemask[1].equals("255")){
-                netip += ipdst.split(".")[1]+".";
+                netip += splitip[1]+".";
                 if(dividemask[2].equals("255")){
-                    netip = ipdst.split(".")[2];
+                    netip = splitip[2];
                     if(dividemask[3].equals("255")){
                         throw new Exception("La mascara del dispositivo no acepta conexiones (Full Mask)");
                     }

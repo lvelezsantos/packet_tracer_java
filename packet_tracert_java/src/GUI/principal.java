@@ -285,11 +285,15 @@ public class principal extends javax.swing.JFrame {
                     d2 = d11;
                     System.out.println("Dispositivo 2 seleccionado");
                     String ret = d2.giveAIp(); // obtengo una IP valida del dispositivo
-                    String ipdst = ret.split("/")[0];
-                    String msk = ret.split("/")[1];
+                    System.out.println("RETORNADO-> "+ret);
+                    String[] splited = ret.split("/");
+                    String ipdst = splited[0];
+                    String msk = splited[1];
                     //trabajo de la ip para convertirlo a ip de red
-                        Paquete p = new Paquete(ipdst, msk, d2, 15, d1.getPoint());
+                    //this.jPanel4.getCon()
+                        Paquete p = new Paquete(ipdst, msk, d2, 15, (Point) d1.getPoint().clone());
                         System.out.println("A enviar "+p.toString());
+                        
                         this.jPanel4.getCon().paquetes.add(p);                   
                 }
             
@@ -414,6 +418,8 @@ public class principal extends javax.swing.JFrame {
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // Activacion de envio de mensajes
+        d1 = null;
+        d2 = null;
         if(selected.equalsIgnoreCase("mess")){
             selected = "none";
             this.jLabel4.setBorder(null);

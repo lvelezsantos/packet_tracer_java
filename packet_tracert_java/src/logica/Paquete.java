@@ -35,7 +35,12 @@ public class Paquete {
         if(getP().x == getNxthp().getPoint().x && getP().y == getNxthp().getPoint().y){
             return true;
         }else{
+            if(getP().x < getNxthp().getPoint().x){
             this.p.x++;
+            }else{
+                this.p.x--;
+            }
+        
             this.p.y = m*getP().x + b;
         }
         return false;
