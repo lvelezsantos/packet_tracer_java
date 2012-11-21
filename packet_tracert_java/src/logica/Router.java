@@ -330,5 +330,14 @@ public class Router extends Dispositivo{
     public void setRipt(RipTabla ript) {
         this.ript = ript;
     }
+
+    public boolean isRipv2() {
+        return ripv2;
+    }
+
+    public void setRipv2(boolean ripv2) {
+        this.ripv2 = ripv2;
+    }
+    
     
 }

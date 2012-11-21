@@ -21,9 +21,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import logica.Conexion;
+import logica.ConexionGuardar;
 import logica.Dispositivo;
+import logica.DispositivoGuardar;
 import logica.Paquete;
 import logica.Router;
+import logica.RouterGuardar;
 
 /**
  *
@@ -669,7 +672,38 @@ public class principal extends javax.swing.JFrame {
                 ObjectOutputStream os;
                 System.out.println("Serializando");
                 os = new ObjectOutputStream(bs);
-                os.writeObject(jPanel4.getCon());  // this es de tipo DatoUdp
+                ArrayList<RouterGuardar> lista_router= new ArrayList<>();
+                for(Router rout: jPanel4.getCon().routers){
+                    RouterGuardar rout_guar = new RouterGuardar();
+                    rout_guar.setPoint(rout.getPoint());
+                    rout_guar.setNombre(rout.getNombre());
+                    rout_guar.setModulos(rout.getModulos());
+                    rout_guar.setRipt(rout.getRipt());
+                    rout_guar.setRipv2(rout.isRipv2());
+                    rout_guar.setIdDispositivo(rout.getIdDispositivo());
+                    ArrayList<ConexionGuardar> lista_conex = new ArrayList<>();
+                    for(Conexion conex : rout.getConexiones()){
+                        Dispositivo dis = conex.getDispositivo();
+                        DispositivoGuardar dis_guar = new DispositivoGuardar(
+                                                                                dis.getNombre(), 
+                                                                                dis.getModulos(), 
+                                                                                dis.getIdDispositivo(), 
+                                                                                dis.getPoint()
+                                                                            );
+                        ConexionGuardar conexio_guarda = new ConexionGuardar(
+                                                                                dis_guar, 
+                                                                                conex.getModulo_cad(), 
+                                                                                conex.getPuerto_cad(), 
+                                                                                conex.getModulo_local(), 
+                                                                                conex.getPuerto_local()
+                                                                            );
+                        lista_conex.add(conexio_guarda); 
+                    }
+                    rout_guar.setConexiones(lista_conex);
+                    lista_router.add(rout_guar); 
+                }
+                    
+                os.writeObject(lista_router);  // this es de tipo DatoUdp
                 os.close();
                 JOptionPane.showMessageDialog(null, "El archivo se ha exportado exitosamente");
             } catch (IOException ex) {

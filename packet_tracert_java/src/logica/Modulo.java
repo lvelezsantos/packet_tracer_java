@@ -4,13 +4,14 @@
  */
 package logica;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author warlock
  */
-public class Modulo {
+public class Modulo implements Serializable{
     private ArrayList<Puerto> puertos;
     private String nombre;
 

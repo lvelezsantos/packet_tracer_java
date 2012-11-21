@@ -4,11 +4,13 @@
  */
 package logica;
 
+import java.io.Serializable;
+
 /**
  *
  * @author warlock
  */
-public class Puerto {
+public class Puerto implements Serializable{
     private boolean activado;
     private boolean usado;
     private String ip;

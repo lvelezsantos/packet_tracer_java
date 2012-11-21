@@ -4,13 +4,14 @@
  */
 package logica.algoritmos_de_enrutamiento;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author minrock
  */
-public class RipTabla {
+public class RipTabla implements Serializable{
     
     private long id_owner;
     private ArrayList<EntradaRip> entradas;
