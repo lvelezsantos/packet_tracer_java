@@ -55,7 +55,17 @@ public class DispositivoGuardar implements Serializable{
     public void setIdDispositivo(int id) {
         this.id_dispositivo = id;
     }
-
+    
+    public void colacarPuertosLibres(){
+        for(int i=0;i<this.modulos.size();i++){
+            Modulo modulo = this.modulos.get(i);
+            for(int j=0; j < modulo.getPuertos().size(); j++){
+                Puerto puerto = modulo.getPuertos().get(j);
+                puerto.setUsado(false);
+            }
+        }
+        
+    }    
     
     
     public String mostrarPuertos(){

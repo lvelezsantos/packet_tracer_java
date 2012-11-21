@@ -24,7 +24,9 @@ import logica.Conexion;
 import logica.ConexionGuardar;
 import logica.Dispositivo;
 import logica.DispositivoGuardar;
+import logica.Modulo;
 import logica.Paquete;
+import logica.Puerto;
 import logica.Router;
 import logica.RouterGuardar;
 
@@ -721,13 +723,53 @@ public class principal extends javax.swing.JFrame {
              ObjectInputStream entrada;
             try {
                 entrada = new ObjectInputStream(new FileInputStream(jf.getSelectedFile()));                
-                jPanel4.setCon((Controlador) entrada.readObject());
+                ArrayList<RouterGuardar> lista_dis = (ArrayList<RouterGuardar>) entrada.readObject();
                 
+                //importando los datos
+                ArrayList<Router> lista_router= new ArrayList<>();
+                jPanel4.setCon(new Controlador()); //reinicializamos el controlador
+                for(RouterGuardar rout_guar: lista_dis){
+                    
+                    //Router rout = new Router();
+                    //rout.setPoint(rout_guar.getPoint());
+                    //rout.setNombre(rout_guar.getNombre());
+                    //rout_guar.colacarPuertosLibres();
+                    //rout.setModulos(rout_guar.getModulos());
+                    
+                    //rout.setRipt(rout_guar.getRipt());
+                    //rout.setRipv2(rout_guar.isRipv2());
+                    //rout.setIdDispositivo(rout_guar.getIdDispositivo());
+                    jPanel4.getCon().add_router(rout_guar.getPoint());
+                    jPanel4.getCon().search_router(rout_guar.getIdDispositivo()).setRipt(rout_guar.getRipt());
+                    jPanel4.getCon().search_router(rout_guar.getIdDispositivo()).setRipv2(rout_guar.isRipv2());
+                    jPanel4.getCon().search_router(rout_guar.getIdDispositivo()).setNombre(rout_guar.getNombre());
+                    for(Modulo mod: rout_guar.getModulos()){
+                        for(Puerto puer: mod.getPuertos()){
+                            jPanel4.getCon().asignar_ip_puerto(rout_guar.getIdDispositivo(), mod.getNombre(), puer.getNombre(), puer.getIp(), puer.getNetmask());
+                        }
+                    }
+                    jPanel4.getCon().asignar_ip_puerto(rout_guar.getIdDispositivo(), d1c1, selected, kind, selected);
+                }
+                for(RouterGuardar rout_guar: lista_dis){
+                    
+                    for(ConexionGuardar conex : rout_guar.getConexiones()){
+                        jPanel4.getCon().connect(
+                                rout_guar.getIdDispositivo(), //dis1
+                                conex.getDispositivo().getIdDispositivo(), //dis2
+                                conex.getPuerto_local(), //puertodis1
+                                conex.getPuerto_cad(), //puertodis2
+                                conex.getModulo_local(), //modulodis1
+                                conex.getModulo_cad() //modulodis2
+                                );  
+                    }
+                    
+                }
                 
                 JOptionPane.showMessageDialog(null, "Controlador importado con exito");
-                this.repaint();
+                
                 
             } catch (Exception ex) {
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null , "Error al escoger el archivo");
             }
 
