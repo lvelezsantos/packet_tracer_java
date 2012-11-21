@@ -22,6 +22,8 @@ public class Router extends Dispositivo{
     private ProtocoloVectorDistancia p_vector;
     private RipTabla ript;
     private boolean ripv2=false;
+    private String sistemaAutonomo;
+    private boolean borde;
     public Router() {
     }
 
@@ -337,6 +339,22 @@ public class Router extends Dispositivo{
 
     public void setRipv2(boolean ripv2) {
         this.ripv2 = ripv2;
+    }
+
+    public String getSistemaAutonomo() {
+        return sistemaAutonomo;
+    }
+
+    public void setSistemaAutonomo(String sistemaAutonomo) {
+        this.sistemaAutonomo = sistemaAutonomo;
+    }
+
+    public boolean isBorde() {
+        return borde;
+    }
+
+    public void setBorde(boolean borde) {
+        this.borde = borde;
     }
     
     

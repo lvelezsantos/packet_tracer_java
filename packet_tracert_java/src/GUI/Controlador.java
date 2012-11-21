@@ -182,6 +182,26 @@ public class Controlador implements Serializable{
         return flag;
     }
     
+    public boolean asignarBorde(int dispositivo_id){
+        boolean flag = true;
+        String tipo = tipo_dispositivo(dispositivo_id);
+        if(tipo.equals("router")){
+            int pos = search_pos_router(dispositivo_id);
+            this.routers.get(pos).setBorde(true); 
+        }
+        return flag;
+    }
+    
+    public boolean asignarSistemaAutonomo(int dispositivo_id, String As){
+        boolean flag = true;
+        String tipo = tipo_dispositivo(dispositivo_id);
+        if(tipo.equals("router")){
+            int pos = search_pos_router(dispositivo_id);
+            this.routers.get(pos).setSistemaAutonomo(As); 
+        }
+        return flag;
+    }
+    
     public void cambiar_nombre_router(int id_router, String nombre){
         int pos_router = search_pos_router(id_router);
         this.routers.get(pos_router).setNombre(nombre);
