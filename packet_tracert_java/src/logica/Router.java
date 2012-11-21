@@ -93,7 +93,7 @@ public class Router extends Dispositivo{
                    }
                 }
                 if(nxthp!=null){
-                    Paquete r = new Paquete(ipdst, nmks, nxthp, p.getTtl() -1 , this.getPoint());
+                    Paquete r = new Paquete(ipdst, nmks, nxthp, p.getTtl() -1 , this);
                     ArrayList<Paquete> array = new ArrayList<>();
                     array.add(r);
                     return array;
@@ -110,22 +110,24 @@ public class Router extends Dispositivo{
                     if(d.buscarIpEnPuerto(p.getIpdst())){
                         JOptionPane.showMessageDialog(null, "Se encontro la ip en el router"+d.getNombre());
                     }
+                    Dispositivo origne = p.getOrigen();
                     System.out.println("Enviando nuevos paquetes");
                     for(Conexion c : d.getConexiones()){
-                        boolean resultado = c.getDispositivo().buscarIpEnPuerto(p.getIpdst());
-                        System.out.println("router:"+c.getDispositivo().getNombre());
-                        System.out.println("punto:"+c.getDispositivo().getPoint());
-                        Paquete paq = null;
-                        if(resultado){
-                            System.err.println("Encontrada la ip");                            
-                             paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), 1, (Point)d.getPoint().clone());                        
-                             
+                        if(c.getDispositivo().getIdDispositivo() != p.getOrigen().getIdDispositivo()){
+                            boolean resultado = c.getDispositivo().buscarIpEnPuerto(p.getIpdst());
+                            System.out.println("router:"+c.getDispositivo().getNombre());
+                            System.out.println("punto:"+c.getDispositivo().getPoint());
+                            Paquete paq = null;
+                            if(resultado){
+                                 System.err.println("Encontrada la ip");
+                                 paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), 1, d);
+                            }else{
+                                 paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), p.getTtl()-1, d);
+                            }
+                            array.add(paq);
                         }else{
-                             paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), p.getTtl()-1, (Point)d.getPoint().clone());                        
-                            
+                            System.err.println("no se envian mensajes al router anterior");
                         }
-                        
-                        array.add(paq);
                     }
                     return array;
                 }

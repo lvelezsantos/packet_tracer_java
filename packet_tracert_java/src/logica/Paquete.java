@@ -18,15 +18,17 @@ public class Paquete {
     private int ttl;
     // Para el manejo en la parte grafica
     private Point p;
+    private Dispositivo origen;
     private int m;
     private int b;
     
-    public Paquete(String ipdst, String mskdst, Dispositivo nxthp, int ttl, Point p){
+    public Paquete(String ipdst, String mskdst, Dispositivo nxthp, int ttl, Dispositivo origen){
         this.ipdst = ipdst;
         this.mskdst = mskdst;
         this.nxthp = nxthp;
         this.ttl = ttl;
-        this.p = p;
+        this.p = (Point)origen.getPoint().clone();
+        this.origen = origen;
         m = (this.nxthp.getPoint().y - p.y)/(this.nxthp.getPoint().x - p.x);
         b = p.y - m*p.x;
     }
@@ -118,6 +120,15 @@ public class Paquete {
     public void setP(Point p) {
         this.p = p;
     }
+
+    public Dispositivo getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(Dispositivo origen) {
+        this.origen = origen;
+    }
+    
     
     
 }

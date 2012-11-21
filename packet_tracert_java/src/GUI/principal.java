@@ -291,7 +291,7 @@ public class principal extends javax.swing.JFrame {
                     String msk = splited[1];
                     //trabajo de la ip para convertirlo a ip de red
                     //this.jPanel4.getCon()
-                        Paquete p = new Paquete(ipdst, msk, d2, 15, (Point) d1.getPoint().clone());
+                        Paquete p = new Paquete(ipdst, msk, d2, 15, d1);
                         System.out.println("A enviar "+p.toString());
                         
                         this.jPanel4.getCon().paquetes.add(p);                   

@@ -254,7 +254,7 @@ public class Controlador implements Serializable{
                 //if(rout.isPuertoEncendido(c.getModulo_local(), c.getPuerto_local())){ //puerto del router que envia
                     //if(c.getDispositivo().isPuertoEncendido(c.getModulo_cad(), c.getPuerto_cad())){ //puerto del router que recibe
                         resultado = c.getDispositivo().buscarIpEnPuerto(ip); 
-                        Paquete paquete = new Paquete(ip, mask, c.getDispositivo(), 5,(Point)rout.getPoint().clone()); 
+                        Paquete paquete = new Paquete(ip, mask, c.getDispositivo(), 5, rout); 
                         this.paquetes.add(paquete);
                         if(resultado) {
                             JOptionPane.showMessageDialog(null, "Se encontro la ip en el router"+c.getDispositivo().getNombre());
