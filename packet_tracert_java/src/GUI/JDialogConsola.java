@@ -157,6 +157,7 @@ public class JDialogConsola extends javax.swing.JDialog {
     
     private void mensaje_2_consola(String mensaje){
         jTextAreaConsola.append("\n"+mensaje+"\n");
+        
     }
     
     private void set_label_nivel(){
@@ -206,56 +207,75 @@ public class JDialogConsola extends javax.swing.JDialog {
             if(true){
                 
                 if(nivel.equals(nivel_normal)){
+                    boolean comando_exitoso = false;
                     if(comando.equals("enable") || comando.equals("en")){
                         nivel = nivel_enable;
+                        comando_exitoso = true;
                     }
                     if(comando.equals("?")){
-                        mensaje_consola("\nComandos Disponibles\n\nenable");
+                        mensaje_2_consola("\nComandos Disponibles\n\nenable");
+                        comando_exitoso = true;
                     }
-                }
+                    if(!comando_exitoso){
+                        mensaje_2_consola("Comando no encontrado1");
+                        
+                    }
+                    System.out.println(comando_exitoso);
+                }else 
                 if(nivel.equals(nivel_enable)){
+                    boolean comando_exitoso = false;
                     String[] list_com;
                     list_com = comando.split(" ");
                     if(comando.equals("configure terminal") || comando.equals("conf t")) {
                         nivel = nivel_configure_terminal;
+                        comando_exitoso = true;
                     }
 
                     if(comando.equals("show running-config")||comando.equals("sh run")){
-                        mensaje_consola(this.controlador.mostrar_informacion(this.id_router)+"\n");
+                        mensaje_2_consola(this.controlador.mostrar_informacion(this.id_router)+"\n");
+                        comando_exitoso = true;
                     }
 
                     if(comando.equals("?")){
-                        mensaje_consola("\nComandos Disponibles\n\nconfigure terminal\nshow running-config");
+                        mensaje_2_consola("\nComandos Disponibles\n\nconfigure terminal\nshow running-config");
+                        comando_exitoso = true;
                     }
 
                     if(list_com.length==2){
                         if(list_com[0].equals("ping")){
                             String ip = list_com[1];
                             String resultado = this.controlador.ping(this.id_router,ip);
-                            mensaje_consola("\n!\n!"+resultado);
+                            mensaje_2_consola("\n!\n!"+resultado);
+                            comando_exitoso = true;
                         }
                         if(list_com[0].equals("flooding")){
                             this.controlador.enviarFlooding(list_com[1], "255.255.255.0", 4, this.id_router);
-
+                            comando_exitoso = true;
                         }
                     }
-                }
-
+                    if(!comando_exitoso){
+                        mensaje_2_consola("Comando no encontrado2");
+                    }
+                }else
                 if(nivel.equals(nivel_configure_terminal)){
+                    boolean comando_exitoso = false;
                     String[] list_comando;
                     list_comando = comando.split(" ");
                     if(list_comando.length==2){
                         if(list_comando[0].equals("hostname")){
                             controlador.cambiar_nombre_router(this.id_router, list_comando[1]);
+                            comando_exitoso = true;
                         }
                     }
 
                     if(comando.equals("router vector")){
                         nivel = nivel_router_vector;
+                        comando_exitoso = true;
                     }
                     
                     if(comando.equals("router rip")){
                         nivel = nivel_router_rip;
+                        comando_exitoso = true;
                     }
 
                     if(list_comando.length == 3){
@@ -271,22 +291,27 @@ public class JDialogConsola extends javax.swing.JDialog {
                                     if(this.controlador.routers.get(this.pos_router).buscar_modulo_puerto(modulo, puerto)[0]!=-1){
                                         nivel = nivel_interface;
                                     }else{
-                                        mensaje_consola("No existe modulos o interfaz seleccionada"); 
+                                        mensaje_2_consola("No existe modulos o interfaz seleccionada"); 
                                     }
+                                    comando_exitoso = true;
                                  }
                             }
                         }
                     }
 
                     if(comando.equals("?")){
-                        mensaje_consola("\nComandos Disponibles\n\nhostname <nombre>\n"
+                        mensaje_2_consola("\nComandos Disponibles\n\nhostname <nombre>\n"
                                 + "interface fastEthernet <modulo>/<puerto>\n"
                                 + "router vector");
+                        comando_exitoso = true;
+                    }
+                    if(!comando_exitoso){
+                        mensaje_2_consola("Comando no encontrado3");
                     }
 
-                }
-
+                }else
                 if(nivel.equals(nivel_interface)){
+                    boolean comando_exitoso = false;
                     String[] list_ip_addres;
                     list_ip_addres = comando.split(" ");
 
@@ -303,15 +328,16 @@ public class JDialogConsola extends javax.swing.JDialog {
                                 System.err.println("Intente enviar una tabla sin configuracion de puertos :'(");
                             }
                             if(!flag){
-                                mensaje_consola("No se asigno la ip al puerto");
+                                mensaje_2_consola("No se asigno la ip al puerto");
                             }
+                            comando_exitoso = true;
                         }                        
                     }
 
                     if(comando.equals("no shutdown")){
                         boolean flag = this.controlador.encender_puerto(this.id_router, this.modulo, this.puerto);
                         if(flag){
-                            mensaje_consola("el puerto  se ha encendido");
+                            mensaje_2_consola("el puerto  se ha encendido");
                             try {
                                 System.out.println("Envio exitoso");
                             } catch (Exception ex) {
@@ -319,41 +345,55 @@ public class JDialogConsola extends javax.swing.JDialog {
                                 
                             }
                         }else{
-                            mensaje_consola("El puerto ya estaba encendido");
+                            mensaje_2_consola("El puerto ya estaba encendido");
                         }
+                        comando_exitoso = true;
                     }
 
                     if(comando.equals("shutdown")){
                         boolean flag = this.controlador.apagar_puerto(this.id_router, this.modulo, this.puerto);
                         if(flag){
-                            mensaje_consola("El puerto se ha apagado");
+                            mensaje_2_consola("El puerto se ha apagado");
                         }else{
-                            mensaje_consola("El puerto ya estaba apagado");
+                            mensaje_2_consola("El puerto ya estaba apagado");
                         }
+                        comando_exitoso = true;
                     }
                     if(comando.equals("?")){
-                        mensaje_consola("\nComandos Disponibles\n\nip address <ip> <netmask>\n"
+                        mensaje_2_consola("\nComandos Disponibles\n\nip address <ip> <netmask>\n"
                                 + "shutdown\nno shutdown");
+                        comando_exitoso = true;
                     }
-                }
-         
+                    if(!comando_exitoso){
+                        mensaje_2_consola("Comando no encontrado4");
+                    }
+                }else         
                 if(nivel.equals(nivel_router_rip)){
+                    boolean comando_exitoso = false;
                     String[] list_comando;
                     list_comando = comando.split(" ");
+                    try{
                         if(list_comando[0].equals("network")){
                             String ip = list_comando[1];
                             System.err.println("AQUI ESTOY");
                             String mask = "0.0.0.0";
                             if(isripv2){
                                 try{
-                                mask = list_comando[2];
+                                    mask = list_comando[2];
                                 }catch(IndexOutOfBoundsException iex){
-                                mensaje_consola("Por favor Escriba la mascara de subred");
+                                    mensaje_2_consola("Por favor Escriba la mascara de subred");
                                 }
                             }else{
                             }
                             nuevaentradaRip(ip,mask); 
+                            comando_exitoso = true;
                         }
+                    }catch(IndexOutOfBoundsException e){
+                        
+                    }
+                    if(!comando_exitoso){
+                        mensaje_2_consola("Comando no encontrado5");
+                    }
                 }
                 
                 if(comando.equals("exit")){
