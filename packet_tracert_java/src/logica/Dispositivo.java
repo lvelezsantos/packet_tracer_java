@@ -228,6 +228,21 @@ public class Dispositivo extends Thread implements Serializable{
         
     }
     
+    public boolean buscarIpEnPuerto(String ip){
+        boolean respuesta = false;
+        for(int j=0;j< getModulos().size();j++){
+            Modulo modulo = getModulos().get(j);
+            for(int k=0; k < modulo.getPuertos().size(); k++){
+                Puerto puerto = modulo.getPuertos().get(k);
+                if(puerto.getIp().equals(ip)){
+                    respuesta = true;
+                }
+            }
+        }
+        
+        return respuesta;
+    }
+    
     public boolean buscar_ip_en_conexiones(String ip){
         boolean respuesta;
         respuesta = false;
@@ -243,15 +258,7 @@ public class Dispositivo extends Thread implements Serializable{
                 }
             }            
         }
-        for(int j=0;j< getModulos().size();j++){
-            Modulo modulo = getModulos().get(j);
-            for(int k=0; k < modulo.getPuertos().size(); k++){
-                Puerto puerto = modulo.getPuertos().get(k);
-                if(puerto.getIp().equals(ip)){
-                    respuesta = true;
-                }
-            }
-        }
+        respuesta = buscarIpEnPuerto(ip);
         
         return respuesta;
     }
@@ -313,6 +320,34 @@ public class Dispositivo extends Thread implements Serializable{
             }
         }
         return "noneip";
+    }
+    
+    public boolean isPuertoEncendido(String modulo, String puerto){
+        boolean respuesta = false;
+        for(int i=0; i<this.modulos.size(); i++){
+            Modulo mod = this.modulos.get(i);
+            for(int j=0; j<mod.getPuertos().size(); j++){
+                Puerto puer = mod.getPuertos().get(j);
+                if(mod.getNombre().equalsIgnoreCase(modulo) && puer.getNombre().equalsIgnoreCase(puerto)){
+                    respuesta = puer.isActivado();
+                }
+            }
+        }
+        return respuesta;
+    }
+    
+    public boolean isPuertoUsado(String modulo, String puerto){
+        boolean respuesta = false;
+        for(int i=0; i<this.modulos.size(); i++){
+            Modulo mod = this.modulos.get(i);
+            for(int j=0; j<mod.getPuertos().size(); j++){
+                Puerto puer = mod.getPuertos().get(j);
+                if(mod.getNombre().equalsIgnoreCase(modulo) && puer.getNombre().equalsIgnoreCase(puerto)){
+                    respuesta = puer.isUsado();
+                }
+            }
+        }
+        return respuesta;
     }
     
 }

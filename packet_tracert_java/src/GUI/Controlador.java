@@ -7,6 +7,7 @@ package GUI;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import logica.Conexion;
 import logica.Dispositivo;
 import logica.PC;
@@ -209,25 +210,70 @@ public class Controlador implements Serializable{
     
     public void recorrido(){
         ArrayList<Paquete> toremove = new ArrayList<>();
+        ArrayList<Paquete> np = new ArrayList<>();
+        
         for(Paquete p : paquetes){
             if(p.arrive()){
+                System.out.println("Llego el paquete a su destino");
                 if(tipo_dispositivo((int)p.getNxthp().getIdDispositivo()).equalsIgnoreCase("router")){
                     Router r = this.search_router((int)p.getNxthp().getIdDispositivo());
-                    Paquete np = r.enrutar(p);
-                    if(np!=null){
-                    this.paquetes.add(np);
-                    }
+                    np = r.enrutar(p);
+                    
                     toremove.add(p);
                 }else{
                     toremove.add(p);
                 }
             }
         }
-        
+        if(np!=null){
+            for(Paquete p : np){
+                paquetes.add(p);
+                System.out.println("Agregando paquete"+p.getNxthp().getNombre());
+            }
+            
+        }
          for(Paquete p : toremove){
              paquetes.remove(p);
+             System.out.println("Eliminado paquete"+p.getNxthp().getNombre());
          }
         
+    }
+    
+     public void enviarFlooding(String ip, String mask,int num_saltos, int id_dispositivo){
+        /*
+         * Primero verificamos que la ip buscada este en
+         * algun puerto local
+         */
+        Router rout = search_router(id_dispositivo);
+        boolean resultado = rout.buscarIpEnPuerto(ip); 
+        System.out.println("numero de salto"+num_saltos);
+        if(!resultado && num_saltos > 0){
+            //buscamos en las conexiones 
+            for(Conexion c : rout.getConexiones()){
+                //comentamos las validaciones para hacer pruebas facilmente
+                //if(rout.isPuertoEncendido(c.getModulo_local(), c.getPuerto_local())){ //puerto del router que envia
+                    //if(c.getDispositivo().isPuertoEncendido(c.getModulo_cad(), c.getPuerto_cad())){ //puerto del router que recibe
+                        resultado = c.getDispositivo().buscarIpEnPuerto(ip); 
+                        Paquete paquete = new Paquete(ip, mask, c.getDispositivo(), 5,(Point)rout.getPoint().clone()); 
+                        this.paquetes.add(paquete);
+                        if(resultado) {
+                            JOptionPane.showMessageDialog(null, "Se encontro la ip en el router"+c.getDispositivo().getNombre());
+                            break;
+                        }
+                    //}else{
+                    //    System.out.println("El puerto esta apagado");
+                    //}
+                //}else{
+                //    System.out.println("El puerto esta apagado");
+                //}
+            }
+        }
+        if(num_saltos==0 && !resultado){
+            System.out.println("No se ha encontrado la ip");
+        }
+        if(resultado){
+            System.err.print("Se ha encontrado la ip buscada");
+        }
     }
     
 }

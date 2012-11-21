@@ -7,6 +7,7 @@ package logica;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -70,7 +71,7 @@ public class Router extends Dispositivo{
     }
     
 
-     public Paquete enrutar(Paquete p) {
+     public ArrayList<Paquete> enrutar(Paquete p) {
         if(hasIP(p.getIpdst())){
             return null;
         }else{
@@ -93,14 +94,41 @@ public class Router extends Dispositivo{
                 }
                 if(nxthp!=null){
                     Paquete r = new Paquete(ipdst, nmks, nxthp, p.getTtl() -1 , this.getPoint());
-                    return r;
+                    ArrayList<Paquete> array = new ArrayList<>();
+                    array.add(r);
+                    return array;
                 }
             }
             }catch(Exception er){
                 return null;
             }
             }else{
-            // enrutamiento para otros protocolos
+                //flooding
+                ArrayList<Paquete> array = new ArrayList<>(); //para enviar todos los paquetes que se generen
+                if(p.getTtl()>0){
+                    Dispositivo d = p.getNxthp();
+                    if(d.buscarIpEnPuerto(p.getIpdst())){
+                        JOptionPane.showMessageDialog(null, "Se encontro la ip en el router"+d.getNombre());
+                    }
+                    System.out.println("Enviando nuevos paquetes");
+                    for(Conexion c : d.getConexiones()){
+                        boolean resultado = c.getDispositivo().buscarIpEnPuerto(p.getIpdst());
+                        System.out.println("router:"+c.getDispositivo().getNombre());
+                        System.out.println("punto:"+c.getDispositivo().getPoint());
+                        Paquete paq = null;
+                        if(resultado){
+                            System.err.println("Encontrada la ip");                            
+                             paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), 1, (Point)d.getPoint().clone());                        
+                             
+                        }else{
+                             paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), p.getTtl()-1, (Point)d.getPoint().clone());                        
+                            
+                        }
+                        
+                        array.add(paq);
+                    }
+                    return array;
+                }
             }
         }
         return null;
@@ -168,7 +196,7 @@ public class Router extends Dispositivo{
     
     public void run(){
         while(true){
-            System.out.println("Enviando tablas rip");
+            //System.out.println("Enviando tablas rip");
             enviartRip();
             try {
                 Thread.sleep(1000*5);
@@ -195,7 +223,7 @@ public class Router extends Dispositivo{
         for(EntradaRip r : rip.getEntradas()){
             this.compararEntrada(r,rip.getId_owner());
         }
-        System.err.println("Acabando de comparar tablas rip soy"+this.getNombre());
+        //System.err.println("Acabando de comparar tablas rip soy"+this.getNombre());
     }
     
     public void agregarRip(EntradaRip r){

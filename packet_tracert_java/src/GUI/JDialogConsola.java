@@ -204,12 +204,7 @@ public class JDialogConsola extends javax.swing.JDialog {
             comandos_ejecutados.add(comando);
             //if(diccionario.solver(comando)){
             if(true){
-                if(comando.equals("flooding")){
-                    String[] list_com = comando.split(" ");
-                    Dispositivo dis = this.controlador.routers.get(pos_router);
-                    dis.getFlooding().ejecutar_protocolo(dis.getConexiones(), list_com[1], Integer.getInteger(list_com[2]));
-                    
-                }
+                
                 if(nivel.equals(nivel_normal)){
                     if(comando.equals("enable") || comando.equals("en")){
                         nivel = nivel_enable;
@@ -238,6 +233,10 @@ public class JDialogConsola extends javax.swing.JDialog {
                             String ip = list_com[1];
                             String resultado = this.controlador.ping(this.id_router,ip);
                             mensaje_consola("\n!\n!"+resultado);
+                        }
+                        if(list_com[0].equals("flooding")){
+                            this.controlador.enviarFlooding(list_com[1], "255.255.255.0", 4, this.id_router);
+
                         }
                     }
                 }
