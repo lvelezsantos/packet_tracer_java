@@ -97,6 +97,23 @@ public class Dispositivo extends Thread implements Serializable{
         System.out.println(lista_puertos);
         return lista_puertos;
     }    
+    
+    public ArrayList<String> mostrarPuertosLibres(){
+        System.out.println(this.nombre);
+        ArrayList<String> lista_puertos = new ArrayList<>();
+        for(int i=0;i<this.modulos.size();i++){
+            Modulo modulo = this.modulos.get(i);
+            for(int j=0; j < modulo.getPuertos().size(); j++){
+                Puerto puerto = modulo.getPuertos().get(j);
+                if(!puerto.isUsado()){
+                    String cadena_puerto = modulo.getNombre() + "/" + puerto.getNombre();
+                    lista_puertos.add(cadena_puerto);
+                }
+            }
+        }
+        System.out.println(lista_puertos);
+        return lista_puertos;
+    }    
 
     /**
      * @return the point

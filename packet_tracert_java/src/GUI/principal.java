@@ -602,25 +602,46 @@ public class principal extends javax.swing.JFrame {
     }
 
     private void connect() {
-        System.out.println("Connect :"+d1.getIdDispositivo()+" <> "+d2.getIdDispositivo());
-                
-        if(jPanel4.getCon().tipo_dispositivo(d1.getIdDispositivo()).equalsIgnoreCase("pc")){
-        d1c1 = "0/0";
-        }else{
-        d1c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getIdDispositivo()+" (modulo/conector)\n"+d1.mostrarPuertos());
+        
+        boolean disponible_d1 = d1.mostrarPuertosLibres().isEmpty();    
+        boolean disponible_d2 = d2.mostrarPuertosLibres().isEmpty();
+        if(disponible_d1){
+            JOptionPane.showMessageDialog(null, "El dispositivo 1 no tiene puertos libres");
+            if(disponible_d2){
+                JOptionPane.showMessageDialog(null, "El dispositivo 2 no tiene puertos libres");
+            }
         }
-        if(jPanel4.getCon().tipo_dispositivo(d2.getIdDispositivo()).equalsIgnoreCase("pc")){
-        d2c1 = "0/0";
-        }else{
-        d2c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getIdDispositivo()+" (modulo/conector)\n"+d2.mostrarPuertos());
+        if(!disponible_d1 && !disponible_d2){
+            System.out.println("Connect :"+d1.getIdDispositivo()+" <> "+d2.getIdDispositivo());
+            if(jPanel4.getCon().tipo_dispositivo(d1.getIdDispositivo()).equalsIgnoreCase("pc")){
+            d1c1 = "0/0";
+            }else{
+
+                JDialogPuertos jd = new JDialogPuertos(this, true, jPanel4.getCon(), d1.getIdDispositivo());
+                ModVentana.centrar(jd);
+                //d1c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getIdDispositivo()+" (modulo/conector)\n"+d1.mostrarPuertos());
+                jd.setVisible(true);
+                d1c1 = jd.getSeleccion();
+            }
+            if(jPanel4.getCon().tipo_dispositivo(d2.getIdDispositivo()).equalsIgnoreCase("pc")){
+            d2c1 = "0/0";
+            }else{
+                JDialogPuertos jd = new JDialogPuertos(this, true, jPanel4.getCon(), d2.getIdDispositivo());
+                ModVentana.centrar(jd);
+                jd.setVisible(true);
+                d2c1 = jd.getSeleccion();
+                //d2c1 = JOptionPane.showInputDialog("Digite el conector y el modulo del router "+d1.getIdDispositivo()+" (modulo/conector)\n"+d2.mostrarPuertos());
+
+            }
+            try{
+
+                jPanel4.getCon().connect(d1.getIdDispositivo(), d2.getIdDispositivo(), d1c1.charAt(2)+"",d2c1.charAt(2)+"", d1c1.charAt(0)+"", d2c1.charAt(0)+"");
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+            d1 = null;
+            d2 = null;
         }
-        try{
-        jPanel4.getCon().connect(d1.getIdDispositivo(), d2.getIdDispositivo(), d1c1.charAt(2)+"",d2c1.charAt(2)+"", d1c1.charAt(0)+"", d2c1.charAt(0)+"");
-        }catch(Exception e){
-        JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        d1 = null;
-        d2 = null;
     }
 
     private void iniciar_Consola(Point point) {
