@@ -32,9 +32,12 @@ public class Paquete {
     }
     
     public boolean arrive(){
-        if(getP().x == getNxthp().getPoint().x && getP().y == getNxthp().getPoint().y){
-            return true;
-        }else{
+         if(p.y>=nxthp.getPoint().y-40 && p.y <= nxthp.getPoint().y + 40){
+                if(p.x>=nxthp.getPoint().x-40 && p.x <= nxthp.getPoint().x + 40){
+                System.out.println("Llego llego llego");
+                return true;
+                }
+         }else{
             if(getP().x < getNxthp().getPoint().x){
             this.p.x++;
             }else{
