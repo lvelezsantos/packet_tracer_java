@@ -483,8 +483,12 @@ public class principal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            
+            @Override
             public void run() {
-                new principal().setVisible(true);
+                principal prin = new principal();
+                ModVentana.centrar(prin);
+                prin.setVisible(true);
             }
         });
     }
@@ -654,6 +658,7 @@ public class principal extends javax.swing.JFrame {
         System.out.println("bout show console");
         if(jPanel4.getCon().tipo_dispositivo(a.getIdDispositivo()).equalsIgnoreCase("router")){
             JDialogConsola jd = new JDialogConsola(null,true, jPanel4.getCon(), a.getIdDispositivo());
+            ModVentana.centrar(jd);
             jd.setVisible(true);
         }else{
             String ip = JOptionPane.showInputDialog("Digite la IP del computador");
@@ -730,15 +735,6 @@ public class principal extends javax.swing.JFrame {
                 jPanel4.setCon(new Controlador()); //reinicializamos el controlador
                 for(RouterGuardar rout_guar: lista_dis){
                     
-                    //Router rout = new Router();
-                    //rout.setPoint(rout_guar.getPoint());
-                    //rout.setNombre(rout_guar.getNombre());
-                    //rout_guar.colacarPuertosLibres();
-                    //rout.setModulos(rout_guar.getModulos());
-                    
-                    //rout.setRipt(rout_guar.getRipt());
-                    //rout.setRipv2(rout_guar.isRipv2());
-                    //rout.setIdDispositivo(rout_guar.getIdDispositivo());
                     jPanel4.getCon().add_router(rout_guar.getPoint());
                     jPanel4.getCon().search_router(rout_guar.getIdDispositivo()).setRipt(rout_guar.getRipt());
                     jPanel4.getCon().search_router(rout_guar.getIdDispositivo()).setRipv2(rout_guar.isRipv2());
@@ -748,19 +744,30 @@ public class principal extends javax.swing.JFrame {
                             jPanel4.getCon().asignar_ip_puerto(rout_guar.getIdDispositivo(), mod.getNombre(), puer.getNombre(), puer.getIp(), puer.getNetmask());
                         }
                     }
-                    jPanel4.getCon().asignar_ip_puerto(rout_guar.getIdDispositivo(), d1c1, selected, kind, selected);
-                }
-                for(RouterGuardar rout_guar: lista_dis){
                     
+                }
+                System.out.println("");
+                for(RouterGuardar rout_guar: lista_dis){  
+                    System.err.println("Agregando conexiones");
+                    System.out.println("");
+                    System.out.println("Router1:"+rout_guar.getNombre());
                     for(ConexionGuardar conex : rout_guar.getConexiones()){
-                        jPanel4.getCon().connect(
-                                rout_guar.getIdDispositivo(), //dis1
-                                conex.getDispositivo().getIdDispositivo(), //dis2
-                                conex.getPuerto_local(), //puertodis1
-                                conex.getPuerto_cad(), //puertodis2
-                                conex.getModulo_local(), //modulodis1
-                                conex.getModulo_cad() //modulodis2
-                                );  
+                        
+                        System.out.println("");
+                        System.out.println("Router2:"+conex.getDispositivo().getNombre());
+                        System.out.println(""+conex);
+                        try{
+                            jPanel4.getCon().connect(
+                                    rout_guar.getIdDispositivo(), //dis1
+                                    conex.getDispositivo().getIdDispositivo(), //dis2
+                                    conex.getPuerto_cad(), //puertodis2
+                                    conex.getPuerto_local(), //puertodis1
+                                    conex.getModulo_cad(), //modulodis2
+                                    conex.getModulo_local() //modulodis1
+                                    );  
+                        }catch(Exception e){
+                            
+                        }
                     }
                     
                 }

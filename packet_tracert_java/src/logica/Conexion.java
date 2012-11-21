@@ -48,8 +48,8 @@ public class Conexion {
             ArrayList<Puerto> puertos = modulo.getPuertos();
             for(int j=0;j < puertos.size(); j++){
                 Puerto puerto = puertos.get(j);
-                System.out.println("ModuloSeleccionado/PuertoSeleccionado"+this.modulo_cad + "/"+this.puerto_cad);
-                System.out.println("ModuloRouter/PuertoRouter"+modulo.getNombre()+"/"+puerto.getNombre());
+                //System.out.println("ModuloSeleccionado/PuertoSeleccionado"+this.modulo_cad + "/"+this.puerto_cad);
+                //System.out.println("ModuloRouter/PuertoRouter"+modulo.getNombre()+"/"+puerto.getNombre());
                 if(modulo.getNombre().equalsIgnoreCase(this.modulo_cad+"") && puerto.getNombre().equalsIgnoreCase(this.puerto_cad+"")){
                     if(!puerto.isUsado()){
                         System.out.println(modulo_cad);

@@ -74,6 +74,7 @@ public class JDialogConsola extends javax.swing.JDialog {
         this.comandos_ejecutados = new ArrayList<String>();
         this.posicion_comandos = comandos_ejecutados.size();
         this.diccionario = new Diccionario();
+        this.jTextFieldComando.requestFocus();
     }
 
     /**
