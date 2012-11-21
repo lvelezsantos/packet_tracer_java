@@ -7,7 +7,6 @@ package logica;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
-import logica.algoritmos_de_enrutamiento.ProtocoloFlooding;
 
 /**
  *
@@ -20,11 +19,9 @@ public class Dispositivo extends Thread implements Serializable{
     private ArrayList<Modulo>  modulos;
     private ArrayList<Conexion> conexiones;
     private Point point;
-    private ProtocoloFlooding flooding;
     
     public Dispositivo() {
         this.conexiones = new  ArrayList<Conexion>();
-        this.flooding = new ProtocoloFlooding();
     }
     
     public Dispositivo(String nombre, ArrayList<Modulo> modulos,int id, Point point) {
@@ -33,7 +30,6 @@ public class Dispositivo extends Thread implements Serializable{
         this.conexiones = new  ArrayList<Conexion>();
         this.id_dispositivo = id;
         this.point = point;
-        this.flooding = new ProtocoloFlooding();
     }
 
     public String getNombre() {
@@ -60,14 +56,6 @@ public class Dispositivo extends Thread implements Serializable{
         this.id_dispositivo = id;
     }
 
-    public ProtocoloFlooding getFlooding() {
-        return flooding;
-    }
-
-    public void setFlooding(ProtocoloFlooding flooding) {
-        this.flooding = flooding;
-    }
-    
     public void agregar_conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad, String modulo_local, String puerto_local) throws Exception{
         Conexion conexion;
         conexion = new Conexion(dispositivo, modulo_cad, puerto_cad, modulo_local, puerto_local);
