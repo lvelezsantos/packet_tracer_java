@@ -211,8 +211,8 @@ public class Controlador implements Serializable{
         ArrayList<Paquete> toremove = new ArrayList<>();
         for(Paquete p : paquetes){
             if(p.arrive()){
-                if(tipo_dispositivo((int)p.getNxthp().getId()).equalsIgnoreCase("router")){
-                    Router r = this.search_router((int)p.getNxthp().getId());
+                if(tipo_dispositivo((int)p.getNxthp().getIdDispositivo()).equalsIgnoreCase("router")){
+                    Router r = this.search_router((int)p.getNxthp().getIdDispositivo());
                     Paquete np = r.enrutar(p);
                     if(np!=null){
                     this.paquetes.add(np);
