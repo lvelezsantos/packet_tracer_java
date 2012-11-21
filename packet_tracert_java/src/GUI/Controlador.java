@@ -213,7 +213,9 @@ public class Controlador implements Serializable{
         ArrayList<Paquete> np = new ArrayList<>();
         
         for(Paquete p : paquetes){
-            if(p.arrive()){
+            boolean s = p.arrive();
+            System.err.println(s);
+            if(s){
                 System.out.println("Llego el paquete a su destino");
                 if(tipo_dispositivo((int)p.getNxthp().getIdDispositivo()).equalsIgnoreCase("router")){
                     Router r = this.search_router((int)p.getNxthp().getIdDispositivo());
@@ -275,54 +277,5 @@ public class Controlador implements Serializable{
             System.err.print("Se ha encontrado la ip buscada");
         }
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public ArrayList<Router> getRouters() {
-        return routers;
-    }
-
-    public void setRouters(ArrayList<Router> routers) {
-        this.routers = routers;
-    }
-
-    public ArrayList<PC> getPcs() {
-        return pcs;
-    }
-
-    public void setPcs(ArrayList<PC> pcs) {
-        this.pcs = pcs;
-    }
-
-    public ArrayList<Paquete> getPaquetes() {
-        return paquetes;
-    }
-
-    public void setPaquetes(ArrayList<Paquete> paquetes) {
-        this.paquetes = paquetes;
-    }
-
-    public Router getCreador_router() {
-        return creador_router;
-    }
-
-    public void setCreador_router(Router creador_router) {
-        this.creador_router = creador_router;
-    }
-
-    public PC getCreador_pc() {
-        return creador_pc;
-    }
-
-    public void setCreador_pc(PC creador_pc) {
-        this.creador_pc = creador_pc;
-    }
     
-     
 }
