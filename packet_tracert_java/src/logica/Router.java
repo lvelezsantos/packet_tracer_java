@@ -93,7 +93,7 @@ public class Router extends Dispositivo{
                    }
                 }
                 if(nxthp!=null){
-                    Paquete r = new Paquete(ipdst, nmks, nxthp, p.getTtl() -1 , this);
+                    Paquete r = new Paquete(ipnxt, nmks, nxthp, p.getTtl() -1 , this);
                     ArrayList<Paquete> array = new ArrayList<>();
                     array.add(r);
                     return array;

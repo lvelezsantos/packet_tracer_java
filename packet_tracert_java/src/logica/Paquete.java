@@ -21,16 +21,18 @@ public class Paquete {
     private Dispositivo origen;
     private int m;
     private int b;
+    private Point pf;
     
     public Paquete(String ipdst, String mskdst, Dispositivo nxthp, int ttl, Dispositivo origen){
         this.ipdst = ipdst;
         this.mskdst = mskdst;
         this.nxthp = nxthp;
         this.ttl = ttl;
+        this.pf = (Point) nxthp.getPoint().clone();
         this.p = (Point)origen.getPoint().clone();
         this.origen = origen;
-        m = (this.nxthp.getPoint().y - p.y)/(this.nxthp.getPoint().x - p.x);
-        b = p.y - m*p.x;
+        m = (this.pf.y - p.y)/(this.pf.x - p.x);
+        b = this.pf.y - m*this.pf.x;
     }
     
     public boolean arrive(){
