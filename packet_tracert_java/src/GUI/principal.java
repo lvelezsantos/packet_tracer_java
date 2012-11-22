@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Autom.Automata;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -70,7 +71,6 @@ public class principal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -106,17 +106,6 @@ public class principal extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jLabel2);
-
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc1.png"))); // NOI18N
-        jLabel1.setText("PC");
-        jLabel1.setEnabled(false);
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
-        });
-        jPanel2.add(jLabel1);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/eth.png"))); // NOI18N
         jLabel3.setText("Conexiones");
@@ -175,14 +164,14 @@ public class principal extends javax.swing.JFrame {
         jPanel4.setMinimumSize(new java.awt.Dimension(800, 600));
         jPanel4.setPreferredSize(new java.awt.Dimension(800, 600));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel4MouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jPanel4MousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jPanel4MouseReleased(evt);
-            }
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel4MouseClicked(evt);
             }
         });
         jPanel4.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -220,7 +209,7 @@ public class principal extends javax.swing.JFrame {
             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1257, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 1122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -306,7 +295,13 @@ public class principal extends javax.swing.JFrame {
             if(a!=null){
                 String ip = JOptionPane.showInputDialog("Digite la ip destino");
                 System.err.println("ip flooding: "+ip);
-                if(ip!=null){
+                boolean valid = false;
+                try{
+                    valid = Automata.evalip(ip);
+                }catch(Exception e){
+                    valid = false;
+                }
+                if(valid){
 
                    //validar_ip(ip);
                    jPanel4.getCon().enviarFlooding(ip, "255.255.255.0", 5, a.getIdDispositivo()); 
@@ -337,40 +332,24 @@ public class principal extends javax.swing.JFrame {
         }
         panel = false;
 //        this.jPanel3.setVisible(panel);
-        jLabel1.setBorder(null);
         jLabel3.setBorder(null);
         jLabel4.setBorder(null);
         jLabel5.setBorder(null);
         jLabel7.setBorder(null);      
     }//GEN-LAST:event_jLabel2MouseClicked
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-//        if(selected.equalsIgnoreCase("pc")){
-//        selected = "none";
-//        jLabel1.setBorder(null);
-//        }else{
-//        selected = "pc";
-//        jLabel1.setBorder(new LineBorder(Color.blue, 2));
-//        }
-//        panel = false;
-////        this.jPanel3.setVisible(panel);
-//        jLabel2.setBorder(null);
-//        jLabel3.setBorder(null);
-//        jLabel6.setBorder(null);
-//        jLabel4.setBorder(null);
-//        jLabel5.setBorder(null);
-    }//GEN-LAST:event_jLabel1MouseClicked
-
     private void jPanel4MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseDragged
-        if(!choque(evt.getPoint()).contains("false")){
-        if(sel == 1){
-            if(selectedr != -1){
-                this.jPanel4.getCon().routers.get(selectedr).setPoint(evt.getPoint());//set(selectedr, evt.getPoint());
-            }else if(selectedp != -1){
-                this.jPanel4.getCon().pcs.get(selectedp).setPoint(evt.getPoint());
+        if(jPanel4.getCon().paquetes.isEmpty()){
+            if(!choque(evt.getPoint()).contains("false")){
+                if(sel == 1){
+                    if(selectedr != -1){
+                        this.jPanel4.getCon().routers.get(selectedr).setPoint(evt.getPoint());//set(selectedr, evt.getPoint());
+                    }else if(selectedp != -1){
+                        this.jPanel4.getCon().pcs.get(selectedp).setPoint(evt.getPoint());
+                    }
+                }
+                this.jPanel4.repaint();
             }
-        }
-        this.jPanel4.repaint();
         }
         
     }//GEN-LAST:event_jPanel4MouseDragged
@@ -405,7 +384,6 @@ public class principal extends javax.swing.JFrame {
         }
         this.panel = true;
         //this.jPanel3.setVisible(panel);
-        jLabel1.setBorder(null);
         jLabel2.setBorder(null);
         jLabel6.setBorder(null);
         jLabel4.setBorder(null);
@@ -423,7 +401,6 @@ public class principal extends javax.swing.JFrame {
         }
         this.panel = true;
         //this.jPanel3.setVisible(panel);
-        jLabel1.setBorder(null);
         jLabel2.setBorder(null);
         jLabel3.setBorder(null);
         jLabel4.setBorder(null);
@@ -450,7 +427,6 @@ public class principal extends javax.swing.JFrame {
             this.jLabel4.setBorder(new LineBorder(Color.blue,2));
             selected = "mess";
         }
-        jLabel1.setBorder(null);
         jLabel2.setBorder(null);
         jLabel3.setBorder(null);
         jLabel6.setBorder(null);
@@ -466,7 +442,6 @@ public class principal extends javax.swing.JFrame {
             this.jLabel5.setBorder(new LineBorder(Color.blue,2));
             selected = "flood";
         }
-        jLabel1.setBorder(null);
         jLabel2.setBorder(null);
         jLabel3.setBorder(null);
         jLabel6.setBorder(null);
@@ -482,7 +457,6 @@ public class principal extends javax.swing.JFrame {
             this.jLabel7.setBorder(new LineBorder(Color.blue,2));
             selected = "selec";
         }
-        jLabel1.setBorder(null);
         jLabel2.setBorder(null);
         jLabel3.setBorder(null);
         jLabel6.setBorder(null);
@@ -543,7 +517,6 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonExportar;
     private javax.swing.JButton jButtonImportar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
