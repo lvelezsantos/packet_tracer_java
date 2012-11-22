@@ -777,10 +777,10 @@ public class principal extends javax.swing.JFrame {
                             jPanel4.getCon().connect_import(
                                     rout_guar.getIdDispositivo(), //dis1
                                     conex.getDispositivo().getIdDispositivo(), //dis2
-                                    conex.getPuerto_cad(), //puertodis2
                                     conex.getPuerto_local(), //puertodis1
-                                    conex.getModulo_cad(), //modulodis2
-                                    conex.getModulo_local() //modulodis1
+                                    conex.getPuerto_cad(), //puertodis2
+                                    conex.getModulo_local(), //modulodis1
+                                    conex.getModulo_cad() //modulodis2
                                     );  
                         /*}catch(Exception e){
                             
