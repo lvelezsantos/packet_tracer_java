@@ -21,10 +21,10 @@ public class Paquete {
     private Point p;
     private Dispositivo origen;
     private float m;
-    
+    private boolean destino_encontrado;
     private Point pf;
     
-    public Paquete(String ipdst, String mskdst, Dispositivo nxthp, int ttl, Dispositivo origen){
+    public Paquete(String ipdst, String mskdst, Dispositivo nxthp, int ttl, Dispositivo origen, boolean destino_encontrado){
         this.ipdst = ipdst;
         this.mskdst = mskdst;
         this.nxthp = nxthp;
@@ -32,6 +32,7 @@ public class Paquete {
         this.p = (Point)origen.getPoint().clone();
         this.origen = origen;
         this.pf = (Point)nxthp.getPoint().clone();
+        this.destino_encontrado = destino_encontrado;
         //System.out.println(p.toString());
         //System.out.println(pf.toString());
         try{
@@ -145,60 +146,70 @@ public class Paquete {
     public void setOrigen(Dispositivo origen) {
         this.origen = origen;
     }
+
+    public boolean isDestino_encontrado() {
+        return destino_encontrado;
+    }
+
+    public void setDestino_encontrado(boolean destino_encontrado) {
+        this.destino_encontrado = destino_encontrado;
+    }
+    
+    
     
     
     public Point Bresenham(int x0, int y0, int x1, int y1){
-    int x, y, dx, dy, p, incE, incNE, stepx, stepy;
-    dx = (x1 - x0);
-    dy = (y1 - y0);
-    /* determinar que punto usar para empezar, cual para terminar */
-        if (dy < 0) { 
-            dy = -dy; stepy = -1; 
+        int x, y, dx, dy, p, incE, incNE, stepx, stepy;
+        dx = (x1 - x0);
+        dy = (y1 - y0);
+        /* determinar que punto usar para empezar, cual para terminar */
+            if (dy < 0) { 
+                dy = -dy; stepy = -1; 
+            } 
+        else
+            stepy = 1;
+        if (dx < 0) {  
+            dx = -dx; stepx = -1; 
         } 
-    else
-        stepy = 1;
-    if (dx < 0) {  
-        dx = -dx; stepx = -1; 
-    } 
-    else 
-        stepx = 1;
-    x = x0;
-    y = y0;
-    //g.drawLine( x0, y0, x0, y0);
-    /* se cicla hasta llegar al extremo de la línea */
-    if(dx>dy){
-        p = 2*dy - dx;
-        incE = 2*dy;
-        incNE = 2*(dy-dx);
-    while (x != x1){
-      x = x + stepx;
-      if (p < 0){
-        p = p + incE;
+        else 
+            stepx = 1;
+        x = x0;
+        y = y0;
+        //g.drawLine( x0, y0, x0, y0);
+        /* se cicla hasta llegar al extremo de la línea */
+        if(dx>dy){
+            p = 2*dy - dx;
+            incE = 2*dy;
+            incNE = 2*(dy-dx);
+        while (x != x1){
+          x = x + stepx;
+          if (p < 0){
+            p = p + incE;
+          }
+          else {
+            y = y + stepy;
+            p = p + incNE;
+          }
+          return new Point(x0,y0);
+        }
       }
-      else {
-        y = y + stepy;
-        p = p + incNE;
+      else{
+        p = 2*dx - dy;
+        incE = 2*dx;
+        incNE = 2*(dx-dy);
+        while (y != y1){
+          y = y + stepy;
+          if (p < 0){
+            p = p + incE;
+          }
+          else {
+            x = x + stepx;
+            p = p + incNE;
+          }
+          return new Point(x0,y0);
+        }
       }
-      return new Point(x0,y0);
-    }
-  }
-  else{
-    p = 2*dx - dy;
-    incE = 2*dx;
-    incNE = 2*(dx-dy);
-    while (y != y1){
-      y = y + stepy;
-      if (p < 0){
-        p = p + incE;
-      }
-      else {
-        x = x + stepx;
-        p = p + incNE;
-      }
-      return new Point(x0,y0);
-    }
-  }
-    return null;
+      return null;
 }
     
     

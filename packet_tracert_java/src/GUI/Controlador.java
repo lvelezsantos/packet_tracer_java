@@ -264,7 +264,9 @@ public class Controlador implements Serializable{
                 if(tipo_dispositivo((int)p.getNxthp().getIdDispositivo()).equalsIgnoreCase("router")){
                     Router r = this.search_router((int)p.getNxthp().getIdDispositivo());
                     np = r.enrutar(p);
-                    
+                    if(p.isDestino_encontrado()){
+                        JOptionPane.showMessageDialog(null, "Destino encontrado"); 
+                    }
                     toremove.add(p);
                 }else{
                     toremove.add(p);
@@ -300,12 +302,14 @@ public class Controlador implements Serializable{
                 //if(rout.isPuertoEncendido(c.getModulo_local(), c.getPuerto_local())){ //puerto del router que envia
                     //if(c.getDispositivo().isPuertoEncendido(c.getModulo_cad(), c.getPuerto_cad())){ //puerto del router que recibe
                         resultado = c.getDispositivo().buscarIpEnPuerto(ip); 
-                        Paquete paquete = new Paquete(ip, mask, c.getDispositivo(), 5, rout); 
-                        this.paquetes.add(paquete);
-                        if(resultado) {
-                            JOptionPane.showMessageDialog(null, "Se encontro la ip en el router"+c.getDispositivo().getNombre());
-                            break;
+                        
+                        Paquete paquete;
+                        if(resultado) {                            
+                            paquete = new Paquete(ip, mask, c.getDispositivo(), 1, rout, true);                             
+                        }else{
+                            paquete = new Paquete(ip, mask, c.getDispositivo(), 5, rout, false); 
                         }
+                        this.paquetes.add(paquete);
                     //}else{
                     //    System.out.println("El puerto esta apagado");
                     //}

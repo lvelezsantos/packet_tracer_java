@@ -95,7 +95,7 @@ public class Router extends Dispositivo{
                        }
                     }
                     if(nxthp!=null){
-                        Paquete r = new Paquete(ipnxt, nmks, nxthp, p.getTtl() -1 , this);
+                        Paquete r = new Paquete(ipnxt, nmks, nxthp, p.getTtl() -1 , this, false);
                         ArrayList<Paquete> array = new ArrayList<>();
                         array.add(r);
                         return array;
@@ -122,9 +122,9 @@ public class Router extends Dispositivo{
                             Paquete paq = null;
                             if(resultado){
                                  System.err.println("Encontrada la ip");
-                                 paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), 1, d);
+                                 paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), 1, d, true);
                             }else{
-                                 paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), p.getTtl()-1, d);
+                                 paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), p.getTtl()-1, d, false);
                             }
                             array.add(paq);
                         }else{
