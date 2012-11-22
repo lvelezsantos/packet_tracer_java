@@ -4,11 +4,13 @@
  */
 package logica.algoritmos_de_enrutamiento;
 
+import java.io.Serializable;
+
 /**
  *
  * @author minrock
  */
-public class EntradaRip {
+public class EntradaRip implements Serializable{
     
     private String ipdst;
     private String maskdst;

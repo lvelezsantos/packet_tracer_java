@@ -11,6 +11,8 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import logica.algoritmos_de_enrutamiento.BgpTabla;
+import logica.algoritmos_de_enrutamiento.EntradaBgp;
 import logica.algoritmos_de_enrutamiento.EntradaRip;
 import logica.algoritmos_de_enrutamiento.RipTabla;
 
@@ -21,6 +23,7 @@ import logica.algoritmos_de_enrutamiento.RipTabla;
 public class Router extends Dispositivo{
     private ProtocoloVectorDistancia p_vector;
     private RipTabla ript;
+    private BgpTabla bgpt;
     private boolean ripv2=false;
     private String sistemaAutonomo;
     private boolean borde;
@@ -184,7 +187,41 @@ public class Router extends Dispositivo{
             this.agregarRip(o); //falta calcular el nextHop
         }
     }
-
+    
+    public void compararEntradaB(EntradaBgp en, long id_owner){
+        boolean localizado = false;
+        for(int i=0;i<getBgpt().getEntradas().size();i++){
+            EntradaBgp aux = getBgpt().getEntradas().get(i);
+            if(aux.getIpdst().equalsIgnoreCase(en.getIpdst())){
+                if(aux.getNhops()>en.getNhops()+1){
+                    replaceB(en,i,id_owner);
+                    localizado = true;
+                }else{
+                    localizado = true;
+                }
+            }
+        }
+        if(!localizado){
+            ArrayList con = this.getConexiones();
+            Conexion aux=null;
+            Iterator it = con.iterator();
+            while(it.hasNext()){
+                Conexion c = (Conexion) it.next();
+                if(c.getDispositivo().getIdDispositivo() == id_owner){
+                    aux = c;
+                }
+            }
+            String ipnexthop = "";
+            if(aux!=null){
+                try{
+                ipnexthop = ""+aux.getDispositivo().ip_modulo_puerto(aux.getModulo_cad(), aux.getPuerto_cad());
+                }catch(Exception e){
+                    System.out.println("Error No existe IP");
+                }
+            }
+        }
+    }
+    
     private void replace(EntradaRip en, int i,long id_owner) {
         ArrayList con = this.getConexiones();
         Conexion aux=null;
@@ -208,6 +245,28 @@ public class Router extends Dispositivo{
         
     }
     
+    private void replaceB(EntradaBgp en, int i,long id_owner) {
+        ArrayList con = this.getConexiones();
+        Conexion aux=null;
+        Iterator it = con.iterator();
+        while(it.hasNext()){
+            Conexion c = (Conexion) it.next();
+            if(c.getDispositivo().getIdDispositivo() == id_owner){
+                aux = c;
+            }
+        }
+        String ipnexthop = "";
+        if(aux!=null){
+            try{
+            ipnexthop = ""+aux.getDispositivo().ip_modulo_puerto(aux.getModulo_cad(), aux.getPuerto_cad());
+            }catch(Exception e){
+                System.out.println("Error No existe IP");
+            }
+        }
+        
+        getBgpt().getEntradas().set(i, new EntradaBgp(en.getIpdst(), en.getMaskdst(), ipnexthop, en.getNhops()+1,en.getAutonSystem()));
+        
+    }
     public void run(){
         while(true){
             //System.out.println("Enviando tablas rip");
@@ -233,9 +292,28 @@ public class Router extends Dispositivo{
         }
     }
     
+    private void enviartBgp() {
+        for(Conexion c : this.getConexiones()){
+            
+            try{
+                Router aux = (Router)c.getDispositivo();
+                aux.recibirBgp(getBgpt());
+            }catch(Exception e){
+                System.err.println("Error al enviar datos no soy un router");
+            }
+        }
+    }
+    
     public void recibirRip(RipTabla rip){
         for(EntradaRip r : rip.getEntradas()){
             this.compararEntrada(r,rip.getId_owner());
+        }
+        //System.err.println("Acabando de comparar tablas rip soy"+this.getNombre());
+    }
+    
+    public void recibirBgp(BgpTabla bgp){
+        for(EntradaBgp r : bgp.getEntradas()){
+            this.compararEntradaB(r,bgp.getId_owner());
         }
         //System.err.println("Acabando de comparar tablas rip soy"+this.getNombre());
     }
@@ -254,6 +332,24 @@ public class Router extends Dispositivo{
             this.getRipt().getEntradas().add(r);
         }else{
             this.ript.getEntradas().set(pos,r);
+       }
+        
+    }
+    
+    public void agregarBgp(EntradaBgp r){
+        boolean localizado = false;
+        int pos=0;
+        for(int i = 0; i<this.getBgpt().getEntradas().size();i++){
+            if(this.bgpt.getEntradas().get(i).getIpdst() == r.getIpdst()){
+                localizado = true;
+                pos = i;
+                break;
+            }
+        }
+        if(!localizado){
+            this.getBgpt().getEntradas().add(r);
+        }else{
+            this.bgpt.getEntradas().set(pos,r);
        }
         
     }
@@ -282,9 +378,10 @@ public class Router extends Dispositivo{
         informacion += cad_puertos;
         
         String cad_conexiones = "\nConexiones: \n";
+        cad_conexiones += "Local\tRouter\tRemoto\n";
         for(int i=0;i<getConexiones().size();i++){
             Conexion conex = getConexiones().get(i);
-            cad_conexiones += conex.getDispositivo().getNombre() + "\t" + conex.getModulo_cad() + "/" + 
+            cad_conexiones += conex.getModulo_local()+"/"+conex.getPuerto_local()+"\t"+conex.getDispositivo().getNombre() + "\t" + conex.getModulo_cad() + "/" + 
                     conex.getPuerto_cad()+'\n';
         }
         if(!getConexiones().isEmpty()){
@@ -369,5 +466,12 @@ public class Router extends Dispositivo{
         this.borde = borde;
     }
     
+    public BgpTabla getBgpt() {
+        return bgpt;
+    }
     
+    public void setBgpt(BgpTabla bgpt) {
+        this.bgpt = bgpt;
+}
+     
 }

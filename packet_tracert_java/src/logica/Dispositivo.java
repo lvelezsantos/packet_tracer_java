@@ -224,7 +224,7 @@ public class Dispositivo extends Thread implements Serializable{
         String cad_conexiones = "\nConexiones: ";
         for(int i=0;i<getConexiones().size();i++){
             Conexion conex = getConexiones().get(i);
-            cad_conexiones += conex.getDispositivo().getNombre() + "\t" + conex.getModulo_cad() + "/" + 
+            cad_conexiones += conex.getModulo_local()+"/"+conex.getPuerto_local()+"->/t"+conex.getDispositivo().getNombre() + "\t" + conex.getModulo_cad() + "/" + 
                     conex.getPuerto_cad()+'\n';
         }
         if(!getConexiones().isEmpty()){

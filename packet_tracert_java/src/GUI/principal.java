@@ -46,6 +46,7 @@ public class principal extends javax.swing.JFrame {
     private Dispositivo d2 = null;
     String d1c1= "";
     String d2c1= "";
+    private Dispositivo router_seleccionado=null;
     
     /**
      * Creates new form principal
@@ -67,15 +68,18 @@ public class principal extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButtonExportar = new javax.swing.JButton();
-        jButtonImportar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jButtonExportar = new javax.swing.JButton();
+        jButtonImportar = new javax.swing.JButton();
         jPanel4 = new PanelCentral();
+        jLabelInfo = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -84,6 +88,15 @@ public class principal extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel7.setText("Seleccionar");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+        jPanel2.add(jLabel7);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router1.png"))); // NOI18N
         jLabel2.setText("Router");
@@ -92,6 +105,7 @@ public class principal extends javax.swing.JFrame {
                 jLabel2MouseClicked(evt);
             }
         });
+        jPanel2.add(jLabel2);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc1.png"))); // NOI18N
@@ -102,6 +116,7 @@ public class principal extends javax.swing.JFrame {
                 jLabel1MouseClicked(evt);
             }
         });
+        jPanel2.add(jLabel1);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/eth.png"))); // NOI18N
         jLabel3.setText("Conexiones");
@@ -110,6 +125,7 @@ public class principal extends javax.swing.JFrame {
                 jLabel3MouseClicked(evt);
             }
         });
+        jPanel2.add(jLabel3);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/Terminal Icon.jpg"))); // NOI18N
         jLabel6.setText("Terminal");
@@ -118,20 +134,7 @@ public class principal extends javax.swing.JFrame {
                 jLabel6MouseClicked(evt);
             }
         });
-
-        jButtonExportar.setText("Exportar");
-        jButtonExportar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExportarActionPerformed(evt);
-            }
-        });
-
-        jButtonImportar.setText("Importar");
-        jButtonImportar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonImportarActionPerformed(evt);
-            }
-        });
+        jPanel2.add(jLabel6);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/mess.jpg"))); // NOI18N
         jLabel4.setText("Mensaje");
@@ -140,6 +143,7 @@ public class principal extends javax.swing.JFrame {
                 jLabel4MouseClicked(evt);
             }
         });
+        jPanel2.add(jLabel4);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/mess_flood.png"))); // NOI18N
         jLabel5.setText("Inundar Red");
@@ -148,60 +152,37 @@ public class principal extends javax.swing.JFrame {
                 jLabel5MouseClicked(evt);
             }
         });
+        jPanel2.add(jLabel5);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonExportar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonImportar)
-                .addGap(0, 157, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButtonExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jButtonImportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        jButtonExportar.setText("Exportar");
+        jButtonExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExportarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButtonExportar);
+
+        jButtonImportar.setText("Importar");
+        jButtonImportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImportarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButtonImportar);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setMaximumSize(new java.awt.Dimension(800, 600));
         jPanel4.setMinimumSize(new java.awt.Dimension(800, 600));
         jPanel4.setPreferredSize(new java.awt.Dimension(800, 600));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel4MouseClicked(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jPanel4MousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jPanel4MouseReleased(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel4MouseClicked(evt);
             }
         });
         jPanel4.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -218,34 +199,45 @@ public class principal extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGap(0, 612, Short.MAX_VALUE)
         );
+
+        jLabelInfo.setText("Info");
+        jLabelInfo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jButton1.setText("Info");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1093, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1257, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 1122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1)))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jLabelInfo});
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -325,6 +317,9 @@ public class principal extends javax.swing.JFrame {
             
             
         }
+        if(selected.equalsIgnoreCase("selec")){
+            Dispositivo a = disxpoint(evt.getPoint());
+        }
         imprimir();
         jPanel4.repaint();
         
@@ -346,6 +341,7 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBorder(null);
         jLabel4.setBorder(null);
         jLabel5.setBorder(null);
+        jLabel7.setBorder(null);      
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
@@ -414,6 +410,7 @@ public class principal extends javax.swing.JFrame {
         jLabel6.setBorder(null);
         jLabel4.setBorder(null);
         jLabel5.setBorder(null);
+        jLabel7.setBorder(null);      
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
@@ -431,6 +428,7 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBorder(null);
         jLabel4.setBorder(null);
         jLabel5.setBorder(null);
+        jLabel7.setBorder(null);      
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jButtonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExportarActionPerformed
@@ -457,6 +455,7 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBorder(null);
         jLabel6.setBorder(null);
         jLabel5.setBorder(null);
+        jLabel7.setBorder(null);      
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -472,7 +471,35 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBorder(null);
         jLabel6.setBorder(null);
         jLabel4.setBorder(null);
+        jLabel7.setBorder(null);        
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        if(selected.equalsIgnoreCase("selec")){
+            selected = "none";
+            this.jLabel7.setBorder(null);            
+        }else{
+            this.jLabel7.setBorder(new LineBorder(Color.blue,2));
+            selected = "selec";
+        }
+        jLabel1.setBorder(null);
+        jLabel2.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel6.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel5.setBorder(null);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(router_seleccionado!=null){
+            JDialogMostrarInfo jDialogMostrarInfo = new JDialogMostrarInfo(
+                                                                    this, 
+                                                                    true, 
+                                                                    this.router_seleccionado.mostrar_informacion());
+            ModVentana.centrar(jDialogMostrarInfo);
+            jDialogMostrarInfo.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -513,6 +540,7 @@ public class principal extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonExportar;
     private javax.swing.JButton jButtonImportar;
     private javax.swing.JLabel jLabel1;
@@ -521,6 +549,8 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabelInfo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     /*
@@ -611,6 +641,8 @@ public class principal extends javax.swing.JFrame {
                 if(p.x>=jPanel4.getCon().routers.get(i).getPoint().x-40 && p.x <= jPanel4.getCon().routers.get(i).getPoint().x + 40){
                     
                     dre = jPanel4.getCon().routers.get(i);
+                    jLabelInfo.setText(dre.getNombre());
+                    this.router_seleccionado = dre;       
                     
                 }
             }
