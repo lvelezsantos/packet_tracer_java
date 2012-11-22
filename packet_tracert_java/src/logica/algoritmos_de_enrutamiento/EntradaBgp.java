@@ -12,14 +12,14 @@ public class EntradaBgp {
     
     private String ipdst;
     private String maskdst;
-    private String nextHop;
+    private String nextAtnSys;
     private int nhops;
     private String autonSys;
     
-    public EntradaBgp(String ipdst, String maskdst, String nextHop, int nhops, String atnsys){
+    public EntradaBgp(String ipdst, String maskdst, String nextSys, int nhops, String atnsys){
         this.ipdst = ipdst;
         this.maskdst = maskdst;
-        this.nextHop = nextHop;
+        this.nextAtnSys = nextSys;
         this.nhops = nhops;
         this.autonSys = atnsys;
     }
@@ -56,14 +56,14 @@ public class EntradaBgp {
      * @return the nextHop
      */
     public String getNextHop() {
-        return nextHop;
+        return nextAtnSys;
     }
 
     /**
      * @param nextHop the nextHop to set
      */
-    public void setNextHop(String nextHop) {
-        this.nextHop = nextHop;
+    public void setNextHop(String nextSys) {
+        this.nextAtnSys = nextSys;
     }
 
     /**
@@ -84,9 +84,6 @@ public class EntradaBgp {
         return autonSys;
     }
 
-    /**
-     * @param maskdst the maskdst to set
-     */
     public void setAutonSystem(String autnsys) {
         this.autonSys = autnsys;
     }
