@@ -75,7 +75,8 @@ public class Router extends Dispositivo{
 
      public ArrayList<Paquete> enrutar(Paquete p) {
         if(hasIP(p.getIpdst())){
-            return null;
+            System.err.println("RETORNE EN IF NUMERO 1");
+            return new ArrayList<>();
         }else{
             if(!ript.getEntradas().isEmpty()){
             try{
@@ -83,9 +84,13 @@ public class Router extends Dispositivo{
                 String nmks = p.getMskdst();
                 Dispositivo nxthp = null;
                 String ipnxt = "";
-                for(EntradaRip r : this.getRipt().getEntradas()){
+                System.err.println("LLEGO HASTA ACA!!");
+                System.err.println(ipdst);
+                for(EntradaRip r : this.ript.getEntradas()){
+                    System.err.println(r.toString());
                     if(r.getIpdst().equals(ipdst)){
                         ipnxt = r.getNextHop();
+                        System.out.println("IP para el siguiente salto "+ipnxt);
                     }
                 }
                 if(!ipnxt.equals("")){
@@ -102,6 +107,8 @@ public class Router extends Dispositivo{
                     }
                 }
             }catch(Exception er){
+                er.printStackTrace();
+                System.err.println("RETORNE EN LA EXEPCION Y FUE "+er.toString());
                 return null;
             }
             }else{
@@ -135,6 +142,7 @@ public class Router extends Dispositivo{
                 }
             }
         }
+         System.err.println("Retornando null ps no hay nada que hacer :(");
         return null;
     }
     
@@ -171,7 +179,9 @@ public class Router extends Dispositivo{
                 System.out.println("Error No existe IP");
             }
         }
-            this.agregarRip(new EntradaRip(en.getIpdst(), en.getMaskdst(), ipnexthop, en.getNhops()+1)); //falta calcular el nextHop
+        EntradaRip o = new EntradaRip(en.getIpdst(), en.getMaskdst(), ipnexthop, en.getNhops()+1);
+            System.err.println("Agregando Entrada RIP -> "+o.toString());
+            this.agregarRip(o); //falta calcular el nextHop
         }
     }
 
@@ -297,15 +307,17 @@ public class Router extends Dispositivo{
     }
     
     private String toNetworkip(String ipdst,String msk) throws Exception {
-        String[] dividemask = msk.split(".");
+        msk = msk.replace(".", "x");
+        ipdst = ipdst.replace(".","x");
+        String[] dividemask = msk.split("x");
         String netip ="";
-        String[] splitip = ipdst.split(".");
+        String[] splitip = ipdst.split("x");
         if(dividemask[0].equals("255")){
             netip += splitip[0]+".";
             if(dividemask[1].equals("255")){
                 netip += splitip[1]+".";
                 if(dividemask[2].equals("255")){
-                    netip = splitip[2];
+                    netip += splitip[2]+".";
                     if(dividemask[3].equals("255")){
                         throw new Exception("La mascara del dispositivo no acepta conexiones (Full Mask)");
                     }

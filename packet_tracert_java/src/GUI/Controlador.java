@@ -325,5 +325,13 @@ public class Controlador implements Serializable{
             System.err.print("Se ha encontrado la ip buscada");
         }
     }
+     
+     public void add_paquetes(ArrayList<Paquete> paqu){
+     
+         for(Paquete q : paqu){
+             this.paquetes.add(q);
+         }
+     
+     }
     
 }

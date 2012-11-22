@@ -292,15 +292,18 @@ public class principal extends javax.swing.JFrame {
                     System.out.println("Dispositivo 2 seleccionado");
                     String ret = d2.giveAIp(); // obtengo una IP valida del dispositivo
                     System.out.println("RETORNADO-> "+ret);
-                    String[] splited = ret.split("/");
+                    String[] splited = ret.split("#");
                     String ipdst = splited[0];
+                    System.out.println(ipdst);
                     String msk = splited[1];
+                    System.out.println(msk);
                     //trabajo de la ip para convertirlo a ip de red
                     //this.jPanel4.getCon()
                         Paquete p = new Paquete(ipdst, msk, d2, 15, d1, false);
                         System.out.println("A enviar "+p.toString());
-                        
-                        this.jPanel4.getCon().paquetes.add(p);                   
+                        Router r1 = this.jPanel4.getCon().search_router(d1.getIdDispositivo());
+                        ArrayList<Paquete> p2 = r1.enrutar(p);
+                        this.jPanel4.getCon().add_paquetes(p2);                  
                 }
             
                 

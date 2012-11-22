@@ -78,6 +78,8 @@ public class EntradaRip {
         this.nhops = nhops;
     }
     
-    
+    public String toString(){
+    return this.ipdst+"  "+this.maskdst+"  "+this.getNextHop()+"  "+this.getNextHop();
+    }
     
 }
