@@ -96,14 +96,14 @@ public class Conexion {
                         flag = true;
                         break;
                     }else{
-                        throw new Exception("Puerto Ocupado");
+                        //throw new Exception("Puerto Ocupado");
                     }
                 }              
                 
             }
         }
         if(!flag){
-            throw new Exception("No existe modulo/puerto");
+            //throw new Exception("No existe modulo/puerto");
         }
         return flag;
         
