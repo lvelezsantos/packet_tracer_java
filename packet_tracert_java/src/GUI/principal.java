@@ -757,8 +757,8 @@ public class principal extends javax.swing.JFrame {
                         System.out.println("");
                         System.out.println("Router2:"+conex.getDispositivo().getNombre());
                         System.out.println(""+conex);
-                        try{
-                            jPanel4.getCon().connect(
+                        //try{
+                            jPanel4.getCon().connect_import(
                                     rout_guar.getIdDispositivo(), //dis1
                                     conex.getDispositivo().getIdDispositivo(), //dis2
                                     conex.getPuerto_cad(), //puertodis2
@@ -766,9 +766,9 @@ public class principal extends javax.swing.JFrame {
                                     conex.getModulo_cad(), //modulodis2
                                     conex.getModulo_local() //modulodis1
                                     );  
-                        }catch(Exception e){
+                        /*}catch(Exception e){
                             
-                        }
+                        }*/
                     }
                     
                 }

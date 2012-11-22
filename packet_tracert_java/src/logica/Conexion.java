@@ -73,6 +73,42 @@ public class Conexion {
         
     }
     
+    public boolean conectar_import() throws Exception{
+        /*
+         Asigna el puerto del dispositivo como usado 
+         */
+        boolean flag =  false;
+        ArrayList<Modulo> modulos = this.dispositivo.getModulos();
+        for(int i=0;i<modulos.size();i++){
+            Modulo modulo = modulos.get(i);
+            ArrayList<Puerto> puertos = modulo.getPuertos();
+            for(int j=0;j < puertos.size(); j++){
+                Puerto puerto = puertos.get(j);
+                //System.out.println("ModuloSeleccionado/PuertoSeleccionado"+this.modulo_cad + "/"+this.puerto_cad);
+                //System.out.println("ModuloRouter/PuertoRouter"+modulo.getNombre()+"/"+puerto.getNombre());
+                if(modulo.getNombre().equalsIgnoreCase(this.modulo_local+"") && puerto.getNombre().equalsIgnoreCase(this.puerto_local+"")){
+                    if(!puerto.isUsado()){
+                        System.out.println(modulo_cad);
+                        System.out.println(puerto_cad);
+                        puerto.setUsado(true);
+                        modulo.getPuertos().set(j, puerto);
+                        this.dispositivo.getModulos().set(i, modulo);
+                        flag = true;
+                        break;
+                    }else{
+                        throw new Exception("Puerto Ocupado");
+                    }
+                }              
+                
+            }
+        }
+        if(!flag){
+            throw new Exception("No existe modulo/puerto");
+        }
+        return flag;
+        
+    }
+    
     public boolean desconectar(){
         /*
          Asigna el puerto del dispositivo como usado 

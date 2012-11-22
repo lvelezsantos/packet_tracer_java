@@ -63,6 +63,13 @@ public class Dispositivo extends Thread implements Serializable{
         this.conexiones.add(conexion);
     }
     
+    public void agregar_conexion_import(Dispositivo dispositivo, String modulo_cad, String puerto_cad, String modulo_local, String puerto_local) throws Exception{
+        Conexion conexion;
+        conexion = new Conexion(dispositivo, modulo_cad, puerto_cad, modulo_local, puerto_local);
+        conexion.conectar_import();
+        this.conexiones.add(conexion);
+    }
+    
     public void eliminar_conexion(Dispositivo dispositivo, String modulo_cad, String puerto_cad, String modulo_local, String puerto_local){
         Conexion conexion;
         conexion = new Conexion(dispositivo, modulo_cad, puerto_cad, modulo_local, puerto_local);
