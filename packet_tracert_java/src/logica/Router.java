@@ -82,28 +82,28 @@ public class Router extends Dispositivo{
         }else{
             if(!ript.getEntradas().isEmpty()){
             try{
-            String ipdst = toNetworkip(p.getIpdst(), p.getMskdst());
-            String nmks = p.getMskdst();
-            Dispositivo nxthp = null;
-            String ipnxt = "";
-            for(EntradaRip r : this.getRipt().getEntradas()){
-                if(r.getIpdst().equals(ipdst)){
-                    ipnxt = r.getNextHop();
+                String ipdst = toNetworkip(p.getIpdst(), p.getMskdst());
+                String nmks = p.getMskdst();
+                Dispositivo nxthp = null;
+                String ipnxt = "";
+                for(EntradaRip r : this.getRipt().getEntradas()){
+                    if(r.getIpdst().equals(ipdst)){
+                        ipnxt = r.getNextHop();
+                    }
                 }
-            }
-            if(!ipnxt.equals("")){
-                for(Conexion c : this.getConexiones()){
-                   if(c.getDispositivo().hasIP(ipnxt)){
-                       nxthp = c.getDispositivo();
-                   }
+                if(!ipnxt.equals("")){
+                    for(Conexion c : this.getConexiones()){
+                       if(c.getDispositivo().hasIP(ipnxt)){
+                           nxthp = c.getDispositivo();
+                       }
+                    }
+                    if(nxthp!=null){
+                        Paquete r = new Paquete(ipnxt, nmks, nxthp, p.getTtl() -1 , this, false);
+                        ArrayList<Paquete> array = new ArrayList<>();
+                        array.add(r);
+                        return array;
+                    }
                 }
-                if(nxthp!=null){
-                    Paquete r = new Paquete(ipnxt, nmks, nxthp, p.getTtl() -1 , this);
-                    ArrayList<Paquete> array = new ArrayList<>();
-                    array.add(r);
-                    return array;
-                }
-            }
             }catch(Exception er){
                 return null;
             }
@@ -125,9 +125,9 @@ public class Router extends Dispositivo{
                             Paquete paq = null;
                             if(resultado){
                                  System.err.println("Encontrada la ip");
-                                 paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), 1, d);
+                                 paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), 1, d, true);
                             }else{
-                                 paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), p.getTtl()-1, d);
+                                 paq = new Paquete(p.getIpdst(), p.getMskdst(), c.getDispositivo(), p.getTtl()-1, d, false);
                             }
                             array.add(paq);
                         }else{
@@ -234,7 +234,7 @@ public class Router extends Dispositivo{
         getRipt().getEntradas().set(i, new EntradaRip(en.getIpdst(), en.getMaskdst(), ipnexthop, en.getNhops()+1));
         
     }
-
+    
     private void replaceB(EntradaBgp en, int i,long id_owner) {
         ArrayList con = this.getConexiones();
         Conexion aux=null;
@@ -257,7 +257,6 @@ public class Router extends Dispositivo{
         getBgpt().getEntradas().set(i, new EntradaBgp(en.getIpdst(), en.getMaskdst(), ipnexthop, en.getNhops()+1,en.getAutonSystem()));
         
     }
-    
     public void run(){
         while(true){
             //System.out.println("Enviando tablas rip");
@@ -368,7 +367,7 @@ public class Router extends Dispositivo{
         }
         informacion += cad_puertos;
         
-        String cad_conexiones = "\nConexiones: ";
+        String cad_conexiones = "\nConexiones: \n";
         for(int i=0;i<getConexiones().size();i++){
             Conexion conex = getConexiones().get(i);
             cad_conexiones += conex.getDispositivo().getNombre() + "\t" + conex.getModulo_cad() + "/" + 
@@ -453,13 +452,13 @@ public class Router extends Dispositivo{
     public void setBorde(boolean borde) {
         this.borde = borde;
     }
-
+    
     public BgpTabla getBgpt() {
         return bgpt;
     }
-
+    
     public void setBgpt(BgpTabla bgpt) {
         this.bgpt = bgpt;
-    }
+}
      
 }
