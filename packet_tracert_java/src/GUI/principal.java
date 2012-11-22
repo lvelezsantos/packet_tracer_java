@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Autom.Automata;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -306,7 +307,13 @@ public class principal extends javax.swing.JFrame {
             if(a!=null){
                 String ip = JOptionPane.showInputDialog("Digite la ip destino");
                 System.err.println("ip flooding: "+ip);
-                if(ip!=null){
+                boolean valid = false;
+                try{
+                    valid = Automata.evalip(ip);
+                }catch(Exception e){
+                    valid = false;
+                }
+                if(valid){
 
                    //validar_ip(ip);
                    jPanel4.getCon().enviarFlooding(ip, "255.255.255.0", 5, a.getIdDispositivo()); 
@@ -362,15 +369,17 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jPanel4MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseDragged
-        if(!choque(evt.getPoint()).contains("false")){
-        if(sel == 1){
-            if(selectedr != -1){
-                this.jPanel4.getCon().routers.get(selectedr).setPoint(evt.getPoint());//set(selectedr, evt.getPoint());
-            }else if(selectedp != -1){
-                this.jPanel4.getCon().pcs.get(selectedp).setPoint(evt.getPoint());
+        if(jPanel4.getCon().paquetes.isEmpty()){
+            if(!choque(evt.getPoint()).contains("false")){
+                if(sel == 1){
+                    if(selectedr != -1){
+                        this.jPanel4.getCon().routers.get(selectedr).setPoint(evt.getPoint());//set(selectedr, evt.getPoint());
+                    }else if(selectedp != -1){
+                        this.jPanel4.getCon().pcs.get(selectedp).setPoint(evt.getPoint());
+                    }
+                }
+                this.jPanel4.repaint();
             }
-        }
-        this.jPanel4.repaint();
         }
         
     }//GEN-LAST:event_jPanel4MouseDragged

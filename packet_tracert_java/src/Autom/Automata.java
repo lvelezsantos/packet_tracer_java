@@ -114,8 +114,11 @@ public class Automata {
         String[] a = ip.split("_");
         System.out.println(">>"+ip+"    .....    ");
         System.out.println(a[0]);
+        if(a[3].equals("0") || a[3].equals("00") || a[3].equals("000") || a[3].equals("255")){
+            return false;
+        } 
         for(int i=0;i<4;i++){
-            System.out.println(a[i]+"Soy yo");
+//            System.out.println(a[i]+"Soy yo");
             if(!atmt255.run(a[i])){
                 return false;
             }
