@@ -156,12 +156,20 @@ public class Router extends Dispositivo{
         boolean localizado = false;
         for(int i=0;i<getRipt().getEntradas().size();i++){
             EntradaRip aux = getRipt().getEntradas().get(i);
-            if(aux.getIpdst().equalsIgnoreCase(en.getIpdst())){
+            if(aux.getIpdst().equalsIgnoreCase(en.getIpdst()) && !this.getRipt().isRipv2_enable()){
                 if(aux.getNhops()>en.getNhops()+1){
                     replace(en,i,id_owner);
                     localizado = true;
                 }else{
                     localizado = true;
+                }
+            }else{
+                if(aux.getIpdst().equalsIgnoreCase(en.getIpdst()) && this.getRipt().isRipv2_enable()){
+                    if(aux.getMaskdst().equalsIgnoreCase(en.getMaskdst())){
+                        if(aux.getNhops() > en.getNhops()+1){
+                            replace(en,i,id_owner);
+                        }
+                    }
                 }
             }
         }
@@ -405,7 +413,7 @@ public class Router extends Dispositivo{
     }
     
     private String toNetworkip(String ipdst,String msk) throws Exception {
-        msk = msk.replace(".", "x");
+        if(this.ript.isRipv2_enable()){msk = msk.replace(".", "x");
         ipdst = ipdst.replace(".","x");
         String[] dividemask = msk.split("x");
         String netip ="";
@@ -426,6 +434,28 @@ public class Router extends Dispositivo{
             return netip+"0.0.0";
         }else{
             throw new Exception("Un dispositivo no tiene mascara aceptada");
+        }
+      }else{
+            String mskbase = this.getBase(ipdst);
+            String[] divided = mskbase.replace(".", "_").split("_");
+            int nsredes = 0;
+            int npcs=0;
+            if(mskbase.equalsIgnoreCase("255.0.0.0")){
+                if(submascara_posible(divided[1])==0){
+                    npcs = 16777214;
+                    nsredes = 0;
+                }else if(submascara_posible(divided[1])>0 && submascara_posible(divided[1])<8){
+                    nsredes = submascara_posible(divided[0]);
+                    npcs = (int) Math.pow(2,(24-nsredes));
+                }else if(submascara_posible(divided[1])==8){
+                    
+                }
+            }else if(mskbase.equalsIgnoreCase("255.255.0.0")){
+            }else if(mskbase.equalsIgnoreCase("255.255.255.0")){
+            }else{
+                throw new Exception("Un dispositivo no tiene mascara aceptada");
+            }
+            return "";
         }
     }
 
@@ -474,5 +504,53 @@ public class Router extends Dispositivo{
     public void setBgpt(BgpTabla bgpt) {
         this.bgpt = bgpt;
 }
+    
+    public String getBase(String ip){
+        String clase ="";
+        ip = ip.replace(".", "_");
+        String[] primoct = ip.split("_");
+        if(Integer.parseInt(primoct[0]) >= 1 && Integer.parseInt(primoct[0]) <=126 ){
+            clase = "255.0.0.0";
+        }else if(Integer.parseInt(primoct[0]) >= 128 && Integer.parseInt(primoct[0]) <=191 ){
+            clase = "255.255.0.0";
+        }else if(Integer.parseInt(primoct[0]) >= 192 && Integer.parseInt(primoct[0]) <=223 ){
+            clase = "255.255.255.0";
+        }else{
+            clase = "no_class";
+        }
+        
+        return clase;
+    }
+    
+    public int submascara_posible(String mask){
+        if(mask.equals("255")){
+            return 8;
+        }
+         if(mask.equals("254")){
+            return 7;
+        }
+        if(mask.equals("252")){
+            return 6;
+        }
+        if(mask.equals("248")){
+            return 5;
+        }
+        if(mask.equals("240")){
+            return 4;
+        }
+        if(mask.equals("224")){
+            return 3;
+        }
+        if(mask.equals("192")){
+            return 2;
+        }
+        if(mask.equals("128")){
+            return 1;
+        }
+        if(mask.equals("0")){
+            return 0;
+        }
+        return -1;
+    }
      
 }

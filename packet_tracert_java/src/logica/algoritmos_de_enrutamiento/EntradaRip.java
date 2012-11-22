@@ -17,6 +17,7 @@ public class EntradaRip implements Serializable{
     private String nextHop;
     private int nhops;
     
+    
     public EntradaRip(String ipdst, String maskdst, String nextHop, int nhops){
         this.ipdst = ipdst;
         this.maskdst = maskdst;
@@ -83,5 +84,7 @@ public class EntradaRip implements Serializable{
     public String toString(){
     return this.ipdst+"  "+this.maskdst+"  "+this.getNextHop()+"  "+this.getNextHop();
     }
+
+   
     
 }

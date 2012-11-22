@@ -15,6 +15,7 @@ public class RipTabla implements Serializable{
     
     private long id_owner;
     private ArrayList<EntradaRip> entradas;
+    private boolean ripv2_enable;
     
     public RipTabla(long owner){
         this.id_owner = owner;
@@ -47,6 +48,20 @@ public class RipTabla implements Serializable{
      */
     public void setEntradas(ArrayList<EntradaRip> entradas) {
         this.entradas = entradas;
+    }
+    
+     /**
+     * @return the ripv2_enable
+     */
+    public boolean isRipv2_enable() {
+        return ripv2_enable;
+    }
+
+    /**
+     * @param ripv2_enable the ripv2_enable to set
+     */
+    public void setRipv2_enable(boolean ripv2_enable) {
+        this.ripv2_enable = ripv2_enable;
     }
     
 }

@@ -58,8 +58,7 @@ public class JDialogConsola extends javax.swing.JDialog {
     private String modulo;
     private String puerto;
     private ArrayList<String> comandos_ejecutados;
-    private int posicion_comandos;
-    private Diccionario diccionario;
+    private int posicion_comandos;  
     private boolean isripv2 = false;
     
     public JDialogConsola(java.awt.Frame parent, boolean modal, Controlador controlador, int id_router) {
@@ -73,7 +72,7 @@ public class JDialogConsola extends javax.swing.JDialog {
         set_label_nivel();
         this.comandos_ejecutados = new ArrayList<String>();
         this.posicion_comandos = comandos_ejecutados.size();
-        this.diccionario = new Diccionario();
+        isripv2 = this.controlador.routers.get(pos_router).getRipt().isRipv2_enable();
         this.jTextFieldComando.requestFocus();
     }
 
