@@ -96,6 +96,7 @@ public class principal extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/pc1.png"))); // NOI18N
         jLabel1.setText("PC");
+        jLabel1.setEnabled(false);
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
@@ -168,7 +169,7 @@ public class principal extends javax.swing.JFrame {
                 .addComponent(jButtonExportar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonImportar)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 157, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,7 +226,7 @@ public class principal extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1093, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,20 +330,20 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        if(selected.equalsIgnoreCase("pc")){
-        selected = "none";
-        jLabel1.setBorder(null);
-        }else{
-        selected = "pc";
-        jLabel1.setBorder(new LineBorder(Color.blue, 2));
-        }
-        panel = false;
-//        this.jPanel3.setVisible(panel);
-        jLabel2.setBorder(null);
-        jLabel3.setBorder(null);
-        jLabel6.setBorder(null);
-        jLabel4.setBorder(null);
-        jLabel5.setBorder(null);
+//        if(selected.equalsIgnoreCase("pc")){
+//        selected = "none";
+//        jLabel1.setBorder(null);
+//        }else{
+//        selected = "pc";
+//        jLabel1.setBorder(new LineBorder(Color.blue, 2));
+//        }
+//        panel = false;
+////        this.jPanel3.setVisible(panel);
+//        jLabel2.setBorder(null);
+//        jLabel3.setBorder(null);
+//        jLabel6.setBorder(null);
+//        jLabel4.setBorder(null);
+//        jLabel5.setBorder(null);
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jPanel4MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseDragged
@@ -429,7 +430,7 @@ public class principal extends javax.swing.JFrame {
             selected = "none";
             this.jLabel4.setBorder(null);
         }else{
-            this.jLabel4.setBorder(new LineBorder(Color.blue));
+            this.jLabel4.setBorder(new LineBorder(Color.blue,2));
             selected = "mess";
         }
         jLabel1.setBorder(null);
@@ -442,9 +443,9 @@ public class principal extends javax.swing.JFrame {
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         if(selected.equalsIgnoreCase("flood")){
             selected = "none";
-            this.jLabel4.setBorder(null);
+            this.jLabel5.setBorder(null);
         }else{
-            this.jLabel4.setBorder(new LineBorder(Color.blue));
+            this.jLabel5.setBorder(new LineBorder(Color.blue,2));
             selected = "flood";
         }
         jLabel1.setBorder(null);
