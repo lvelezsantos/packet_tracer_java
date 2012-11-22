@@ -32,12 +32,12 @@ public class Paquete {
         this.p = (Point)origen.getPoint().clone();
         this.origen = origen;
         this.pf = (Point)nxthp.getPoint().clone();
-        System.out.println(p.toString());
-        System.out.println(pf.toString());
+        //System.out.println(p.toString());
+        //System.out.println(pf.toString());
         try{
             
             m =(float) (this.pf.y - p.y)/(this.pf.x - p.x);
-            System.err.println((this.pf.y - p.y)/(this.pf.x - p.x));
+            //System.err.println((this.pf.y - p.y)/(this.pf.x - p.x));
         }catch(Exception e){
             m=0;
         }
@@ -49,12 +49,12 @@ public class Paquete {
         
          if(p.y>nxthp.getPoint().y-33 && p.y < nxthp.getPoint().y + 33){
                 if(p.x>nxthp.getPoint().x-33 && p.x < nxthp.getPoint().x + 33){
-                System.out.println("Llego llego llego");
+                //System.out.println("Llego llego llego");
                 return true;
                 }
          }else{
             this.p.y = Math.round(-m*(pf.x-p.x)+pf.y);
-             System.out.println(p);
+             //System.out.println(p);
             //System.err.println("b ->"+b+" m->"+m);
 //             Point ps = Bresenham(p.x, p.y, nxthp.getPoint().x, nxthp.getPoint().y);
 //             p.x = ps.x;

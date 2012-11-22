@@ -253,9 +253,9 @@ public class principal extends javax.swing.JFrame {
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
         if(choque(new Point(evt.getX(),evt.getY())).equalsIgnoreCase("false")){
         if(selected.equalsIgnoreCase("router")){
-        jPanel4.getCon().add_router(evt.getPoint());
+            jPanel4.getCon().add_router(evt.getPoint());
         }else if(selected.equalsIgnoreCase("pc")){
-        jPanel4.getCon().add_pc(new Point(evt.getX(),evt.getY()));
+            jPanel4.getCon().add_pc(new Point(evt.getX(),evt.getY()));
         }
         }
         if(selected.equalsIgnoreCase("term") && !choque(evt.getPoint()).equalsIgnoreCase("false")){
@@ -305,6 +305,22 @@ public class principal extends javax.swing.JFrame {
             
                 
             }
+        }
+        if(selected.equalsIgnoreCase("flood")){
+            Dispositivo a = disxpoint(evt.getPoint());
+            if(a!=null){
+                String ip = JOptionPane.showInputDialog("Digite la ip destino");
+                System.err.println("ip flooding: "+ip);
+                if(ip!=null){
+
+                   //validar_ip(ip);
+                   jPanel4.getCon().enviarFlooding(ip, "255.255.255.0", 5, a.getIdDispositivo()); 
+                }else{
+                    JOptionPane.showMessageDialog(rootPane, "Seleccione una ip valida");
+                }
+            }
+            
+            
         }
         imprimir();
         jPanel4.repaint();
@@ -443,7 +459,7 @@ public class principal extends javax.swing.JFrame {
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         if(selected.equalsIgnoreCase("flood")){
             selected = "none";
-            this.jLabel5.setBorder(null);
+            this.jLabel5.setBorder(null);            
         }else{
             this.jLabel5.setBorder(new LineBorder(Color.blue,2));
             selected = "flood";
@@ -452,7 +468,7 @@ public class principal extends javax.swing.JFrame {
         jLabel2.setBorder(null);
         jLabel3.setBorder(null);
         jLabel6.setBorder(null);
-        jLabel5.setBorder(null);
+        jLabel4.setBorder(null);
     }//GEN-LAST:event_jLabel5MouseClicked
 
     /**

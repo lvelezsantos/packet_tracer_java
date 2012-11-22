@@ -258,7 +258,7 @@ public class Controlador implements Serializable{
         
         for(Paquete p : paquetes){
             boolean s = p.arrive();
-            System.err.println(s);
+            //System.err.println(s);
             if(s){
                 System.out.println("Llego el paquete a su destino");
                 if(tipo_dispositivo((int)p.getNxthp().getIdDispositivo()).equalsIgnoreCase("router")){
