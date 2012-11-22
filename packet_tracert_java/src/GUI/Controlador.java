@@ -263,6 +263,7 @@ public class Controlador implements Serializable{
                 System.out.println("Llego el paquete a su destino");
                 if(tipo_dispositivo((int)p.getNxthp().getIdDispositivo()).equalsIgnoreCase("router")){
                     Router r = this.search_router((int)p.getNxthp().getIdDispositivo());
+                    System.err.println("ReRouting");
                     np = r.enrutar(p);
                     if(p.isDestino_encontrado()){
                         JOptionPane.showMessageDialog(null, "Destino encontrado"); 

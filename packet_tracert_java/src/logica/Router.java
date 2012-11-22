@@ -77,7 +77,7 @@ public class Router extends Dispositivo{
     
 
      public ArrayList<Paquete> enrutar(Paquete p) {
-        if(hasIP(p.getIpdst())){
+        if(this.buscarIpEnPuerto(p.getIpdst())){
             System.err.println("RETORNE EN IF NUMERO 1");
             return new ArrayList<>();
         }else{
@@ -103,7 +103,7 @@ public class Router extends Dispositivo{
                        }
                     }
                     if(nxthp!=null){
-                        Paquete r = new Paquete(ipnxt, nmks, nxthp, p.getTtl() -1 , this, false);
+                        Paquete r = new Paquete(p.getIpdst(), nmks, nxthp, p.getTtl() -1 , this, false);
                         ArrayList<Paquete> array = new ArrayList<>();
                         array.add(r);
                         return array;

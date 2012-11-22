@@ -248,6 +248,7 @@ public class Dispositivo extends Thread implements Serializable{
                 Puerto puerto = modulo.getPuertos().get(k);
                 if(puerto.getIp().equals(ip)){
                     respuesta = true;
+                    System.err.println(ip + " == "+puerto.getIp());
                 }
             }
         }
@@ -314,6 +315,7 @@ public class Dispositivo extends Thread implements Serializable{
             for(int k=0; k < modulo.getPuertos().size(); k++){
                 Puerto puerto = modulo.getPuertos().get(k);
                 if(puerto.getIp().equals(ip)){
+                    System.err.println(puerto.getIp()+" == "+ip);
                     respuesta = true;
                 }
             }
