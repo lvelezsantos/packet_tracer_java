@@ -56,6 +56,7 @@ public class JDialogConsola extends javax.swing.JDialog {
     private static String nivel_configure_terminal = "(config)#";
     private static String nivel_router_vector = "(config-router)#";
     private static String nivel_router_rip = "(config-router)#";
+    private static String nivel_router_bgp = "(config-router)#";
     private static String nivel_interface = "(config-if)#";
     private String modulo;
     private String puerto;
@@ -299,6 +300,11 @@ public class JDialogConsola extends javax.swing.JDialog {
                         comando_exitoso = true;
                     }
                     
+                    if(comando.equals("router bgp")){
+                        nivel = nivel_router_bgp;
+                        comando_exitoso = true;
+                    }
+                    
                     if(comando.equals("router rip")){
                         nivel = nivel_router_rip;
                         comando_exitoso = true;
@@ -437,6 +443,37 @@ public class JDialogConsola extends javax.swing.JDialog {
                     if(!comando_exitoso){
                         mensaje_2_consola("Comando no encontrado5");
                     }
+                }else 
+                if(nivel.equals(nivel_router_bgp)){
+                    //Configuracion bgp
+                    boolean comando_exitoso = false;
+                    String[] list_comando;
+                    list_comando = comando.split(" ");
+                    try{
+                        if(comando.equals("exit")|| comando.equals("end")){
+                            comando_exitoso = true;
+                        }
+                        if(list_comando[0].equals("network")){
+                            String ip = list_comando[1];
+                            System.err.println("AQUI ESTOY");
+                            String mask = "0.0.0.0";
+                            if(isripv2){
+                                try{
+                                    mask = list_comando[2];
+                                }catch(IndexOutOfBoundsException iex){
+                                    mensaje_2_consola("Por favor Escriba la mascara de subred");
+                                }
+                            }else{
+                            }
+                            //nuevaentradaRip(ip,mask); 
+                            comando_exitoso = true;
+                        }
+                    }catch(IndexOutOfBoundsException e){
+                        
+                    }
+                    if(!comando_exitoso){
+                        mensaje_2_consola("Comando no encontrado5");
+                    }
                 }
                 
                 if(comando.equals("exit")){
@@ -448,6 +485,8 @@ public class JDialogConsola extends javax.swing.JDialog {
                         nivel = nivel_enable;
                     }else if(nivel.equals(nivel_enable)){
                         nivel = nivel_normal;
+                    }else if(nivel.equals(nivel_router_bgp)){
+                        nivel = nivel_configure_terminal;
                     }
                    
 
