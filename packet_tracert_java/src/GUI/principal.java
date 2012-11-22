@@ -46,6 +46,7 @@ public class principal extends javax.swing.JFrame {
     private Dispositivo d2 = null;
     String d1c1= "";
     String d2c1= "";
+    private Dispositivo router_seleccionado=null;
     
     /**
      * Creates new form principal
@@ -87,9 +88,14 @@ public class principal extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.setLayout(new java.awt.GridLayout());
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel7.setText("Seleccionar");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
         jPanel2.add(jLabel7);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Image/router1.png"))); // NOI18N
@@ -200,6 +206,11 @@ public class principal extends javax.swing.JFrame {
         jLabelInfo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton1.setText("Info");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -303,6 +314,9 @@ public class principal extends javax.swing.JFrame {
             
             
         }
+        if(selected.equalsIgnoreCase("selec")){
+            Dispositivo a = disxpoint(evt.getPoint());
+        }
         imprimir();
         jPanel4.repaint();
         
@@ -324,6 +338,7 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBorder(null);
         jLabel4.setBorder(null);
         jLabel5.setBorder(null);
+        jLabel7.setBorder(null);      
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
@@ -392,6 +407,7 @@ public class principal extends javax.swing.JFrame {
         jLabel6.setBorder(null);
         jLabel4.setBorder(null);
         jLabel5.setBorder(null);
+        jLabel7.setBorder(null);      
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
@@ -409,6 +425,7 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBorder(null);
         jLabel4.setBorder(null);
         jLabel5.setBorder(null);
+        jLabel7.setBorder(null);      
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jButtonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExportarActionPerformed
@@ -435,6 +452,7 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBorder(null);
         jLabel6.setBorder(null);
         jLabel5.setBorder(null);
+        jLabel7.setBorder(null);      
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -450,7 +468,35 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBorder(null);
         jLabel6.setBorder(null);
         jLabel4.setBorder(null);
+        jLabel7.setBorder(null);        
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        if(selected.equalsIgnoreCase("selec")){
+            selected = "none";
+            this.jLabel7.setBorder(null);            
+        }else{
+            this.jLabel7.setBorder(new LineBorder(Color.blue,2));
+            selected = "selec";
+        }
+        jLabel1.setBorder(null);
+        jLabel2.setBorder(null);
+        jLabel3.setBorder(null);
+        jLabel6.setBorder(null);
+        jLabel4.setBorder(null);
+        jLabel5.setBorder(null);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(router_seleccionado!=null){
+            JDialogMostrarInfo jDialogMostrarInfo = new JDialogMostrarInfo(
+                                                                    this, 
+                                                                    true, 
+                                                                    this.router_seleccionado.mostrar_informacion());
+            ModVentana.centrar(jDialogMostrarInfo);
+            jDialogMostrarInfo.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -593,7 +639,7 @@ public class principal extends javax.swing.JFrame {
                     
                     dre = jPanel4.getCon().routers.get(i);
                     jLabelInfo.setText(dre.getNombre());
-                           
+                    this.router_seleccionado = dre;       
                     
                 }
             }
