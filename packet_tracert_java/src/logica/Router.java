@@ -79,6 +79,7 @@ public class Router extends Dispositivo{
      public ArrayList<Paquete> enrutar(Paquete p) {
         if(this.buscarIpEnPuerto(p.getIpdst())){
             System.err.println("RETORNE EN IF NUMERO 1");
+            JOptionPane.showMessageDialog(null, "Paquete llego a su destino");
             return new ArrayList<>();
         }else{
             if(!ript.getEntradas().isEmpty()){
